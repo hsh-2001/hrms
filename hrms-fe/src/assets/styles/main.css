@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "main-sidebar main-header"
+        "main-sidebar main-content"
+}
+
+.main-sidebar {
+    grid-area: main-sidebar;
+}
+.main-header {
+    grid-area: main-header;
+}
+.main-content {
+    grid-area: main-content;
+}
+
+.base-dialog {
+    background: #00000060;
+}
+
+.base-dialog-body {
+    animation: animateDialog 0.3s ease-out;
+}
+@keyframes animateDialog {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
