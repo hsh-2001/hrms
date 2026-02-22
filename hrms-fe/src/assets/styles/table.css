@@ -2,7 +2,7 @@ table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    border: 1px solid #c3c3c3cd;
+    border: 1px solid #c3c3c391;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -10,7 +10,8 @@ table {
 table th, table td {
     padding: 8px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    font-size: 12px;
+    border-bottom: 1px solid #dddddd8c;
 }
 
 tr:last-child td {
@@ -19,9 +20,10 @@ tr:last-child td {
 
 table th {
     background-color: #f2f2f2;
-    color: #2e2e2e;
+    color: #2e2e2e9e;
+    font-weight: 500;
 }
 
 table tr:hover {
-    background-color: #eaffe9;
+    background-color: #f7fff7;
 }

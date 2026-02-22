@@ -48,19 +48,20 @@ export default function MainSidebar() {
   return (
     <div className="w-64 bg-gray-100 h-screen">
       <div className="flex justify-center items-center h-16">
-        <span className="text-4xl font-bold text-green-500">HMRS</span>
+        <span className="text-4xl font-bold text-green-500">SGS</span>
       </div>
       <div>
         {routes.map((route, index) => (
           <div key={index} className="text-gray-700 border-b border-gray-200">
             <div
-              className={`flex justify-between p-2 cursor-pointer ${isChildActive(route) ? "bg-green-500/20 text-green-500 font-medium" : ""}`}
+              className={`flex justify-between p-2 cursor-pointer text-[12px] ${isChildActive(route) ? "bg-green-500/20 text-green-500 font-medium" : ""}`}
               onClick={() => toggleExpand(index)}
             >
               <span>{route.title}</span>
 
               {route.children && route.children.length > 0 && (
                 <ChevronDown
+                  size={14}
                   className={`ml-2 transition-all duration-700 ${
                     route.isExpanded ? "rotate-180" : ""
                   }`}
@@ -82,7 +83,7 @@ export default function MainSidebar() {
                     to={child.path}
                     end
                     className={({ isActive }) =>
-                      `block px-4 py-2 hover:bg-green-500/10 ${
+                      `block px-4 py-2 hover:bg-green-500/10 text-[12px] ${
                         isActive ? "bg-green-500/10 text-green-800" : ""
                       }`
                     }

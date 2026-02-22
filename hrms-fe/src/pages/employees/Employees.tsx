@@ -1,10 +1,11 @@
-import BaseDialog from "../components/shares/BaseDialog";
-import PrimaryButton from "../components/shares/button/PrimaryButton";
-import useEmployees from "../hooks/useEmployees";
-import MyInput from "../components/shares/input/MyInput";
-import MySelection from "../components/shares/select/MySelection";
-import InfoButton from "../components/shares/button/InfoButton";
-import type { ICreateEmployee } from "../types/employees";
+import BaseDialog from "../../components/shares/BaseDialog";
+import PrimaryButton from "../../components/shares/button/PrimaryButton";
+import useEmployees from "../../hooks/useEmployees";
+import MyInput from "../../components/shares/input/MyInput";
+import MySelection from "../../components/shares/select/MySelection";
+import InfoButton from "../../components/shares/button/InfoButton";
+import type { ICreateEmployee } from "../../types/employees";
+import { Edit } from "lucide-react";
 
 export default function Employees() {
   const {
@@ -50,10 +51,9 @@ export default function Employees() {
               <td>{emp.dateOfJoining}</td>
               <td>{emp.status}</td>
               <td>
-                <InfoButton
-                  name="Edit"
-                  onClick={() => onEditEmployee(emp.id)}
-                />
+                <button onClick={() => onEditEmployee(emp.id)} className="cursor-pointer">
+                  <Edit size={14}  className="text-gray-500"/>
+                </button>
               </td>
             </tr>
           ))}

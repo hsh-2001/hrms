@@ -14,7 +14,7 @@ const routes = createBrowserRouter([
       // Employees
       {
         path: "/employees",
-        Component: lazy(() => import("../pages/Employees.tsx")),
+        Component: lazy(() => import("../pages/employees/Employees.tsx")),
       },
       {
         path: "/employees/departments",
@@ -75,7 +75,7 @@ const routes = createBrowserRouter([
       // Settings
       {
         path: "/settings",
-        Component: lazy(() => import("../pages/Setting.tsx")),
+        Component: lazy(() => import("../pages/settings/Setting.tsx")),
       },
       {
         path: "/settings/users",
