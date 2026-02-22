@@ -1,4 +1,5 @@
 import axios from "axios";
+import { store, logout } from "../store";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api",
@@ -10,8 +11,8 @@ const api = axios.create({
 api.interceptors.response.use(
   response => response,
   error => {
-    if (error.response && error.response.status === 401) {
-      window.location.href = "/auth/login";
+    if ([401, 500].includes(error.response?.status)) {
+      store.dispatch(logout());
     }
     return Promise.reject(error);
   }

@@ -1,57 +1,47 @@
 import { useState } from "react";
 import type { ICreateEmployee, IEmployee } from "../types/employees";
+import companyApi from "../lib/companyApi";
 
 export default function useEmployees() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [employee, setEmployee] = useState<IEmployee[]>([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      position: "Software Engineer",
-      department: "Engineering",
-      dateOfJoining: "2022-01-01",
-      status: "active",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      position: "Product Manager",
-      department: "Product",
-      dateOfJoining: "2023-03-15",
-      status: "active",
-    },
-  ]);
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
 
   const [createModel, setCreateModel] = useState<ICreateEmployee>({
-    name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     position: "",
     department: "",
-    dateOfJoining: "",
+    date_of_joining: "",
     status: "active",
   });
 
-  const handleSubmit = () => {
-    const newEmployee: IEmployee = {
-      id: employee.length + 1,
-      ...createModel,
-    };
-    setEmployee([...employee, newEmployee]);
-    setCreateModel({
-      name: "",
-      email: "",
-      position: "",
-      department: "",
-      dateOfJoining: "",
-      status: "active",
-    });
-    setIsDialogOpen(false);
+  const getEmployees = async () => {
+    try {
+      const response = await companyApi.getAllEmployees();
+      console.log("Employees fetched successfully:", response);
+      if (response) {
+        setEmployees(response.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch employees:", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await companyApi.createEmployee(createModel);
+      if (response.isSuccess) {
+        await getEmployees();
+        setIsDialogOpen(false);
+      }
+    } catch (error) {
+      console.error("Failed to create employee:", error);
+    }
   };
 
   const onEditEmployee = (id: number) => {
-    const emp = employee.find((emp) => emp.id === id);
+    const emp = employees.find((emp) => emp.id === id);
     if (emp) {
       setCreateModel(emp);
       setIsDialogOpen(true);
@@ -59,8 +49,8 @@ export default function useEmployees() {
   }
 
   return {
-    employee,
-    setEmployee,
+    employee: employees,
+    getEmployees,
     createModel,
     setCreateModel,
     handleSubmit,

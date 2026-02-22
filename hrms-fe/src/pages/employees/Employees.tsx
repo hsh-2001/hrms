@@ -7,10 +7,12 @@ import InfoButton from "../../components/shares/button/InfoButton";
 import type { ICreateEmployee } from "../../types/employees";
 import { Edit } from "lucide-react";
 import BaseHeader from "../../components/shares/BaseHeader";
+import { useEffect } from "react";
 
 export default function Employees() {
   const {
     employee,
+    getEmployees,
     createModel,
     setCreateModel,
     handleSubmit,
@@ -19,10 +21,16 @@ export default function Employees() {
     onEditEmployee,
   } = useEmployees();
 
+  useEffect(() => {
+    getEmployees();
+  }, []);
   return (
     <div className="w-full">
-      <BaseHeader headerTitle="Employee List"> 
-          <PrimaryButton  name="Add Employee" onClick={() => setIsDialogOpen(true)} />
+      <BaseHeader headerTitle="Employee List">
+        <PrimaryButton
+          name="Add Employee"
+          onClick={() => setIsDialogOpen(true)}
+        />
       </BaseHeader>
       <table className="w-full">
         <thead className="bg-gray-200 p-2">
@@ -39,15 +47,18 @@ export default function Employees() {
         <tbody>
           {employee.map((emp) => (
             <tr key={emp.id}>
-              <td>{emp.name}</td>
+              <td>{`${emp.first_name} ${emp.last_name}`}</td>
               <td>{emp.email}</td>
               <td>{emp.position}</td>
               <td>{emp.department}</td>
-              <td>{emp.dateOfJoining}</td>
+              <td>{emp.date_of_joining}</td>
               <td>{emp.status}</td>
               <td>
-                <button onClick={() => onEditEmployee(emp.id)} className="cursor-pointer">
-                  <Edit size={14}  className="text-gray-500"/>
+                <button
+                  onClick={() => onEditEmployee(emp.id)}
+                  className="cursor-pointer"
+                >
+                  <Edit size={14} className="text-gray-500" />
                 </button>
               </td>
             </tr>
@@ -58,6 +69,7 @@ export default function Employees() {
       <BaseDialog
         isOpen={isDialogOpen}
         isCentered
+        title="Add new employee"
         onClose={() => setIsDialogOpen(false)}
         closeOnOverlayClick={false}
       >
@@ -104,11 +116,12 @@ const CreateEditEmployee = ({
   };
 
   const fields: EmployeeField[] = [
-    { id: "name", required: true },
+    { id: "first_name", required: true },
+    { id: "last_name", required: true },
     { id: "email", required: true },
     { id: "position" },
     { id: "department" },
-    { id: "dateOfJoining", type: "date" },
+    { id: "date_of_joining", type: "date" },
   ];
   return (
     <form onSubmit={handleSubmit} className="grid gap-2">

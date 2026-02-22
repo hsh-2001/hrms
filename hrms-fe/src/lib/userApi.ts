@@ -1,7 +1,7 @@
 import type { ILoginRequest, IRegisterRequest } from "../types/auth";
 import type { ICompanyUser } from "../types/user";
 import api from "./api";
-import type { ApiResponse } from "./baseReponse";
+import type { IApiResponse } from "./baseReponse";
 
 export const login = async (user: ILoginRequest) => {
     const response = await api.post("/user/login", user);
@@ -13,7 +13,7 @@ export const register = async (user: IRegisterRequest) => {
     return response.data;
 }
 
-export const getAllUsers = async (): Promise<ApiResponse<ICompanyUser[]>> => {
+export const getAllUsers = async (): Promise<IApiResponse<ICompanyUser[]>> => {
     const response = await api.get(`/user/company-users`);
     return response.data;
 }
