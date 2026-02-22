@@ -24,7 +24,7 @@ AS $$
         c.updated_at
     FROM companies c
     LEFT JOIN users u ON c.id = u.company_id
-    LEFT JOIN employees e ON u.id = e.user_id
+    LEFT JOIN employees e ON c.id = e.company_id
     GROUP BY 
         c.id,
         c.name,

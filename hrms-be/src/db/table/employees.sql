@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS employees (
     position VARCHAR(100),
     department VARCHAR(100),
     date_of_joining DATE,
+    company_id INT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
