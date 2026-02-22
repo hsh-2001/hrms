@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router";
 import type { ReactNode } from "react";
+import { useAppSelector } from "../../store/hooks";
 
 interface AuthGuardProps {
   children: ReactNode;
@@ -7,9 +8,9 @@ interface AuthGuardProps {
 
 const AuthGuard = ({ children }: AuthGuardProps) => {
   const location = useLocation();
-  const token = localStorage.getItem("token");
+  const { isAuthenticated } = useAppSelector((state) => state.user);
 
-  if (!token) {
+  if (!isAuthenticated) {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 

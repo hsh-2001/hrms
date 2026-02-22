@@ -6,6 +6,7 @@ import MySelection from "../../components/shares/select/MySelection";
 import InfoButton from "../../components/shares/button/InfoButton";
 import type { ICreateEmployee } from "../../types/employees";
 import { Edit } from "lucide-react";
+import BaseHeader from "../../components/shares/BaseHeader";
 
 export default function Employees() {
   const {
@@ -20,15 +21,9 @@ export default function Employees() {
 
   return (
     <div className="w-full">
-      <div className="w-full p-4 bg-gray-100 rounded-md my-2 flex justify-between items-center">
-        <div>
-          <span className=" text-2xl">Employee List</span>
-        </div>
-        <PrimaryButton
-          name="Add Employee"
-          onClick={() => setIsDialogOpen(true)}
-        />
-      </div>
+      <BaseHeader headerTitle="Employee List"> 
+          <PrimaryButton  name="Add Employee" onClick={() => setIsDialogOpen(true)} />
+      </BaseHeader>
       <table className="w-full">
         <thead className="bg-gray-200 p-2">
           <tr>

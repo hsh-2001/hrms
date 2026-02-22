@@ -1,12 +1,14 @@
 import { NavLink, useLocation } from "react-router";
-import useRouter from "../hooks/useRouter";
+import useRouter from "../hooks/useSidebar";
 import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 import type { IRoute } from "../types/route";
+import { useAppSelector } from "../store";
 
 export default function MainSidebar() {
   const { routes, setRoutes } = useRouter();
   const navigater = useLocation();
+  const user = useAppSelector((state) => state.user);
 
   const toggleExpand = (index: number) => {
     const newRoutes = [...routes];
@@ -47,8 +49,10 @@ export default function MainSidebar() {
 
   return (
     <div className="w-64 bg-gray-100 h-screen">
-      <div className="flex justify-center items-center h-16">
-        <span className="text-4xl font-bold text-green-500">SGS</span>
+      <div className="flex px-2 items-center h-16">
+        <span className="text-xl font-bold text-gray-600">
+          { user.user?.company_id === 0 ? "Root Account" : user.user?.company_name}
+          </span>
       </div>
       <div>
         {routes.map((route, index) => (
@@ -57,7 +61,7 @@ export default function MainSidebar() {
               className={`flex justify-between p-2 cursor-pointer text-[12px] ${isChildActive(route) ? "bg-green-500/20 text-green-500 font-medium" : ""}`}
               onClick={() => toggleExpand(index)}
             >
-              <span>{route.title}</span>
+              <span>{route.title}</span>  
 
               {route.children && route.children.length > 0 && (
                 <ChevronDown

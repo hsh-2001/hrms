@@ -1,14 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useUser from "../../hooks/useUser";
 
 const UsersPage = () => {
-    const { fetchUsers } = useUser();
+    const { users, fetchUsers } = useUser();
 
+    const isCalled = useRef(false);
     useEffect(() => {
+        if (isCalled.current) return;
         fetchUsers();
+        isCalled.current = true;
     }, []);
+
     return (
-        <div>Users Page</div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { users.length > 0 && users.map((user) => (
+                        <tr key={user.id}>
+                            <td>{user.username}</td>
+                            <td>{user.email}</td>
+                            <td>{user.phone}</td>
+                            <td>{user.role}</td>
+                            <td>{new Date(user.created_at).toLocaleDateString()}</td>
+                        </tr>
+                    ))} 
+                </tbody>
+            </table>
+        </div>
     )
 }
 

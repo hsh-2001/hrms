@@ -6,14 +6,15 @@ interface MyInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
+  label?: string;
   labelWidth?: string;
 }
 
-export default function MyInput({ id, value, onChange, type = "text", required = false, labelWidth = "min-w-32" }: MyInputProps) {
+export default function MyInput({ id, value, onChange, type = "text", required = false, label, labelWidth = "min-w-32" }: MyInputProps) {
   return (
     <div>
       <label htmlFor={id} className="flex gap-2 items-center">
-        <span className={`${labelWidth} capitalize`}>{id}</span>
+        <span className={`${labelWidth} capitalize`}>{label || id}</span>
         <input
           type={type}
           id={id}

@@ -6,12 +6,14 @@ const routes = createBrowserRouter([
     path: "/",
     Component: lazy(() => import("../layouts/MainLayout.tsx")),
     children: [
-      // Dashboard
       {
         path: "/",
         Component: lazy(() => import("../pages/Home.tsx")),
       },
-      // Employees
+      {
+        path: "/company-list",
+        Component: lazy(() => import("../pages/root/company/CompanyList.tsx")),
+      },
       {
         path: "/employees",
         Component: lazy(() => import("../pages/employees/Employees.tsx")),
@@ -24,7 +26,6 @@ const routes = createBrowserRouter([
         path: "/employees/positions",
         Component: lazy(() => import("../pages/employees/Positions.tsx")),
       },
-      // Attendance
       {
         path: "/attendance",
         Component: lazy(() => import("../pages/attendance/DailyAttendance.tsx")),
@@ -33,7 +34,6 @@ const routes = createBrowserRouter([
         path: "/attendance/reports",
         Component: lazy(() => import("../pages/attendance/AttendanceReports.tsx")),
       },
-      // Leave
       {
         path: "/leave",
         Component: lazy(() => import("../pages/leave/LeaveRequests.tsx")),
