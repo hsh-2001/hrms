@@ -13,6 +13,7 @@ const getAllEmployees = async (): Promise<BaseResponse<IGetEmployeesResponse[]>>
     return getResponse(result.data);
 }
 
+
 export default {
     createEmployee,
     getAllEmployees,

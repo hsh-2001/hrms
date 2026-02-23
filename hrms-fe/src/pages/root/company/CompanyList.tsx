@@ -5,6 +5,7 @@ import PrimaryButton from "../../../components/shares/button/PrimaryButton";
 import BaseDialog from "../../../components/shares/BaseDialog";
 import MyInput from "../../../components/shares/input/MyInput";
 import InfoButton from "../../../components/shares/button/InfoButton";
+import { Edit } from "lucide-react";
 
 export default function CompanyList() {
   const {
@@ -15,6 +16,9 @@ export default function CompanyList() {
     isFormVisible,
     setIsFormVisible,
     handleCreateCompanyAccount,
+    isEditMode,
+    onClickEdit,
+    handleEditCompanyAccount,
   } = useCompanyAccountList();
 
   const isCalled = useRef(false);
@@ -42,6 +46,7 @@ export default function CompanyList() {
             <th>Address</th>
             <th>Total Users</th>
             <th>Total Employees</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -54,11 +59,14 @@ export default function CompanyList() {
                 <td>{company.address}</td>
                 <td>{company.total_users}</td>
                 <td>{company.total_employees}</td>
+                <td align="center">
+                  <Edit size={14} className="text-gray-500 cursor-pointer" onClick={() => onClickEdit(company)} />
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={4}>No companies found.</td>
+              <td colSpan={7}>No companies found.</td>
             </tr>
           )}
         </tbody>
@@ -66,10 +74,10 @@ export default function CompanyList() {
       <BaseDialog
         isOpen={isFormVisible}
         isCentered
-        title="Create Company Account"
+        title={isEditMode ? "Edit Company Account" : "Create Company Account"}
         onClose={() => setIsFormVisible(false)}
       >
-        <form onSubmit={handleCreateCompanyAccount} className="w-100 grid gap-2">
+        <form onSubmit={isEditMode ? handleEditCompanyAccount : handleCreateCompanyAccount} className="w-100 grid gap-2">
           <MyInput
             id="companyName"
             label="Company Name"
@@ -98,20 +106,22 @@ export default function CompanyList() {
           <MyInput
             id="companyUsername"
             label="Login Username"
-            required
+            required={!isEditMode}
             value={model.username}
+            disabled={isEditMode}
             onChange={(e) => setModel({ ...model, username: e.target.value })}
           />
           <MyInput
             id="companyPassword"
-            required
+            required={!isEditMode}
             label="Login Password"
             value={model.password}
+            disabled={isEditMode}
             onChange={(e) => setModel({ ...model, password: e.target.value })}
           />
           <div className="flex justify-end gap-2 mt-2">
             <InfoButton name="Cancel" onClick={() => setIsFormVisible(false)} />
-            <PrimaryButton name="Create" type="submit" />
+            <PrimaryButton name={isEditMode ? "Update" : "Create"} type="submit" />
           </div>
         </form>
       </BaseDialog>

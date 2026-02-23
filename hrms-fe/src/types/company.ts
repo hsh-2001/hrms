@@ -1,4 +1,5 @@
 export interface ICompanyAccount {
+    id?: number;
     name: string;
     address: string;
     phone: string;
