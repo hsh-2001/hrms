@@ -11,15 +11,13 @@ const api = axios.create({
 api.interceptors.response.use(
   response => response,
   error => {
-    // Handle network/connection errors (server unreachable)
     if (!error.response) {
       console.error("Network error: Unable to connect to the server");
       store.dispatch(logout());
       return Promise.reject(new Error("Unable to connect to the server. Please check your connection."));
     }
 
-    // Handle unauthorized or server errors
-    if ([401, 500].includes(error.response?.status)) {
+    if ([401].includes(error.response?.status)) {
       store.dispatch(logout());
     }
 

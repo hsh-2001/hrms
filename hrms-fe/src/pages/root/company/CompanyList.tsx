@@ -41,6 +41,7 @@ export default function CompanyList() {
         <thead>
           <tr>
             <th>Company Name</th>
+            <th>Login Name</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Address</th>
@@ -54,6 +55,7 @@ export default function CompanyList() {
             companyAccounts.map((company, index) => (
               <tr key={index}>
                 <td>{company.name}</td>
+                <td>{company.login_name}</td>
                 <td>{company.email}</td>
                 <td>{company.phone}</td>
                 <td>{company.address}</td>

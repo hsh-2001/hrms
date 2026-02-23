@@ -58,7 +58,7 @@ export default function MainSidebar() {
         {routes.map((route, index) => (
           <div key={index} className="text-gray-700 border-b border-gray-200">
             <div
-              className={`flex justify-between p-2 cursor-pointer text-[12px] ${isChildActive(route) ? "bg-green-500/20 text-green-500 font-medium" : ""}`}
+              className={`flex justify-between p-2 cursor-pointer text-sm ${isChildActive(route) ? "bg-green-500/20 text-green-500 font-medium" : ""}`}
               onClick={() => toggleExpand(index)}
             >
               <span>{route.title}</span>  
@@ -87,7 +87,7 @@ export default function MainSidebar() {
                     to={child.path}
                     end
                     className={({ isActive }) =>
-                      `block px-4 py-2 hover:bg-green-500/10 text-[12px] ${
+                      `block px-4 py-2 hover:bg-green-500/10 text-sm ${
                         isActive ? "bg-green-500/10 text-green-800" : ""
                       }`
                     }
