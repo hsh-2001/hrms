@@ -4,10 +4,12 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import rootMiddleware from "../middlewares/rootMiddleware.js";
 import employeeRouter from "./employeeRouter.js";
 import rootRouter from "./rootRouter.js";
+import departmentRouter from "./departmentRouter.js";
 const router = Router();
 
 router.use("/user", userRouter);
 router.use("/root", rootMiddleware , rootRouter);
 router.use("/employee", authMiddleware , employeeRouter);
+router.use("/department", authMiddleware, departmentRouter);
 
 export default router;

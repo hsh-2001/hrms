@@ -1,0 +1,13 @@
+CREATE TABLE departments (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(50) NOT NULL,
+    description TEXT,
+    company_id UUID NOT NULL,
+    maanager_id UUID,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+    UNIQUE (name, company_id)
+)

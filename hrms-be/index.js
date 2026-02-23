@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'https://hrms-lyart-theta.vercel.app'],
     credentials: true,
 }));
 app.get('/', (req, res) => {  
