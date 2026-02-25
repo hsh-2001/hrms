@@ -3,7 +3,7 @@ import query from "../helpers/query.js";
 const createDepartment = async (department) => {
     const { name, code, description, company_id, manager_id } = department;
     const result = await query(
-        `INSERT INTO departments (name, code, description, company_id, maanager_id) 
+        `INSERT INTO departments (name, code, description, company_id, manager_id) 
          VALUES ($1, $2, $3, $4, $5) RETURNING *`,
         [name, code, description, company_id, manager_id]
     );
@@ -12,7 +12,7 @@ const createDepartment = async (department) => {
 
 const getAllDepartments = async (company_id) => {
     const result = await query(
-        'SELECT * FROM departments WHERE company_id = $1 AND is_active = TRUE ORDER BY name',
+        'SELECT * FROM get_all_departments($1)',
         [company_id]
     );
     return result.rows;

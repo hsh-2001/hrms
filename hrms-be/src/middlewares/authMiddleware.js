@@ -1,4 +1,5 @@
 import tokenHelper from "../helpers/tokenHelper.js";
+import BaseResponse from "../helpers/baseResponse.js";
 
 export default async function authMiddleware(req, res, next) {
     const authHeader = req.headers['authorization'];

@@ -6,6 +6,7 @@ CREATE TABLE departments (
     company_id INT NOT NULL,
     manager_id UUID,
     is_active BOOLEAN DEFAULT TRUE,
+    is_default BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
 

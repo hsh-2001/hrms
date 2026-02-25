@@ -12,7 +12,7 @@ const createPosition = async (position) => {
 
 const getAllPositions = async (company_id) => {
     const result = await query(
-        'SELECT * FROM positions WHERE company_id = $1 AND is_active = TRUE ORDER BY title',
+        'SELECT * FROM get_all_positions($1)',
         [company_id]
     );
     return result.rows;

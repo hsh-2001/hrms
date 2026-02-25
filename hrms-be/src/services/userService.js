@@ -24,7 +24,6 @@ const login = async (res, user) => {
     cookieHelper.setCookie(res, 'token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
     cookieHelper.setCookie(res, 'rt', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
     const userDetail = await userRepository.getUserDetail(existingUser.id);
-    console.log('User detail retrieved from database:', userDetail, existingUser.id); // Debug log
     return { ...userDetail, token };
 }
 

@@ -4,6 +4,7 @@ CREATE FUNCTION get_all_companies()
 RETURNS TABLE (
     id INTEGER,
     name VARCHAR,
+    login_name VARCHAR,
     email VARCHAR,
     phone VARCHAR,
     total_users INTEGER,
@@ -16,6 +17,7 @@ AS $$
     SELECT 
         c.id,
         c.name,
+        u.username AS login_name,
         c.email,
         c.phone,
         COUNT(u.id) AS total_users,
@@ -28,9 +30,11 @@ AS $$
     GROUP BY 
         c.id,
         c.name,
+        u.username,
         c.email,
         c.phone,
         c.created_at,
         c.updated_at
+    HAVING COUNT(u.id) > 0
     ORDER BY c.created_at DESC;
 $$;
