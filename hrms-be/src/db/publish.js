@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const tableDir = path.join(__dirname, 'table');
 const migrationsDir = path.join(__dirname, 'migrations');
 const functionsDir = path.join(__dirname, 'functions');
-const initDir = path.join(__dirname, 'init');
+const initDir = path.join(__dirname, 'initData');
 
 // ANSI color codes
 const colors = {
