@@ -3,8 +3,8 @@ import query from "../helpers/query.js";
 
 const register = async (user) => {
     const { username, email, password, phone, company_id, role } = user;
-    if (!username || !email || !password || !company_id) {
-        throw new Error('Username, email, password, and company ID are required');
+    if (!username || !email || !password) {
+        throw new Error('Username, email, and password are required');
     }
     const result = await pool.query('INSERT INTO users (username, email, password_hash, phone, company_id, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, phone, company_id, role]);
     return result.rows[0];

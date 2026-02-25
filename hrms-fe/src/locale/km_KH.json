@@ -28,5 +28,16 @@
     "General Settings": "ការកំណត់ទូទៅ",
     "Users": "អ្នកប្រើប្រាស់",
     "Roles & Permissions": "តួនាទី និងសិទ្ធិ",
-    "Company Profile": "ពត៌មានក្រុមហ៊ុន"
+    "Company Profile": "ពត៌មានក្រុមហ៊ុន",
+    "The time is synchronized with your system clock": "ពេលវេលាត្រូវបានធ្វើសមកាលកម្មជាមួយនាឡិកាប្រព័ន្ធរបស់អ្នក",
+    "Check In": "ចូលការងារ",
+    "Check Out": "ចេញការងារ",
+    "Date": "កាលបរិច្ឆេទ",
+    "Check-in Time": "ម៉ោងចូលការងារ",
+    "Check-out Time": "ម៉ោងចេញការងារ",
+    "Status": "ស្ថានភាព",
+    "Re-check-in Time": "ម៉ោងចូលការងារឡើងវិញ",
+    "Re-check-out Time": "ម៉ោងចេញការងារឡើងវិញ",
+    "N/A": "មិនមាន",
+    "Today's Attendance": "វត្តមានថ្ងៃនេះ"
 }

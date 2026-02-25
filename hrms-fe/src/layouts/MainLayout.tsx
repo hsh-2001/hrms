@@ -13,13 +13,15 @@ const MainLayout = () => {
         <div className={`p-2 pr-0 ${isMobile ? "hidden" : "w-62.5"}`}>
           <MainSidebar />
         </div>
-        <div className="flex flex-col flex-1 px-2 py-2">
-          <MainHeader />
+        <div className="flex flex-col flex-1 py-2">
+          <div className="px-2">
+            <MainHeader />
+          </div>
           <div className={`flex-1 overflow-auto ${isMobile ? "pb-20" : ""}`}>
             <Outlet />
           </div>
         </div>
-          <MainBottomNavbar />
+        {isMobile && <MainBottomNavbar />}
       </div>
     </AuthGuard>
   );

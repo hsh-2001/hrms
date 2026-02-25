@@ -17,7 +17,7 @@ AS $$
     SELECT 
         c.id,
         c.name,
-        u.username AS login_name,
+        (SELECT u.username FROM users u WHERE u.company_id = c.id ORDER BY u.created_at LIMIT 1) AS login_name,
         c.email,
         c.phone,
         COUNT(u.id) AS total_users,
@@ -30,11 +30,9 @@ AS $$
     GROUP BY 
         c.id,
         c.name,
-        u.username,
         c.email,
         c.phone,
         c.created_at,
         c.updated_at
-    HAVING COUNT(u.id) > 0
     ORDER BY c.created_at DESC;
 $$;

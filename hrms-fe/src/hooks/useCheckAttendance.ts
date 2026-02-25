@@ -40,24 +40,42 @@ export default function useCheckAttendance() {
     re_check_in_time: null,
     re_check_out_time: null,
     attendance_date: new Date().toISOString().split("T")[0],
-    status: "present",
+    status: "checked_in",
   });
 
   const handleCheckAttendance = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-     const updatedModel = {
+
+    const updatedModel = {
       ...checkModel,
       employee_id: String(user.user?.id || "1"),
-      check_in_time: attendance.check_in_time ? attendance.check_in_time : currentTime,
-      check_out_time: attendance.check_in_time ? currentTime : null,
+      check_in_time: attendance?.check_in_time ?? currentTime,
+      check_out_time: !attendance?.check_in_time
+        ? null
+        : attendance?.check_out_time ?? currentTime,
+      re_check_in_time: !attendance?.check_out_time
+        ? null
+        : attendance?.re_check_in_time ?? currentTime,
+      re_check_out_time: !attendance?.re_check_in_time
+        ? null
+        : attendance?.re_check_out_time ?? currentTime,
+      status: !attendance?.check_in_time
+        ? "checked_in"
+        : !attendance?.check_out_time
+          ? "checked_out"
+          : !attendance?.re_check_in_time
+            ? "re_checked_in"
+            : "re_checked_out",
     };
+    console.log("Model", updatedModel);
     setCheckModel(updatedModel);
+
     try {
       const response = await attendanceApi.checkAttendance(updatedModel);
       if (response.isSuccess) {
-        alert("Attendance checked successfully!");
+        getAttendanceByEmployeeId();
       }
     } catch (error) {
       console.error("Error checking attendance:", error);

@@ -28,5 +28,16 @@
     "General Settings": "General Settings",
     "Users": "Users",
     "Roles & Permissions": "Roles & Permissions",
-    "Company Profile": "Company Profile"
+    "Company Profile": "Company Profile",
+    "The time is synchronized with your system clock": "The time is synchronized with your system clock",
+    "Check In": "Check In",
+    "Check Out": "Check Out",
+    "Date": "Date",
+    "Check-in Time": "Check-in Time",
+    "Check-out Time": "Check-out Time",
+    "Status": "Status",
+    "Re-check-in Time": "Re-check-in Time",
+    "Re-check-out Time": "Re-check-out Time",
+    "N/A": "N/A",
+    "Today's Attendance": "Today's Attendance"
 }

@@ -15,7 +15,7 @@ export default function MainHeader() {
   };
 
   return (
-    <div className="h-12 bg-black/5  w-full flex justify-between items-center px-2 rounded-[20px]">
+    <div className="h-12 bg-black/5 w-full flex justify-between items-center px-2 rounded-[20px]">
       <div></div>
       <div className="flex items-center gap-2">
         <Dropdown

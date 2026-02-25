@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 import useUser from "../../hooks/useUser";
 import BaseHeader from "../../components/shares/BaseHeader";
+import useDevice from "../../hooks/useDevice";
 
 const UsersPage = () => {
     const { users, fetchUsers } = useUser();
+    const { isMobile } = useDevice();
 
     const isCalled = useRef(false);
     useEffect(() => {
@@ -15,7 +17,8 @@ const UsersPage = () => {
     return (
         <div className="w-full">
             <BaseHeader headerTitle="Users" />
-            <table>
+            <div className={`${isMobile ? "overflow-x-auto px-2 max-w-screen" : ""}`}>
+                <table>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -37,6 +40,7 @@ const UsersPage = () => {
                     ))} 
                 </tbody>
             </table>
+            </div>
         </div>
     )
 }

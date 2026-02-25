@@ -6,7 +6,7 @@ import "./locale/i18n";
 function App() {
   return (
     <RouterProvider router={routes} />
-  )  
+  )
 }
 
 export default App

@@ -13,7 +13,7 @@ const createNewCompany = async (req, res) => {
                 email,
                 phone,
                 role: 'company',
-                company_id: result.id,
+                company_id: result.company_id,
             });
         }
         BaseResponse.success(res, result, 'Company created successfully'); 

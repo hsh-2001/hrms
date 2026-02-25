@@ -24,7 +24,7 @@ const PositionsPage = () => {
         />
       </BaseHeader>
       {positions.length ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-2 max-h-[85%] overflow-y-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-2 max-h-[85%] px-2 overflow-y-auto">
           {positions.map((position, index) => (
             <div
               key={index}
@@ -35,7 +35,7 @@ const PositionsPage = () => {
                   <span>{position.title.charAt(0).toUpperCase()}</span>
                 </div>
                 <div>
-                  <div className="text-lg flex gap-2 items-center">
+                  <div className="text-md flex gap-2 items-center">
                     {position.title}
                     <Tag color="green">
                       <span className="text-[10px]">

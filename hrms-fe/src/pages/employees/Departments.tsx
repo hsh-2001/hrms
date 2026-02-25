@@ -9,8 +9,10 @@ import type { ICreateDepartmentRequest } from "../../types/department";
 import MyInput from "../../components/shares/input/MyInput";
 import type { IInputField } from "../../types/form";
 import InfoButton from "../../components/shares/button/InfoButton";
+import useDevice from "../../hooks/useDevice";
 
 const DepartmentsPage = () => {
+  const { isMobile } = useDevice();
   const {
     departments,
     getAllDepartments,
@@ -41,7 +43,7 @@ const DepartmentsPage = () => {
         />
       </BaseHeader>
       {departments?.length ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-2 max-h-[85%] overflow-y-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-2 max-h-[85%] px-2 overflow-y-auto">
           {departments.map((department, index) => (
             <div
               key={index}
@@ -52,8 +54,8 @@ const DepartmentsPage = () => {
                   <span>{department.name.charAt(0).toUpperCase()}</span>
                 </div>
                 <div>
-                  <div className="text-lg flex gap-2 items-center">
-                    {department.name}
+                  <div className="flex gap-2 items-center">
+                    <span className={`${isMobile ? "text-sm" : "text-md"}`}>{department.name}</span>
                     <Tag color="green">
                       <span className="text-[10px]">
                         {department.code}
@@ -70,7 +72,7 @@ const DepartmentsPage = () => {
                   </span>
                 </Tag>
                 <div className="flex p-2 gap-2 items-center">
-                  <Edit className="text-gray-500 cursor-pointer" size={14} onClick={() => onClickEdit(department)} />
+                  { department.is_default ? null : <Edit className="text-gray-500 cursor-pointer" size={14} onClick={() => onClickEdit(department)} /> }
                   <Ellipsis
                     className="text-gray-500 cursor-pointer"
                     size={14}
@@ -88,6 +90,7 @@ const DepartmentsPage = () => {
       <CreateEditDepartmentModal
         isOpen={isModalOpen}
         isEditMode={isEditMode}
+        isMobile={isMobile}
         onClose={() => {
           setIsModalOpen(false);
           setIsEditMode(false);
@@ -118,6 +121,7 @@ interface ICreateEditDepartmentModalProps {
   formModel: ICreateDepartmentRequest;
   setModel: React.Dispatch<React.SetStateAction<ICreateDepartmentRequest>>;
   onSubmit?: (e: React.SubmitEvent<HTMLFormElement>) => void;
+  isMobile?: boolean;
 }
 
 const CreateEditDepartmentModal = ({
@@ -127,6 +131,7 @@ const CreateEditDepartmentModal = ({
   formModel,
   setModel,
   onSubmit,
+  isMobile,
 }: ICreateEditDepartmentModalProps) => {
   const inputFields: IInputField[] = [
     { name: "name", label: "Department Name", type: "text", required: true },
@@ -147,7 +152,7 @@ const CreateEditDepartmentModal = ({
         title={isEditMode ? "Edit Department" : "Create Department"}
         onClose={onClose}
       >
-        <form onSubmit={onSubmit} className="min-w-100 grid grid-cols-1 gap-2">
+        <form onSubmit={onSubmit} className={`grid grid-cols-1 gap-2 ${isMobile ? "w-76.25" : "w-100"} mx-auto`}>
           {inputFields.map((field) => (
             <MyInput
               key={field.name}

@@ -1,9 +1,31 @@
 import query from "../helpers/query.js";
 
 const createNewCompany = async (company) => {
-    const { name, address, phone, email } = company;
-    const sql = 'INSERT INTO companies (name, address, phone, email) VALUES ($1, $2, $3, $4) RETURNING *';
-    const params = [name, address, phone, email];
+    const {
+        name, email, phone, address,
+        currencyCode, fiscalYearStartMonth, timezone,
+        workingDaysPerWeek,
+        allowOvertime, overtimeRate, probationPeriodDays
+    } = company;
+
+    // Set default values for empty strings
+    const validatedData = {
+        currencyCode: currencyCode || 'USD',
+        fiscalYearStartMonth: fiscalYearStartMonth || 1,
+        timezone: timezone || 'Asia/Phnom_Penh',
+        workingDaysPerWeek: workingDaysPerWeek || 5,
+        allowOvertime: allowOvertime !== undefined ? allowOvertime : false,
+        overtimeRate: overtimeRate || 1.5,
+        probationPeriodDays: probationPeriodDays || 30
+    };
+
+    const sql = 'SELECT company_id FROM create_company($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
+    const params = [
+        name, email, phone, address,
+        validatedData.currencyCode, validatedData.fiscalYearStartMonth, validatedData.timezone,
+        validatedData.workingDaysPerWeek,
+        validatedData.allowOvertime, validatedData.overtimeRate, validatedData.probationPeriodDays
+    ];
     const result = await query(sql, params);
     return result.rows[0];
 }

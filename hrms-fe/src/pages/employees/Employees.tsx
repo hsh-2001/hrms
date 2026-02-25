@@ -8,6 +8,7 @@ import type { ICreateEmployee } from "../../types/employees";
 import { Edit } from "lucide-react";
 import BaseHeader from "../../components/shares/BaseHeader";
 import { useEffect } from "react";
+import useDevice from "../../hooks/useDevice";
 
 export default function Employees() {
   const {
@@ -20,6 +21,7 @@ export default function Employees() {
     setIsDialogOpen,
     onEditEmployee,
   } = useEmployees();
+  const { isMobile } = useDevice();
 
   useEffect(() => {
     getEmployees();
@@ -32,39 +34,41 @@ export default function Employees() {
           onClick={() => setIsDialogOpen(true)}
         />
       </BaseHeader>
-      <table className="w-full">
-        <thead className="bg-gray-200 p-2">
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Position</th>
-            <th>Department</th>
-            <th>Date of Joining</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employee?.map((emp) => (
-            <tr key={emp.id}>
-              <td>{`${emp.first_name} ${emp.last_name}`}</td>
-              <td>{emp.email}</td>
-              <td>{emp.position}</td>
-              <td>{emp.department}</td>
-              <td>{emp.date_of_joining}</td>
-              <td>{emp.status}</td>
-              <td>
-                <button
-                  onClick={() => onEditEmployee(emp.id)}
-                  className="cursor-pointer"
-                >
-                  <Edit size={14} className="text-gray-500" />
-                </button>
-              </td>
+      <div className={isMobile ? "overflow-x-auto max-w-screen px-2" : ""}>
+        <table className="w-full">
+          <thead className="bg-gray-200 p-2">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Position</th>
+              <th>Department</th>
+              <th>Date of Joining</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {employee?.map((emp) => (
+              <tr key={emp.id}>
+                <td>{`${emp.first_name} ${emp.last_name}`}</td>
+                <td>{emp.email}</td>
+                <td>{emp.position}</td>
+                <td>{emp.department}</td>
+                <td>{emp.date_of_joining}</td>
+                <td>{emp.status}</td>
+                <td>
+                  <button
+                    onClick={() => onEditEmployee(emp.id)}
+                    className="cursor-pointer"
+                  >
+                    <Edit size={14} className="text-gray-500" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <BaseDialog
         isOpen={isDialogOpen}
