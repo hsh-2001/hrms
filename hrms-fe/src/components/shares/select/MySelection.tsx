@@ -14,7 +14,7 @@ export default function MySelection({ id, value, onChange, options }: MySelectio
                 id={id}
                 value={value}
                 onChange={onChange}
-                className="outline-none border border-gray-300 rounded-md w-full p-2"
+                className="outline-none border border-gray-300 rounded-[20px] w-full p-2"
             >
                 {options.map((option) => (
                     <option key={option.value} value={option.value}>

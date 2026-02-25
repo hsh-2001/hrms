@@ -1,11 +1,14 @@
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
 import MyInput from "../../components/shares/input/MyInput";
 import useAuthentication from "../../hooks/useAuthentication";
+import useDevice from "../../hooks/useDevice";
 
 export default function Login() {
   const { loginModel, setLoginModel, handleSubmit, isLogin, setIsLogin,
     registerModel, setRegisterModel
    } = useAuthentication();
+
+   const { isMobile } = useDevice();
 
   const onToggle = () => {
     setIsLogin(!isLogin);
@@ -14,7 +17,7 @@ export default function Login() {
     <div className="flex w-full justify-center h-screen items-center">
       <form
         onSubmit={(e) => handleSubmit(e)}
-        className="grid gap-2 w-100 bg-gray-50 p-4 rounded-md"
+        className={`grid gap-2 w-100 bg-gray-50 p-4 rounded-md ${isMobile ? "w-[90%] mx-4" : "w-100"}`}
       >
         <div className="text-center">
           <span className="text-2xl">{isLogin ? "Login" : "Register"}</span>

@@ -1,6 +1,7 @@
 import { RouterProvider } from 'react-router'
-import './App.css'
 import routes from './routes'
+import "./locale/i18n";
+
 
 function App() {
   return (

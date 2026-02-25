@@ -28,7 +28,8 @@ export default function useEmployees() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       const response = await companyApi.createEmployee(createModel);
       if (response.isSuccess) {

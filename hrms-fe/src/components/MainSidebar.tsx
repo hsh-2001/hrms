@@ -1,13 +1,17 @@
 import { NavLink, useLocation } from "react-router";
-import useRouter from "../hooks/useSidebar";
+import useSidebar from "../hooks/useSidebar";
 import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 import type { IRoute } from "../types/route";
 import { useAppSelector } from "../store";
+import { useTranslation } from "react-i18next";
+import useDevice from "../hooks/useDevice";
 
 export default function MainSidebar() {
-  const { routes, setRoutes } = useRouter();
+  const { routes, setRoutes } = useSidebar();
+  const { isMobile } = useDevice();
   const navigater = useLocation();
+  const { t } = useTranslation();
   const user = useAppSelector((state) => state.user);
 
   const toggleExpand = (index: number) => {
@@ -48,20 +52,20 @@ export default function MainSidebar() {
   }, []);
 
   return (
-    <div className="w-64 bg-gray-100 h-screen">
+    <div className={`w-full p-2 rounded-[20px] h-full relative ${isMobile ? "bg-gray-200" : "bg-black/5"}`}>
       <div className="flex px-2 items-center h-16">
         <span className="text-xl font-bold text-gray-600">
-          { user.user?.company_id === 0 ? "Root Account" : user.user?.company_name}
+          { user.user?.company_id === 0 ? t("Root Account") : user.user?.company_name}
           </span>
       </div>
-      <div>
+      <div className="grid grid-cols-1 gap-2">
         {routes.map((route, index) => (
-          <div key={index} className="text-gray-700 border-b border-gray-200">
+          <div key={index} className="text-gray-700">
             <div
-              className={`flex justify-between p-2 cursor-pointer text-sm ${isChildActive(route) ? "bg-green-500/20 text-green-500 font-medium" : ""}`}
+              className={`flex justify-between items-center rounded-xl p-2 cursor-pointer text-sm ${isChildActive(route) ? "bg-green-500/10 text-green-500 font-medium" : ""}`}
               onClick={() => toggleExpand(index)}
             >
-              <span>{route.title}</span>  
+              <span>{t(route.title)}</span>  
 
               {route.children && route.children.length > 0 && (
                 <ChevronDown
@@ -75,7 +79,7 @@ export default function MainSidebar() {
 
             {route.children && route.children.length > 0 && (
               <div
-                className={`bg-gray-50 overflow-hidden transition-all duration-300 ease-in-out ${
+                className={`bg-gray-50 space-y-1 rounded-xl mt-1 p-1 overflow-hidden transition-all duration-300 ease-in-out ${
                   route.isExpanded
                     ? "max-h-96 opacity-100"
                     : "max-h-0 opacity-0"
@@ -87,16 +91,17 @@ export default function MainSidebar() {
                     to={child.path}
                     end
                     className={({ isActive }) =>
-                      `block px-4 py-2 hover:bg-green-500/10 text-sm ${
+                      `block p-2 hover:bg-green-500/10 rounded-[10px] text-sm ${
                         isActive ? "bg-green-500/10 text-green-800" : ""
                       }`
                     }
                   >
-                    {child.title}
+                    {t(child.title)}
                   </NavLink>
                 ))}
               </div>
             )}
+          <div className={ !route.isExpanded ? `border-b-[0.5px] border-black/6` : ""}></div>
           </div>
         ))}
       </div>

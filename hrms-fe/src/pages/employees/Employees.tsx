@@ -45,7 +45,7 @@ export default function Employees() {
           </tr>
         </thead>
         <tbody>
-          {employee.map((emp) => (
+          {employee?.map((emp) => (
             <tr key={emp.id}>
               <td>{`${emp.first_name} ${emp.last_name}`}</td>
               <td>{emp.email}</td>
@@ -89,7 +89,7 @@ export default function Employees() {
 interface CreateEditEmployeeProps {
   model: ICreateEmployee;
   setModel: React.Dispatch<React.SetStateAction<ICreateEmployee>>;
-  handleSubmit: (e: React.SyntheticEvent<HTMLFormElement>) => void;
+  handleSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

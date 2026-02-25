@@ -1,4 +1,5 @@
 import React from 'react'
+import useDevice from '../../../hooks/useDevice';
 
 interface MyInputProps {
   id: string;
@@ -12,9 +13,10 @@ interface MyInputProps {
 }
 
 export default function MyInput({ id, value, onChange, type = "text", required = false, label, labelWidth = "min-w-32", disabled = false }: MyInputProps) {
+  const { isMobile } = useDevice();
   return (
     <div>
-      <label htmlFor={id} className={`flex gap-2 items-center`}>
+      <label htmlFor={id} className={`flex gap-2 ${isMobile ? "flex-col items-start" : "flex-row items-center"}`}>
         <span className={`${labelWidth} capitalize ${required ? "before:content-['*'] before:text-red-500 before:pr-0.5" : ""}`}>{label || id}</span>
         <input
           type={type}
@@ -23,7 +25,7 @@ export default function MyInput({ id, value, onChange, type = "text", required =
           onChange={onChange}
           required={required}
           disabled={disabled}
-          className={`outline-none border border-gray-300 rounded-md w-full p-2 ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
+          className={`outline-none border border-gray-300 rounded-[20px] w-full p-2 ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
         />
       </label>
     </div>

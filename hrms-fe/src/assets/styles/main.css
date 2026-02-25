@@ -6,6 +6,14 @@ html, body {
     box-sizing: border-box;
 }
 
+.main-bg {
+    /* background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20211031/pngtree-abstract-bg-image_914283.png'); */
+    /* background-image: linear-gradient(rgb(232, 232, 232), rgb(243, 243, 243)); */
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(20px);
+}
+
 /* .main-layout {
     display: grid;
     grid-template-columns: 250px 1fr;
@@ -26,7 +34,7 @@ html, body {
 } */
 
 input, label, select, button {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .base-dialog {

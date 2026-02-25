@@ -35,6 +35,10 @@ const routes = createBrowserRouter([
         Component: lazy(() => import("../pages/attendance/AttendanceReports.tsx")),
       },
       {
+        path: "/attendance/clock-in-out",
+        Component: lazy(() => import("../pages/attendance/ClockInOut.tsx")),
+      },
+      {
         path: "/leave",
         Component: lazy(() => import("../pages/leave/LeaveRequests.tsx")),
       },
@@ -89,6 +93,10 @@ const routes = createBrowserRouter([
         path: "/settings/company",
         Component: lazy(() => import("../pages/settings/CompanyProfile.tsx")),
       },
+      {
+        path: "/menu",
+        Component: lazy(() => import("../pages/mobile/menu/Menu.tsx")),
+      }
     ],
    },
    {

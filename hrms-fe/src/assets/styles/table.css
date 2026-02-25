@@ -2,16 +2,16 @@ table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    border: 1px solid #c3c3c391;
-    border-radius: 8px;
+    border: 1px solid #dcdcdc91;
+    border-radius: 20px;
     overflow: hidden;
 }
 
 table th, table td {
     padding: 8px;
     text-align: left;
-    font-size: 12px;
-    border-bottom: 1px solid #dddddd8c;
+    font-size: 14px;
+    border-bottom: 1px solid #dcdcdc91;
 }
 
 tr:last-child td {

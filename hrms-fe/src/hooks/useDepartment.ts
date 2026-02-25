@@ -5,11 +5,13 @@ import type { ICreateDepartmentRequest, IGetDepartmentResponse } from "../types/
 export default function useDepartment() {
   const [departments, setDepartments] = useState<IGetDepartmentResponse[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [formModel, setFormModel] = useState<ICreateDepartmentRequest>({
     name: "",
     code: "",
     description: "",
     is_active: true,
+    is_default: false,
     manager_id: "550e8400-e29b-41d4-a716-446655440000",
     company_id: 0,
   });
@@ -34,6 +36,12 @@ export default function useDepartment() {
     }
   }
 
+  const onClickEdit = (department: IGetDepartmentResponse) => {
+    setIsModalOpen(!isModalOpen);
+    setIsEditMode(true);
+    setFormModel(department);
+  };
+
   return {
     departments,
     getAllDepartments,
@@ -42,5 +50,8 @@ export default function useDepartment() {
     formModel,
     setFormModel,
     handleSubmit,
+    onClickEdit,
+    isEditMode,
+    setIsEditMode,
   };
 }

@@ -3,6 +3,7 @@ export interface IDepartment {
   name: string;
   code: string;
   is_active: boolean;
+  is_default: boolean;
   description?: string;
   company_id: number;
   manager_id?: string;

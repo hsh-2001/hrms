@@ -2,10 +2,18 @@ import { useLocation } from "react-router";
 import { useState } from "react";
 import type { IRoute } from "../types/route";
 import { useAppSelector } from "../store";
+import i18n from "../locale/i18n";
+import type { MenuProps } from "antd";
 
-const useRouter = () => {
+const useSidebar = () => {
   const location = useLocation();
   const user = useAppSelector((state) => state.user);
+
+  const [selectedLang, setSelectedLang] = useState<string>(localStorage.getItem("locale") || "en");
+  const languages = [
+    { value: 'en', label: 'English' },
+    { value: 'kh', label: 'ភាសាខ្មែរ' },
+  ]
 
   const [routes, setRoutes] = useState<IRoute[]>([
     {
@@ -55,6 +63,10 @@ const useRouter = () => {
           {
             title: "Daily Attendance",
             path: "/attendance",
+          },
+          {
+            title: "Clock In/Out",
+            path: "/attendance/clock-in-out",
           },
           {
             title: "Attendance Reports",
@@ -144,11 +156,22 @@ const useRouter = () => {
   const isActive = (path: string) => {
     return location.pathname === path;
   };
+
+  const handleChangeLanguage: MenuProps['onClick'] = (value) => {
+    setSelectedLang(value.key);
+    i18n.changeLanguage(value.key);
+    localStorage.setItem("locale", value.key);
+  }
+
   return {
     routes,
     setRoutes,
     isActive,
+    selectedLang,
+    setSelectedLang,
+    handleChangeLanguage,
+    languages,
   };
 };
 
-export default useRouter;
+export default useSidebar;

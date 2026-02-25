@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import useUser from "../../hooks/useUser";
+import BaseHeader from "../../components/shares/BaseHeader";
 
 const UsersPage = () => {
     const { users, fetchUsers } = useUser();
@@ -12,7 +13,8 @@ const UsersPage = () => {
     }, []);
 
     return (
-        <div>
+        <div className="w-full">
+            <BaseHeader headerTitle="Users" />
             <table>
                 <thead>
                     <tr>
