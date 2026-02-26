@@ -6,6 +6,12 @@ const getCompanySettings = async (req) => {
     return await settingRepository.getCompanySettings(company_id);
 }
 
+const updateCompanySetting = async (req) => {
+    const { company_id } = req.user;
+    return await settingRepository.updateCompanySetting(company_id, req.body);
+}
+
 export default {
     getCompanySettings,
+    updateCompanySetting,
 }

@@ -9,6 +9,7 @@ import positionRouter from "./positionRouter.js";
 import attendanceRouter from "./attendanceRouter.js";
 import commonRouter from "./commonRouter.js";
 import settingRouter from "./settingRouter.js";
+import webSocketRouter from "./webSocketRouter.js";
 const router = Router();
 
 router.use("/user", userRouter);
@@ -19,5 +20,6 @@ router.use("/department", authMiddleware, departmentRouter);
 router.use("/position", authMiddleware, positionRouter);
 router.use("/attendance", authMiddleware, attendanceRouter);
 router.use("/setting", authMiddleware, settingRouter);
+router.use("/transaction", webSocketRouter);
 
 export default router;

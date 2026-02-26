@@ -1,9 +1,11 @@
+import http from 'http';
 import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import router from './src/router/index.js';
 import cors from 'cors';
+import { setupWebSocket } from './src/services/webSocketService.js';
 
 
 dotenv.config();
@@ -17,18 +19,21 @@ app.use(cookieParser());
 app.use(cors({
     // origin: [
     //     'http://localhost:5173',
-    //     'https://hrms-lyart-theta.vercel.app', 
+    //     'https://hrms-lyart-theta.vercel.app',
     //     'http://172.20.10.3:5173'
     // ],
     origin: '*',
     credentials: true,
 }));
-app.get('/', (req, res) => {  
+app.get('/', (req, res) => {
     res.send('Hello HRMS!');
 });
-    
+
 app.use('/api', router);
 
-app.listen(PORT, () => {
+const server = http.createServer(app);
+setupWebSocket(server);
+
+server.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}`);
 });
