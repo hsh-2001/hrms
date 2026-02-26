@@ -7,6 +7,7 @@ import MySelection from "../../components/shares/select/MySelection";
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
 import { Building2, Clock, Briefcase, DollarSign, ChevronDown, ChevronUp } from "lucide-react";
 import InfoButton from "../../components/shares/button/InfoButton";
+import MyCheckBox from "../../components/shares/chekbox/MyCheckBox";
 
 const TIMEZONE_OPTIONS = [
   { value: "Asia/Phnom_Penh", label: "Asia/Phnom_Penh (UTC+7)" },
@@ -38,7 +39,7 @@ function SectionCard({ icon, title, children, defaultOpen = true }: {
     <div className="border border-gray-100 rounded-[20px] overflow-hidden bg-white break-inside-avoid">
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(true)}
         className="w-full flex items-center justify-between p-4 bg-black/2 cursor-pointer"
       >
         <div className="flex items-center gap-3">
@@ -57,28 +58,6 @@ function SectionCard({ icon, title, children, defaultOpen = true }: {
           {children}
         </div>
       )}
-    </div>
-  );
-}
-
-function ToggleSwitch({ checked, onChange, label }: {
-  checked: boolean;
-  onChange: (val: boolean) => void;
-  label: string;
-}) {
-  const { isMobile } = useDevice();
-  return (
-    <div className={`flex gap-2 ${isMobile ? "flex-col" : "flex-row items-center"}`}>
-      <span className="min-w-32">{label}</span>
-      <button
-        type="button"
-        onClick={() => onChange(!checked)}
-        className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${checked ? "bg-green-500" : "bg-gray-300"}`}
-      >
-        <span
-          className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`}
-        />
-      </button>
     </div>
   );
 }
@@ -225,8 +204,9 @@ export default function Settings() {
             onChange={handleInputChange}
             type="number"
           />
-          <ToggleSwitch
+          <MyCheckBox
             label={t("Allow Overtime")}
+            disabled={!isEditMode}
             checked={companySettingModel.allow_overtime}
             onChange={(val) => handleToggleChange("allow_overtime", val)}
           />
