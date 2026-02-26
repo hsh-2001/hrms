@@ -16,7 +16,7 @@ export default function MyInput({ id, value, onChange, type = "text", required =
   const { isMobile } = useDevice();
   return (
     <div>
-      <label htmlFor={id} className={`flex gap-2 ${isMobile ? "flex-col items-start" : "flex-row items-center"}`}>
+      <label htmlFor={id} className={`flex gap-2 ${isMobile ? "flex-col" : "flex-row items-center"}`}>
         <span className={`${labelWidth} capitalize ${required ? "before:content-['*'] before:text-red-500 before:pr-0.5" : ""}`}>{label || id}</span>
         <input
           type={type}

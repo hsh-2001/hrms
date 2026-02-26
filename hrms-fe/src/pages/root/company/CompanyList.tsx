@@ -6,6 +6,7 @@ import BaseDialog from "../../../components/shares/BaseDialog";
 import MyInput from "../../../components/shares/input/MyInput";
 import InfoButton from "../../../components/shares/button/InfoButton";
 import { Edit } from "lucide-react";
+import useDevice from "../../../hooks/useDevice";
 
 export default function CompanyList() {
   const {
@@ -20,6 +21,7 @@ export default function CompanyList() {
     onClickEdit,
     handleEditCompanyAccount,
   } = useCompanyAccountList();
+  const { isMobile } = useDevice();
 
   const isCalled = useRef(false);
   useEffect(() => {
@@ -37,49 +39,60 @@ export default function CompanyList() {
           onClick={() => setIsFormVisible(!isFormVisible)}
         />
       </BaseHeader>
-      <table className="w-full">
-        <thead>
-          <tr>
-            <th>Company Name</th>
-            <th>Login Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Total Users</th>
-            <th>Total Employees</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {companyAccounts.length ? (
-            companyAccounts.map((company, index) => (
-              <tr key={index}>
-                <td>{company.name}</td>
-                <td>{company.login_name}</td>
-                <td>{company.email}</td>
-                <td>{company.phone}</td>
-                <td>{company.address}</td>
-                <td>{company.total_users}</td>
-                <td>{company.total_employees}</td>
-                <td align="center">
-                  <Edit size={14} className="text-gray-500 cursor-pointer" onClick={() => onClickEdit(company)} />
-                </td>
-              </tr>
-            ))
-          ) : (
+      <div className="max-w-screen px-2 overflow-x-auto">
+        <table className="w-full min-w-250">
+          <thead>
             <tr>
-              <td colSpan={7}>No companies found.</td>
+              <th>Company Name</th>
+              <th>Login Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Total Users</th>
+              <th>Total Employees</th>
+              <th>Action</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {companyAccounts.length ? (
+              companyAccounts.map((company, index) => (
+                <tr key={index}>
+                  <td>{company.name}</td>
+                  <td>{company.login_name}</td>
+                  <td>{company.email}</td>
+                  <td>{company.phone}</td>
+                  <td>{company.address}</td>
+                  <td>{company.total_users}</td>
+                  <td>{company.total_employees}</td>
+                  <td align="center">
+                    <Edit
+                      size={14}
+                      className="text-gray-500 cursor-pointer"
+                      onClick={() => onClickEdit(company)}
+                    />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={7}>No companies found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
       <BaseDialog
         isOpen={isFormVisible}
         isCentered
         title={isEditMode ? "Edit Company Account" : "Create Company Account"}
         onClose={() => setIsFormVisible(false)}
       >
-        <form onSubmit={isEditMode ? handleEditCompanyAccount : handleCreateCompanyAccount} className="w-100 grid gap-2">
+        <form
+          onSubmit={
+            isEditMode ? handleEditCompanyAccount : handleCreateCompanyAccount
+          }
+          className={`grid gap-2 ${isMobile ? "px-2 w-76.5" : "w-100"}`}
+        >
           <MyInput
             id="companyName"
             label="Company Name"
@@ -123,7 +136,10 @@ export default function CompanyList() {
           />
           <div className="flex justify-end gap-2 mt-2">
             <InfoButton name="Cancel" onClick={() => setIsFormVisible(false)} />
-            <PrimaryButton name={isEditMode ? "Update" : "Create"} type="submit" />
+            <PrimaryButton
+              name={isEditMode ? "Update" : "Create"}
+              type="submit"
+            />
           </div>
         </form>
       </BaseDialog>

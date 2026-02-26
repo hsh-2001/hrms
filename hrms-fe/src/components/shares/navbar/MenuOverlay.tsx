@@ -89,7 +89,7 @@ export default function MenuOverlay({ open, onClose }: MenuOverlayProps) {
         className="absolute right-2 w-64 top-2 bottom-4 bottom-navbar rounded-2xl overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="w-full h-full px-2 rounded-[20px] bg-gray-50">
+        <div className="w-full h-auto min-h-[calc(100dvh-4px)] px-2 rounded-[20px] bg-gray-50">
           {routes.map((group) => (
             <div key={group.title} className="mb-2">
               <div className="px-3 bg-gray-50 pt-2 rounded-[20px] sticky top-0 pb-1 text-[11px] font-semibold text-gray-400 uppercase tracking-wider">

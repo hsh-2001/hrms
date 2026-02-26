@@ -108,6 +108,10 @@ const routes = createBrowserRouter([
         Component: lazy(() => import("../pages/auth/Login.tsx")),
       }
     ],
+   },
+   {
+    path: "/test/websocket",
+    Component: lazy(() => import("../pages/test/TestWebSocket.tsx")),
    }
 ]);
 

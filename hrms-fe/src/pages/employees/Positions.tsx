@@ -20,7 +20,7 @@ const PositionsPage = () => {
       <BaseHeader headerTitle="Positions List">
         <PrimaryButton
           name="Add Position"
-          onClick={() => alert("")}
+          onClick={() => {}}
         />
       </BaseHeader>
       {positions.length ? (
