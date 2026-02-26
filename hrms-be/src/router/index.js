@@ -8,14 +8,16 @@ import departmentRouter from "./departmentRouter.js";
 import positionRouter from "./positionRouter.js";
 import attendanceRouter from "./attendanceRouter.js";
 import commonRouter from "./commonRouter.js";
+import settingRouter from "./settingRouter.js";
 const router = Router();
 
 router.use("/user", userRouter);
+router.use("/common", commonRouter);
 router.use("/root", rootMiddleware , rootRouter);
 router.use("/employee", authMiddleware , employeeRouter);
 router.use("/department", authMiddleware, departmentRouter);
 router.use("/position", authMiddleware, positionRouter);
 router.use("/attendance", authMiddleware, attendanceRouter);
-router.use("/common", commonRouter);
+router.use("/setting", authMiddleware, settingRouter);
 
 export default router;

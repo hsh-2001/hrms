@@ -1,4 +1,7 @@
 import { Router } from "express";
+import settingController from "../controllers/settingController.js";
 const settingRouter = Router();
+
+settingRouter.get("/company", settingController.getCompanySettings);
 
 export default settingRouter;

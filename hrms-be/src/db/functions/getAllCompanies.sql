@@ -9,6 +9,7 @@ RETURNS TABLE (
     phone VARCHAR,
     total_users INTEGER,
     total_employees INTEGER,
+    address TEXT,
     created_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ
 )
@@ -20,8 +21,9 @@ AS $$
         (SELECT u.username FROM users u WHERE u.company_id = c.id ORDER BY u.created_at LIMIT 1) AS login_name,
         c.email,
         c.phone,
-        COUNT(u.id) AS total_users,
+        COUNT(CASE WHEN u.id != (SELECT u2.id FROM users u2 WHERE u2.company_id = c.id ORDER BY u2.created_at LIMIT 1) THEN u.id END) AS total_users,
         COUNT(e.id) AS total_employees,
+        c.address,
         c.created_at,
         c.updated_at
     FROM companies c
@@ -32,6 +34,7 @@ AS $$
         c.name,
         c.email,
         c.phone,
+        c.address,
         c.created_at,
         c.updated_at
     ORDER BY c.created_at DESC;
