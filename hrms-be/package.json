@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --env-file=.env index.js",
-    "db:publish": "node --env-file=.env src/db/publish.js"
+    "demo": "nodemon --env-file=.env.demo index.js",
+    "db:publish": "node --env-file=.env src/db/publish.js",
+    "demo-db:publish": "node --env-file=.env.demo src/db/publish.js"
   },
   "keywords": [],
   "author": "",
@@ -25,5 +27,8 @@
     "nodemon": "^3.1.14",
     "pg": "^8.18.0",
     "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "supabase": "^2.76.15"
   }
 }

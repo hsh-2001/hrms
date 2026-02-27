@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION get_company_overview(
+CREATE OR REPLACE FUNCTION public.get_company_overview(
     p_company_id INT
 )
 RETURNS TABLE (
@@ -6,11 +6,15 @@ RETURNS TABLE (
     total_departments INT,
     total_positions INT
 )
-LANGUAGE sql
-STABLE
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
 AS $$
+BEGIN
+    RETURN QUERY
     SELECT
-        (SELECT COUNT(*) FROM employees   WHERE company_id = p_company_id),
-        (SELECT COUNT(*) FROM departments WHERE company_id IN (p_company_id, 0)),
-        (SELECT COUNT(*) FROM positions   WHERE company_id IN (p_company_id, 0));
+        (SELECT COUNT(*) FROM public.employees WHERE company_id = p_company_id),
+        (SELECT COUNT(*) FROM public.departments WHERE company_id = p_company_id),
+        (SELECT COUNT(*) FROM public.positions WHERE company_id = p_company_id);
+END;
 $$;
