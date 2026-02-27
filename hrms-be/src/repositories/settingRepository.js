@@ -26,7 +26,14 @@ const updateCompanySetting = async (company_id, body) => {
     return result.rows[0];
 }
 
+const getCompanyOverview = async (company_id) => {
+    const sql = "SELECT * FROM get_company_overview($1)";
+    const result = await query(sql, [company_id]);
+    return result.rows[0];
+}
+
 export default {
     getCompanySettings,
-    updateCompanySetting
+    updateCompanySetting,
+    getCompanyOverview
 }

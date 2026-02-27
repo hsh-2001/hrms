@@ -7,6 +7,7 @@ RETURNS TABLE (
     check_out_time TIME,
     re_check_in_time TIME,
     re_check_out_time TIME,
+    total_work_hours TEXT,
     status VARCHAR(20)
 )
 LANGUAGE sql
@@ -17,6 +18,11 @@ AS $$
         check_out_time,
         re_check_in_time,
         re_check_out_time,
+        CONCAT(
+            FLOOR(EXTRACT(EPOCH FROM (COALESCE(re_check_out_time, check_out_time) - check_in_time)) / 3600)::INTEGER,
+            ':',
+            LPAD(FLOOR((EXTRACT(EPOCH FROM (COALESCE(re_check_out_time, check_out_time) - check_in_time)) % 3600) / 60)::INTEGER::TEXT, 2, '0')
+        ) AS total_work_hours,
         status
     FROM attendances
     WHERE employee_id = p_employee_id

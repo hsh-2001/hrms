@@ -10,3 +10,4 @@ CREATE TABLE IF NOT EXISTS employees (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+CREATE INDEX idx_employees_company_id   ON employees(company_id);

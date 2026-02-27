@@ -11,4 +11,5 @@ CREATE TABLE departments (
     updated_at TIMESTAMPTZ DEFAULT NOW(),
 
     UNIQUE (name, company_id)
-)
+);
+CREATE INDEX idx_departments_company_id ON departments(company_id);

@@ -10,3 +10,5 @@ CREATE TABLE positions (
     updated_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (company_id, title)
 );
+
+CREATE INDEX idx_positions_company_id   ON positions(company_id);

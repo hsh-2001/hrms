@@ -22,7 +22,18 @@ const updateCompanySetting = async (req, res) => {
     }
 }
 
+const getCompanyOverview = async (req, res) => {
+    try {
+        const result = await settingService.getCompanyOverview(req);
+        BaseResponse.success(res, result, 'Company overview retrieved successfully');
+    } catch (error) {
+        console.log("Error retrieving company overview:", error);
+        BaseResponse.error(res, error.message, 500);
+    }
+}
+
 export default {
     getCompanySettings,
     updateCompanySetting,
+    getCompanyOverview,
 }
