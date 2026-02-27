@@ -63,5 +63,20 @@
     "Start Time": "Start Time",
     "End Time": "End Time",
     "Break Start": "Break Start",
-    "Break End": "Break End"
+    "Break End": "Break End",
+    "total_employees": "Total Employees",
+    "total_departments": "Total Departments",
+    "total_positions": "Total Positions",
+    "welcome_back": "Welcome Back",
+    "dashboard_subtitle": "Here's what's happening with your company today.",
+    "view_details": "View details",
+    "quick_actions": "Quick Actions",
+    "clock_in_out": "Clock In/Out",
+    "clock_in_out_desc": "Record your attendance",
+    "manage_employees": "Manage Employees",
+    "manage_employees_desc": "Add or edit employee records",
+    "view_reports": "View Reports",
+    "view_reports_desc": "Check attendance reports",
+    "company_settings": "Company Settings",
+    "company_settings_desc": "Configure company preferences"
 }

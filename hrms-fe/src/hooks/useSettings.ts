@@ -1,11 +1,12 @@
 import { useState } from "react";
-import type { IUpdateCompanySetting, IGetCompanySettingResponse } from "../types/settings";
+import { type IUpdateCompanySetting, type IGetCompanySettingResponse, GetCompanyOverviewResponse } from "../types/settings";
 import settingApi from "../lib/settingApi";
 
 export default function useSettings() {
     const [companySetting, setCompanySetting] = useState<IGetCompanySettingResponse | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
+    const [companyOverview, setCompanyOverview] = useState<GetCompanyOverviewResponse>(new GetCompanyOverviewResponse(0, 0, 0));
     const [companySettingModel, setCompanySettingModel] = useState<IUpdateCompanySetting>({
         id: 0,
         currency_code: "",
@@ -67,6 +68,7 @@ export default function useSettings() {
             const response = await settingApi.updateCompanySettings(companySettingModel);
             if (response.isSuccess) {
                 await getCompanySettings();
+                setIsEditMode(false);
             }
             return response;
         } catch (error) {
@@ -89,6 +91,22 @@ export default function useSettings() {
         }));
     };
 
+    const getCompanySettingOverview = async () => {
+        try {
+            const response = await settingApi.getCompanyOverview();
+            if (response.isSuccess) {
+                const data = new GetCompanyOverviewResponse(
+                    response.data.total_employees,
+                    response.data.total_departments,
+                    response.data.total_positions,
+                );
+                setCompanyOverview(data);
+            }
+        } catch (error) {
+            console.error("Error fetching company overview:", error);
+        }
+    }
+
     return {
         companySettingModel,
         setCompanySettingModel,
@@ -100,5 +118,7 @@ export default function useSettings() {
         handleToggleChange,
         setIsEditMode,
         isEditMode,
+        companyOverview,
+        getCompanySettingOverview,
     };
 }

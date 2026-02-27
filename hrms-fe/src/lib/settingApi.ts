@@ -1,4 +1,4 @@
-import type { IGetCompanySettingResponse, IUpdateCompanySetting } from "../types/settings";
+import type { GetCompanyOverviewResponse, IGetCompanySettingResponse, IUpdateCompanySetting } from "../types/settings";
 import api from "./api";
 import { BaseResponse, getResponse } from "./baseReponse";
 
@@ -12,7 +12,13 @@ const updateCompanySettings = async (data: IUpdateCompanySetting): Promise<BaseR
     return getResponse(response.data);
 }
 
+const getCompanyOverview = async (): Promise<BaseResponse<GetCompanyOverviewResponse>> => {
+    const response = await api.get(`/setting/company/overview`);
+    return getResponse(response.data);
+}
+
 export default {
     getCompanySettings,
     updateCompanySettings,
+    getCompanyOverview,
 }

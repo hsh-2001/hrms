@@ -31,3 +31,26 @@ export type IGetCompanySettingResponse = ICompanySetting &
     created_at: string;
     updated_at: string;
   };
+
+
+export interface ICompanyOverview {
+  total_employees: number;
+  total_departments: number;
+  total_positions: number;
+}
+
+export class GetCompanyOverviewResponse implements ICompanyOverview {
+  total_employees: number;
+  total_departments: number;
+  total_positions: number;
+
+  constructor(
+    total_employees: number,
+    total_departments: number,
+    total_positions: number,
+  ) {
+    this.total_employees = total_employees;
+    this.total_departments = total_departments;
+    this.total_positions = total_positions;
+  }
+}

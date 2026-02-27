@@ -63,5 +63,20 @@
     "Start Time": "ម៉ោងចាប់ផ្តើម",
     "End Time": "ម៉ោងបញ្ចប់",
     "Break Start": "ម៉ោងចាប់ផ្តើមសម្រាក",
-    "Break End": "ម៉ោងបញ្ចប់សម្រាក"
+    "Break End": "ម៉ោងបញ្ចប់សម្រាក",
+    "total_employees": "បុគ្គលិកសរុប",
+    "total_departments": "នាយកដ្ឋានសរុប",
+    "total_positions": "មុខតំណែងសរុប",
+    "welcome_back": "សូមស្វាគមន៍មកវិញ",
+    "dashboard_subtitle": "នេះជាអ្វីដែលកំពុងកើតឡើងជាមួយក្រុមហ៊ុនរបស់អ្នកថ្ងៃនេះ។",
+    "view_details": "មើលលម្អិត",
+    "quick_actions": "សកម្មភាពរហ័ស",
+    "clock_in_out": "ចូល/ចេញការងារ",
+    "clock_in_out_desc": "កត់ត្រាវត្តមានរបស់អ្នក",
+    "manage_employees": "គ្រប់គ្រងបុគ្គលិក",
+    "manage_employees_desc": "បន្ថែម ឬកែប្រែកំណត់ត្រាបុគ្គលិក",
+    "view_reports": "មើលរបាយការណ៍",
+    "view_reports_desc": "ពិនិត្យរបាយការណ៍វត្តមាន",
+    "company_settings": "ការកំណត់ក្រុមហ៊ុន",
+    "company_settings_desc": "កំណត់រចនាសម្ព័ន្ធចំណូលចិត្តក្រុមហ៊ុន"
 }

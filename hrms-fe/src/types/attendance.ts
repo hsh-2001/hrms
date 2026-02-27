@@ -6,6 +6,7 @@ export interface IAttendance {
     re_check_in_time: string | null;
     re_check_out_time: string | null;
     attendance_date: string;
+    total_work_hours?: number;
     status: "present" | "checked_in" | "checked_out" | "on_leave" | string;
 }
 

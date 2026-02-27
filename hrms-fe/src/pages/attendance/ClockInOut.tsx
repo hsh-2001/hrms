@@ -121,6 +121,14 @@ export default function ClockInOut() {
               </p>
             </div>
           </div>
+          <div className="flex gap-2 py-4 rounded-lg bg-white mt-2 items-center justify-center">
+            <div>
+              <p className="text-[12px] text-gray-400 mb-0.5">{t("Total Work Hours")}</p>
+            </div>
+            <div>
+              <p>{ attendance?.total_work_hours ?? "--:--" }</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
