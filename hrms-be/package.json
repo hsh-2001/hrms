@@ -8,7 +8,8 @@
     "dev": "nodemon --env-file=.env index.js",
     "demo": "nodemon --env-file=.env.demo index.js",
     "db:publish": "node --env-file=.env src/db/publish.js",
-    "demo-db:publish": "node --env-file=.env.demo src/db/publish.js"
+    "demo-db:publish": "node --env-file=.env.demo src/db/publish.js",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -24,11 +25,11 @@
     "express": "^5.2.1",
     "geolib": "^3.3.4",
     "jsonwebtoken": "^9.0.3",
-    "nodemon": "^3.1.14",
     "pg": "^8.18.0",
     "ws": "^8.19.0"
   },
   "devDependencies": {
+    "nodemon": "^3.1.14",
     "supabase": "^2.76.15"
   }
 }
