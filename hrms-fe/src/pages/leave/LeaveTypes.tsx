@@ -1,7 +1,36 @@
+import { useEffect, useRef } from "react";
+import useLeave from "../../hooks/useLeave";
+import BaseHeader from "../../components/shares/BaseHeader";
+import PrimaryButton from "../../components/shares/button/PrimaryButton";
+
 const LeaveTypesPage = () => {
-    return (
-        <div>Leave Types Page</div>
-    )
-}
+  const { leaveTypes, getLeaveTypes } = useLeave();
+
+  const isCalled = useRef(false);
+  useEffect(() => {
+    if (!isCalled.current) {
+      getLeaveTypes();
+      isCalled.current = true;
+    }
+  }, []);
+
+  return (
+    <div className="w-full">
+      <BaseHeader headerTitle="Leave Types">
+        <PrimaryButton name="Add Leave Type" onClick={() => {}} />
+      </BaseHeader>
+      <div className="px-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {leaveTypes.map((type) => (
+            <div key={type.id} className="grid p-6 bg-black/5 rounded-2xl">
+              <h2 className="text-xl font-medium">{type.name}</h2>
+              <p className=" text-gray-500 text-sm">{type.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default LeaveTypesPage;
