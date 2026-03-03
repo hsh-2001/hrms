@@ -1,7 +1,10 @@
+import dateTimeFormat from "../lib/dateTimeFormat";
+
 export interface IEmployee {
     id: number;
     first_name: string;
     last_name: string;
+    username: string
     email: string;
     position: string;
     department: string;
@@ -9,9 +12,44 @@ export interface IEmployee {
     status: "active" | "inactive";
 }
 
-export type ICreateEmployee = Omit<IEmployee, "id">;
+export type ICreateEmployee = Omit<IEmployee, "id"> & {
+    password: string;
+    phone: string;
+};
 
 export interface IGetEmployeesResponse  extends IEmployee  {
     created_at: string;
     updated_at: string;
+}
+
+export class GetEmployeesResponse implements IGetEmployeesResponse {
+    id: number;
+    first_name: string;
+    last_name: string;
+    username: string
+    email: string;
+    position: string;
+    department: string;
+    date_of_joining: string;
+    status: "active" | "inactive";
+    created_at: string;
+    updated_at: string;
+
+    constructor(init: IGetEmployeesResponse) {
+        this.id = init.id;
+        this.first_name = init.first_name;
+        this.last_name = init.last_name;
+        this.username = init.username;
+        this.email = init.email;
+        this.position = init.position;
+        this.department = init.department;
+        this.date_of_joining = init.date_of_joining;
+        this.status = init.status;
+        this.created_at = init.created_at;
+        this.updated_at = init.updated_at; 
+    }
+
+    get dateOfJoiningForDisplay(): string {
+        return dateTimeFormat.dateFormat(this.date_of_joining) || "N/A";
+    }
 }

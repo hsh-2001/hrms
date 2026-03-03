@@ -4,7 +4,7 @@ const checkAttendance = async (req) => {
     const { company_id } = req.user;
     req.body.company_id = company_id;
 	await attendanceRepository.checkAttendance(req);
-    return await getAttendanceByEmployeeId(req);
+    return await getTodayEmployeeAttendance(req);
 };
 
 const getAllAttendance = async (req) => {
@@ -22,9 +22,15 @@ const getTodayEmployeeAttendance = async (req) => {
     return await attendanceRepository.getTodayEmployeeAttendance(employee_id);
 }
 
+const getAttendanceByCompanyId = async (req) => {
+    const { company_id } = req.user;
+    return await attendanceRepository.getAttendanceByCompanyId(company_id);
+}
+
 export default {
 	checkAttendance,
 	getAllAttendance,
     getAttendanceByEmployeeId,
-    getTodayEmployeeAttendance
+    getTodayEmployeeAttendance,
+    getAttendanceByCompanyId,
 };

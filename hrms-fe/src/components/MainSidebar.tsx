@@ -49,7 +49,7 @@ export default function MainSidebar() {
       return route;
     });
     setRoutes(newRoutes);
-  }, []);
+  }, [navigater.pathname]);
 
   return (
     <div className={`w-full p-2 rounded-[20px] h-full relative ${isMobile ? "bg-gray-200" : "bg-black/5"}`}>

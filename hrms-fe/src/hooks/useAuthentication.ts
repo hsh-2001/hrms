@@ -4,11 +4,13 @@ import type { ILoginRequest, IRegisterRequest } from "../types/auth";
 import { login, register } from "../lib/userApi";
 import { useAppDispatch } from "../store/hooks";
 import { setCredentials, setLoading } from "../store/slices/userSlice";
+import useNotification from "./useNotification";
 
 export default function useAuthentication() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+    const { addNotification } = useNotification();
     const from = location.state?.from?.pathname || "/";
 
     const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -37,9 +39,13 @@ export default function useAuthentication() {
                     token: response.data.token,
                 }));
                 navigate(from, { replace: true });
+            } else {
+                addNotification("Login failed");
             }
         } catch (error) {
+            addNotification("Login failed");
             console.error("Login failed", error);
+        } finally {
             dispatch(setLoading(false));
         }
     }

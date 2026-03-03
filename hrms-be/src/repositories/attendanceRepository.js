@@ -29,9 +29,17 @@ const getTodayEmployeeAttendance = async (employee_id) => {
     return result.rows[0];
 }
 
+const getAttendanceByCompanyId = async (company_id) => {
+    const sql = "SELECT * FROM attendance_get_report_by_company($1)";
+    const values = [company_id];
+    const result = await query(sql, values);
+    return result.rows;
+}
+
 export default {
     checkAttendance,
     getAllAttendance,
     getAttendanceByEmployeeId,
-    getTodayEmployeeAttendance
+    getTodayEmployeeAttendance,
+    getAttendanceByCompanyId,
 }

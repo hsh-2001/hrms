@@ -60,10 +60,10 @@ const useSidebar = () => {
         title: "Attendance",
         path: "/attendance",
         children: [
-          {
-            title: "Daily Attendance",
-            path: "/attendance",
-          },
+          // {
+          //   title: "Daily Attendance",
+          //   path: "/attendance",
+          // },
           {
             title: "Clock In/Out",
             path: "/attendance/clock-in-out",

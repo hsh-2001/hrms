@@ -1,4 +1,4 @@
-import type { ICreateEmployee, IGetEmployeesResponse } from "../types/employees";
+import type { GetEmployeesResponse, ICreateEmployee } from "../types/employees";
 import api from "./api";
 import { BaseResponse, getResponse } from "./baseReponse";
 
@@ -8,7 +8,7 @@ const createEmployee = async (request: ICreateEmployee): Promise<BaseResponse> =
     return getResponse(result.data);
 };
 
-const getAllEmployees = async (): Promise<BaseResponse<IGetEmployeesResponse[]>> => {
+const getAllEmployees = async (): Promise<BaseResponse<GetEmployeesResponse[]>> => {
     const result = await api.get("/employee");
     return getResponse(result.data);
 }

@@ -1,14 +1,29 @@
 import employeeRepository from "../repositories/employeeRepository.js";
+import userService from "./userService.js";
 
 const createEmployee = async (req) => {
     const { company_id } = req.user;
     const employee = { ...req.body, company_id };
-    return await employeeRepository.createEmployee(employee);
+    try {
+        const user =  await userService.register({
+            username: employee.username,
+            email: employee.email,
+            phone: employee.phone,
+            password: employee.password,
+            role: 'employee',
+            company_id
+        });
+        employee.user_id = user.id;
+        return await employeeRepository.createEmployee(employee);
+    } catch (error) {
+        throw new Error('Failed to create employee: ' + error.message);
+    }
 }
 
 const getAllEmployees = async (req) => {
     const { company_id } = req.user;
-    return await employeeRepository.getAllEmployees(company_id);
+    req.company_id = company_id;
+    return await employeeRepository.getAllEmployees(req);
 }
 
 export default {

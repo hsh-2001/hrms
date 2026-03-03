@@ -3,6 +3,7 @@ DROP FUNCTION IF EXISTS get_user_detail(p_user_id UUID);
 CREATE FUNCTION get_user_detail(p_user_id UUID)
 RETURNS TABLE (
     id UUID,
+    employee_id UUID,
     username VARCHAR,
     email VARCHAR,
     phone VARCHAR,
@@ -18,6 +19,7 @@ BEGIN
     RETURN QUERY
     SELECT 
         u.id,
+        e.id AS employee_id,
         u.username,
         u.email,
         u.phone,
@@ -30,6 +32,7 @@ BEGIN
         u.updated_at
     FROM users u
     LEFT JOIN companies c ON u.company_id = c.id
+    LEFT JOIN employees e ON u.id = e.user_id
     WHERE u.id = p_user_id
       AND u.deleted_at IS NULL;
 END;

@@ -7,7 +7,7 @@ import InfoButton from "../../components/shares/button/InfoButton";
 import type { ICreateEmployee } from "../../types/employees";
 import { Edit } from "lucide-react";
 import BaseHeader from "../../components/shares/BaseHeader";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useDevice from "../../hooks/useDevice";
 
 export default function Employees() {
@@ -23,8 +23,12 @@ export default function Employees() {
   } = useEmployees();
   const { isMobile } = useDevice();
 
+  const isCalled = useRef(false);
   useEffect(() => {
-    getEmployees();
+    if (!isCalled.current) {
+      getEmployees();
+      isCalled.current = true;
+    }
   }, []);
   return (
     <div className="w-full">
@@ -34,7 +38,7 @@ export default function Employees() {
           onClick={() => setIsDialogOpen(true)}
         />
       </BaseHeader>
-      <div className={isMobile ? "overflow-x-auto max-w-screen px-2" : ""}>
+      <div className={`px-2 ${isMobile ? "overflow-x-auto max-w-screen px-2" : ""}`}>
         <table className="w-full">
           <thead className="bg-gray-200 p-2">
             <tr>
@@ -54,7 +58,7 @@ export default function Employees() {
                 <td>{emp.email}</td>
                 <td>{emp.position}</td>
                 <td>{emp.department}</td>
-                <td>{emp.date_of_joining}</td>
+                <td>{emp.dateOfJoiningForDisplay}</td>
                 <td>{emp.status}</td>
                 <td>
                   <button
@@ -120,6 +124,9 @@ const CreateEditEmployee = ({
   };
 
   const fields: EmployeeField[] = [
+    { id: "username", required: true },
+    { id: "password", required: true, type: "password" },
+    { id: "phone", required: true },
     { id: "first_name", required: true },
     { id: "last_name", required: true },
     { id: "email", required: true },

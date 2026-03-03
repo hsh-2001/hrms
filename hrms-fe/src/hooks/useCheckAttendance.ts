@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import attendanceApi from "../lib/attendanceApi";
-import type { IAttendance, ICreateAttendanceRequest } from "../types/attendance";
+import { GetAttendanceResponse, type IAttendance, type ICreateAttendanceRequest } from "../types/attendance";
 import {  useAppSelector } from "../store";
 
 export default function useCheckAttendance() {
@@ -69,7 +69,6 @@ export default function useCheckAttendance() {
             ? "re_checked_in"
             : "re_checked_out",
     };
-    console.log("Model", updatedModel);
     setCheckModel(updatedModel);
 
     try {
@@ -118,6 +117,19 @@ export default function useCheckAttendance() {
     return () => clearInterval(timer);
   }, []);
 
+  const [companyAttendanceReport, setCompanyAttendanceReport] = useState<GetAttendanceResponse[]>([]);
+  const getAttendanceReportByCompanyId = async () => {
+    try {
+       const response = await attendanceApi.getAttendanceReportByCompanyId();
+      if (response.isSuccess) {
+        const data = response.data.map((item: IAttendance) => new GetAttendanceResponse(item));
+        setCompanyAttendanceReport(data);
+      }
+    } catch (error) {
+      console.error("Error fetching attendance report:", error);
+    } 
+  }
+
   return {
     today,
     currentTime,
@@ -125,5 +137,7 @@ export default function useCheckAttendance() {
     handleCheckAttendance,
     getAttendanceByEmployeeId,
     attendance,
+    getAttendanceReportByCompanyId,
+    companyAttendanceReport,
   };
 }

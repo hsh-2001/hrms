@@ -10,8 +10,11 @@ const createEmployee = async (employee) => {
     return result.rows[0];
 }
 
-const getAllEmployees = async (company_id) => {
-    const result = await query('SELECT * FROM employees WHERE company_id = $1', [company_id]);
+const getAllEmployees = async (req) => {
+    const { company_id } = req.user;
+    const { page = 1, limit = 1 } = req.query;
+    const offset = (parseInt(page) > 0) ? ((parseInt(page) - 1) * parseInt(limit)) : 0;
+    const result = await query('SELECT * FROM get_employees_details($1, $2, $3)', [company_id, limit, offset]);
     return result.rows;
 }
 export default {

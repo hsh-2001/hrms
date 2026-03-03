@@ -39,9 +39,21 @@ const getTodayEmployeeAttendance = async (req, res) => {
     }
 }
 
+const getAttendanceByCompanyId = async (req, res) => {
+    try {
+        const result = await attendanceService.getAttendanceByCompanyId(req);
+        BaseResponse.success(res, result);
+    } catch (error) {
+        console.error(error);
+        BaseResponse.error(res, error.message);
+        
+    }
+}
+
 export default {
     checkAttendance,
     getAllAttendances,
     getAttendanceByEmployeeId,
-    getTodayEmployeeAttendance
+    getTodayEmployeeAttendance,
+    getAttendanceByCompanyId,
 }
