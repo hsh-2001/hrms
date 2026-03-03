@@ -17,7 +17,7 @@ const UsersPage = () => {
     return (
         <div className="w-full">
             <BaseHeader headerTitle="Users" />
-            <div className={`${isMobile ? "overflow-x-auto px-2 max-w-screen" : ""}`}>
+            <div className={`px-2 ${isMobile ? "overflow-x-auto px-2 max-w-screen" : ""}`}>
                 <table>
                 <thead>
                     <tr>

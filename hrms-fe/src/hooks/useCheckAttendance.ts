@@ -83,7 +83,7 @@ export default function useCheckAttendance() {
 
   const getAttendanceByEmployeeId = async () => {
     try {
-      const employeeId = String(user.user?.id || "");
+      const employeeId = String(user.user?.employee_id || "");
       const response = await attendanceApi.getTodayAttendanceByEmployeeId(employeeId);
       if (response.isSuccess) {
         setAttendance(response.data);

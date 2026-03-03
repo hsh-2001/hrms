@@ -5,6 +5,8 @@ import companyApi from "../lib/companyApi";
 export default function useEmployees() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [employees, setEmployees] = useState<GetEmployeesResponse[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const [createModel, setCreateModel] = useState<ICreateEmployee>({
     username: "",
@@ -19,15 +21,22 @@ export default function useEmployees() {
     status: "active",
   });
 
-  const getEmployees = async () => {
+  const getEmployees = async (page = 1, limit = 10) => {
     try {
-      const response = await companyApi.getAllEmployees();
+      const response = await companyApi.getAllEmployees({ page, limit });
       if (response) {
         setEmployees(response.data.map((emp) => new GetEmployeesResponse(emp)));
+        setCurrentPage(response.data[0]?.page || 1);
+        setTotalPages(response.data[0]?.total_pages || 1);
       }
     } catch (error) {
       console.error("Failed to fetch employees:", error);
     }
+  };
+
+  const onPageChange = (page: number, limit = 10) => {
+    setCurrentPage(page);
+    getEmployees(page, limit);
   };
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -35,7 +44,7 @@ export default function useEmployees() {
     try {
       const response = await companyApi.createEmployee(createModel);
       if (response.isSuccess) {
-        await getEmployees();
+        await getEmployees(currentPage);
         setIsDialogOpen(false);
       }
     } catch (error) {
@@ -60,5 +69,10 @@ export default function useEmployees() {
     isDialogOpen,
     setIsDialogOpen,
     onEditEmployee,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    setTotalPages,
+    onPageChange,
   };
 }

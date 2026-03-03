@@ -9,6 +9,7 @@ import { Edit } from "lucide-react";
 import BaseHeader from "../../components/shares/BaseHeader";
 import { useEffect, useRef } from "react";
 import useDevice from "../../hooks/useDevice";
+import Pagination from "../../components/Pagination";
 
 export default function Employees() {
   const {
@@ -20,6 +21,9 @@ export default function Employees() {
     isDialogOpen,
     setIsDialogOpen,
     onEditEmployee,
+    currentPage,
+    totalPages,
+    onPageChange,
   } = useEmployees();
   const { isMobile } = useDevice();
 
@@ -29,7 +33,7 @@ export default function Employees() {
       getEmployees();
       isCalled.current = true;
     }
-  }, []);
+  }, [currentPage, getEmployees, totalPages]);
   return (
     <div className="w-full">
       <BaseHeader headerTitle="Employee List">
@@ -72,6 +76,14 @@ export default function Employees() {
             ))}
           </tbody>
         </table>
+        <div className="flex justify-end mt-2">
+          <Pagination
+            totalItems={totalPages}
+            itemsPerPage={1}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
+        </div>
       </div>
 
       <BaseDialog

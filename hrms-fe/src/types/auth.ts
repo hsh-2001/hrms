@@ -17,6 +17,7 @@ export interface IUser {
     phone: string;
     role: string;
     company_id: number;
+    employee_id: number;
     company_name: string;
 }
 

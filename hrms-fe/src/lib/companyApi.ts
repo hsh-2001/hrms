@@ -8,8 +8,8 @@ const createEmployee = async (request: ICreateEmployee): Promise<BaseResponse> =
     return getResponse(result.data);
 };
 
-const getAllEmployees = async (): Promise<BaseResponse<GetEmployeesResponse[]>> => {
-    const result = await api.get("/employee");
+const getAllEmployees = async (query?: { page?: number; limit?: number }): Promise<BaseResponse<GetEmployeesResponse[]>> => {
+    const result = await api.get("/employee", { params: query });
     return getResponse(result.data);
 }
 

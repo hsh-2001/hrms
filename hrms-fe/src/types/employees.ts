@@ -1,4 +1,5 @@
 import dateTimeFormat from "../lib/dateTimeFormat";
+import type { IPagination } from "./base";
 
 export interface IEmployee {
     id: number;
@@ -17,7 +18,7 @@ export type ICreateEmployee = Omit<IEmployee, "id"> & {
     phone: string;
 };
 
-export interface IGetEmployeesResponse  extends IEmployee  {
+export interface IGetEmployeesResponse  extends IEmployee, IPagination {
     created_at: string;
     updated_at: string;
 }
@@ -34,6 +35,9 @@ export class GetEmployeesResponse implements IGetEmployeesResponse {
     status: "active" | "inactive";
     created_at: string;
     updated_at: string;
+    total_pages: number;
+    limit: number;
+    page: number;
 
     constructor(init: IGetEmployeesResponse) {
         this.id = init.id;
@@ -47,6 +51,9 @@ export class GetEmployeesResponse implements IGetEmployeesResponse {
         this.status = init.status;
         this.created_at = init.created_at;
         this.updated_at = init.updated_at; 
+        this.total_pages = init.total_pages;
+        this.limit = init.limit;
+        this.page = init.page;
     }
 
     get dateOfJoiningForDisplay(): string {

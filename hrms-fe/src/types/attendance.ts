@@ -38,6 +38,6 @@ export class GetAttendanceResponse implements IAttendance {
     }
 
     get attendanceDateForDisplay(): string {
-        return dateTimeFormat.dateTimeFormat(this.attendance_date) || "N/A";
+        return dateTimeFormat.dateFormat(this.attendance_date) || "N/A";
     }
 }
