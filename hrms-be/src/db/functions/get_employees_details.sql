@@ -6,6 +6,7 @@ CREATE OR REPLACE FUNCTION get_employees_details(
     p_offset INT DEFAULT 0
 )
 RETURNS TABLE (
+    row_number INT,
     id UUID,
     username VARCHAR,
     first_name VARCHAR,
@@ -29,6 +30,7 @@ AS $$
 BEGIN
     RETURN QUERY
     SELECT
+        ROW_NUMBER() OVER ()::INT AS row_number,
         e.id,
         u.username,
         e.first_name,

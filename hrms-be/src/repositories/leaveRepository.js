@@ -40,31 +40,17 @@ const createLeaveRequest = async (req) => {
 
 const updateLeaveRequest = async (req) => {
     const { company_id } = req.user;
-    const { id } = req.params;
-    const { status, reason } = req.body;
-    let sql = "UPDATE leave_requests SET ";
-    const params = [];
+    const { status, reason, id } = req.body;
+    let sql = "UPDATE leave_requests SET status = $1, reason = $2, updated_at = NOW() WHERE id = $3 AND company_id = $4 RETURNING *";
     
-    if (status) {
-        sql += "status = ?, ";
-        params.push(status);
-    }
-    if (reason) {
-        sql += "reason = ?, ";
-        params.push(reason);
-    }
-    
-    sql += "updated_at = NOW() WHERE id = ? AND company_id = ?";
-    params.push(id, company_id);
-    
-    const result = await query(sql, params);
-    return result;
+    const result = await query(sql, [status, reason, id, company_id]);
+    return result.rows[0];
 }
 
 const deleteLeaveRequest = async (req) => {
     const { company_id } = req.user;
     const { id } = req.params;
-    const sql = "DELETE FROM leave_requests WHERE id = ? AND company_id = ?";
+    const sql = "DELETE FROM leave_requests WHERE id = $1 AND company_id = $2";
     const result = await query(sql, [id, company_id]);
     return result;
 }
