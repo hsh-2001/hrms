@@ -2,6 +2,7 @@ import dateTimeFormat from "../lib/dateTimeFormat";
 
 export interface ILeave {
     id: number;
+    employee_name: string;
     employee_id: number;
     leave_type_id: string;
     leave_type_name: string;
@@ -36,6 +37,7 @@ export interface IUpdateLeaveRequest {
 export class GetLeaveRequestResponse implements ILeave {
     id: number;
     employee_id: number;
+    employee_name: string;
     leave_type_id: string;
     leave_type_name: string;
     start_date: string;
@@ -52,6 +54,7 @@ export class GetLeaveRequestResponse implements ILeave {
         this.end_date = init.end_date;
         this.reason = init.reason;
         this.status = init.status;
+        this.employee_name = init.employee_name;
     }
 
     get startDateForDisplay(): string {

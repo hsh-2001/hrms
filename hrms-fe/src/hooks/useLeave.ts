@@ -59,7 +59,8 @@ export default function useLeave() {
     try {
       const response = await leaveApi.updateLeaveRequest(updateModel);
       if (response.isSuccess) {
-        console.log("Leave request updated successfully");
+        await getLeaveRequest();
+        setIsUpdateRequestVisible(false);
       }
     } catch (error) {
       console.error("Failed to update leave request:", error);

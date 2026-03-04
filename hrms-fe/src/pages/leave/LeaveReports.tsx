@@ -36,6 +36,7 @@ const LeaveReportsPage = () => {
           <thead>
             <tr>
               <th>Leave Type</th>
+              <th>Employee Name</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>Reason</th>
@@ -47,6 +48,7 @@ const LeaveReportsPage = () => {
             {leaveRequests.map((request) => (
               <tr key={request.id}>
                 <td>{request.leave_type_name}</td>
+                <td>{request.employee_name}</td>
                 <td>{request.startDateForDisplay}</td>
                 <td>{request.endDateForDisplay}</td>
                 <td>{request.reason}</td>
