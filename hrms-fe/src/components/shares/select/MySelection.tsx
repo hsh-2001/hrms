@@ -3,9 +3,9 @@ import useDevice from '../../../hooks/useDevice';
 
 interface MySelectionProps {
   id: string;
-  value: string;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: { value: string; label: string }[];
+  options: { value: string | number; label: string }[];
   label?: string;
   disabled?: boolean;
 }

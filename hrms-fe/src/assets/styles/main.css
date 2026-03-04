@@ -1,4 +1,6 @@
+@layer theme, base, components, utilities;
 @import "tailwindcss";
+@import "./theme.css" layer(theme);
 
 html, body {
     padding: 0;

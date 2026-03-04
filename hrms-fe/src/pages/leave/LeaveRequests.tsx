@@ -29,7 +29,7 @@ const LeaveRequestsPage = () => {
     <div>
       <BaseHeader headerTitle="Leave Requests" />
       <div className="px-2">
-        <form className="space-y-4 max-w-2xl mx-auto bg-gray-50 p-4 rounded-2xl">
+        <form className="space-y-4 max-w-2xl mx-auto bg-black/5 p-4 rounded-2xl">
           <div className="grid gap-2">
             <MyInput
               label="Start Date"
@@ -56,7 +56,7 @@ const LeaveRequestsPage = () => {
                 setRequestModel({
                   ...requestModel,
                   leave_type_id: e.target.value,
-                })
+                });
               }}
               value={String(requestModel.leave_type_id)}
               options={leaveTypes.map((type) => ({

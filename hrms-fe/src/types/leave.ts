@@ -27,6 +27,12 @@ export interface ICreateLeaveRequest {
     reason: string;
 }
 
+export interface IUpdateLeaveRequest {
+    id: number;
+    status: string;
+    reason: string;
+}
+
 export class GetLeaveRequestResponse implements ILeave {
     id: number;
     employee_id: number;

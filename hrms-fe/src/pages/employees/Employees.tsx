@@ -10,8 +10,20 @@ import BaseHeader from "../../components/shares/BaseHeader";
 import { useEffect, useRef } from "react";
 import useDevice from "../../hooks/useDevice";
 import Pagination from "../../components/Pagination";
+import useDepartment from "../../hooks/useDepartment";
+import type { IGetDepartmentResponse } from "../../types/department";
+import usePosition from "../../hooks/usePosition";
+import type { IGetPositionsResponse } from "../../types/position";
 
 export default function Employees() {
+  const {
+    departments,
+    getAllDepartments,
+  } = useDepartment();
+  const {
+    positions,
+    getPositions,
+  } = usePosition();
   const {
     employee,
     getEmployees,
@@ -31,9 +43,12 @@ export default function Employees() {
   useEffect(() => {
     if (!isCalled.current) {
       getEmployees();
+      getAllDepartments();
+      getPositions();
       isCalled.current = true;
     }
   }, [currentPage, getEmployees, totalPages]);
+
   return (
     <div className="w-full">
       <BaseHeader headerTitle="Employee List">
@@ -42,10 +57,11 @@ export default function Employees() {
           onClick={() => setIsDialogOpen(true)}
         />
       </BaseHeader>
-      <div className={`px-2 ${isMobile ? "overflow-x-auto max-w-screen px-2" : ""}`}>
-        <table className="w-full">
-          <thead className="bg-gray-200 p-2">
+      <div className={`px-2 ${isMobile ? "overflow-x-auto max-w-screen px-2 h-" : ""}`}>
+        <table> 
+          <thead>
             <tr>
+              <th>No.</th>
               <th>Name</th>
               <th>Email</th>
               <th>Position</th>
@@ -58,6 +74,7 @@ export default function Employees() {
           <tbody>
             {employee?.map((emp) => (
               <tr key={emp.id}>
+                <td>{emp.row_number}</td>
                 <td>{`${emp.first_name} ${emp.last_name}`}</td>
                 <td>{emp.email}</td>
                 <td>{emp.position}</td>
@@ -76,16 +93,15 @@ export default function Employees() {
             ))}
           </tbody>
         </table>
-        <div className="flex justify-end mt-2">
-          <Pagination
-            totalItems={totalPages}
-            itemsPerPage={1}
-            currentPage={currentPage}
-            onPageChange={onPageChange}
-          />
-        </div>
       </div>
-
+      <div className="flex justify-end mt-2">
+        <Pagination
+          totalItems={totalPages}
+          itemsPerPage={1}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
+      </div>
       <BaseDialog
         isOpen={isDialogOpen}
         isCentered
@@ -96,6 +112,8 @@ export default function Employees() {
         <div className="min-w-125">
           <CreateEditEmployee
             model={createModel}
+            departments={departments}
+            positions={positions}
             setModel={setCreateModel}
             handleSubmit={handleSubmit}
             setIsDialogOpen={setIsDialogOpen}
@@ -108,6 +126,8 @@ export default function Employees() {
 
 interface CreateEditEmployeeProps {
   model: ICreateEmployee;
+  departments: IGetDepartmentResponse[];
+  positions: IGetPositionsResponse[];
   setModel: React.Dispatch<React.SetStateAction<ICreateEmployee>>;
   handleSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -118,6 +138,8 @@ const CreateEditEmployee = ({
   setModel,
   handleSubmit,
   setIsDialogOpen,
+  departments,
+  positions,
 }: CreateEditEmployeeProps) => {
   const handleChange = <K extends keyof ICreateEmployee>(
     field: K,
@@ -142,8 +164,6 @@ const CreateEditEmployee = ({
     { id: "first_name", required: true },
     { id: "last_name", required: true },
     { id: "email", required: true },
-    { id: "position" },
-    { id: "department" },
     { id: "date_of_joining", type: "date" },
   ];
   return (
@@ -158,6 +178,24 @@ const CreateEditEmployee = ({
           onChange={(e) => handleChange(field.id, e.target.value)}
         />
       ))}
+      <MySelection
+        id="department"
+        value={model.department}
+        onChange={(e) => handleChange("department", e.target.value)}
+        options={departments.map((dept) => ({
+          label: dept.name,
+          value: dept.name,
+        }))}
+      />
+      <MySelection
+        id="position"
+        value={model.position}
+        onChange={(e) => handleChange("position", e.target.value)}
+        options={positions.map((pos) => ({
+          label: pos.title,
+          value: pos.title,
+        }))}
+      />
       <MySelection
         id="status"
         value={model.status}

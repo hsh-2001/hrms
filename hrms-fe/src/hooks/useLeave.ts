@@ -1,12 +1,19 @@
 import { useState } from "react";
 import leaveApi from "../lib/leaveApi";
-import { GetLeaveRequestResponse, type ICreateLeaveRequest, type ILeaveType } from "../types/leave";
+import { GetLeaveRequestResponse, type ICreateLeaveRequest, type ILeaveType, type IUpdateLeaveRequest } from "../types/leave";
 import { useAppSelector } from "../store";
 
 export default function useLeave() {
   const user = useAppSelector((state) => state.user);
   const [leaveTypes, setLeaveTypes] = useState<ILeaveType[]>([]);
   const [leaveRequests, setLeaveRequests] = useState<GetLeaveRequestResponse[]>([]);
+  const [isUpdateRequestVisible, setIsUpdateRequestVisible] = useState(false);
+  const [isApprove, setIsApprove] = useState(false);
+  const [updateModel, setUpdateModel] = useState<IUpdateLeaveRequest>({
+    id: 0,
+    status: "",
+    reason: "",
+  });
   const [requestModel, setRequestModel] = useState<ICreateLeaveRequest>({
     employee_id: user.user?.employee_id || "",
     leave_type_id: "",
@@ -48,6 +55,17 @@ export default function useLeave() {
     }
   }
 
+  const handleUpdateLeave = async () => {
+    try {
+      const response = await leaveApi.updateLeaveRequest(updateModel);
+      if (response.isSuccess) {
+        console.log("Leave request updated successfully");
+      }
+    } catch (error) {
+      console.error("Failed to update leave request:", error);
+    }
+  }
+
   return {
     leaveTypes,
     getLeaveTypes,
@@ -56,5 +74,12 @@ export default function useLeave() {
     submitLeaveRequest,
     leaveRequests,
     getLeaveRequest,
+    isUpdateRequestVisible,
+    setIsUpdateRequestVisible,
+    isApprove,
+    setIsApprove,
+    updateModel,
+    setUpdateModel,
+    handleUpdateLeave,
   };
 }

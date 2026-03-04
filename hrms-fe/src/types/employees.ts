@@ -19,11 +19,13 @@ export type ICreateEmployee = Omit<IEmployee, "id"> & {
 };
 
 export interface IGetEmployeesResponse  extends IEmployee, IPagination {
+    row_number: number;
     created_at: string;
     updated_at: string;
 }
 
 export class GetEmployeesResponse implements IGetEmployeesResponse {
+    row_number: number;
     id: number;
     first_name: string;
     last_name: string;
@@ -54,6 +56,7 @@ export class GetEmployeesResponse implements IGetEmployeesResponse {
         this.total_pages = init.total_pages;
         this.limit = init.limit;
         this.page = init.page;
+        this.row_number = init.row_number;
     }
 
     get dateOfJoiningForDisplay(): string {

@@ -22,8 +22,13 @@ const LeaveTypesPage = () => {
       <div className="px-2">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {leaveTypes.map((type) => (
-            <div key={type.id} className="grid p-6 bg-black/5 rounded-2xl">
-              <h2 className="text-xl font-medium">{type.name}</h2>
+            <div key={type.id} className={`grid p-6 bg-black/5 rounded-2xl border border-transparent hover:border hover:border-green-300`}>
+             <div className="flex justify-between">
+               <h2 className="text-md text-green-800 font-medium">{type.name}</h2>
+               <div className="bg-test-500 w-auto px-4 h-8 text-green-500 flex items-center justify-center rounded-md">
+                <span className="text-sm">Remaining: 10</span>
+               </div>
+             </div>
               <p className=" text-gray-500 text-sm">{type.description}</p>
             </div>
           ))}

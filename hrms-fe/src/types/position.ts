@@ -13,6 +13,7 @@ export type ICreatePositionRequest = Omit<IPosition, "id">;
 export type IUpdatePositionRequest = Partial<Omit<IPosition, "id">>;
 
 export interface IGetPositionsResponse extends IPosition {
+    row_number: number;
     created_at: string;
     updated_at: string;
 }
