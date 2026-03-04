@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(20) NOT NULL,
     password_hash TEXT NOT NULL,
-    role VARCHAR(50) DEFAULT 'employee',
+    role_id INTEGER DEFAULT 5, -- Default to 'Employee' role
     is_active BOOLEAN DEFAULT TRUE,
     email_verified BOOLEAN DEFAULT FALSE,
     company_id INTEGER DEFAULT NULL,

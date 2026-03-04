@@ -33,7 +33,7 @@ const updateDepartment = async (id, company_id, department) => {
          SET name = COALESCE($1, name), 
              code = COALESCE($2, code), 
              description = COALESCE($3, description), 
-             maanager_id = COALESCE($4, maanager_id),
+             manager_id = COALESCE($4, manager_id),
              is_active = COALESCE($5, is_active),
              updated_at = NOW()
          WHERE id = $6 AND company_id = $7 RETURNING *`,

@@ -32,8 +32,30 @@ const getCompanyOverview = async (req, res) => {
     }
 }
 
+const getCompanyRolesAndPermissions = async (req, res) => {
+    try {
+        const result = await settingService.getCompanyRolesAndPermissions(req);
+        BaseResponse.success(res, result, 'success');
+    } catch (error) {
+        console.log("Error retrieving company roles and permissions:", error);
+        BaseResponse.error(res, error.message, 500);
+    }
+}
+
+const updateRoleAndPermissions = async (req, res) => {
+    try {
+        const result = await settingService.updateRoleAndPermissions(req);
+        BaseResponse.success(res, result, 'Role permissions updated successfully');
+    } catch (error) {
+        console.log("Error updating role permissions:", error);
+        BaseResponse.error(res, error.message, 500);
+    }
+}
+
 export default {
     getCompanySettings,
     updateCompanySetting,
     getCompanyOverview,
+    getCompanyRolesAndPermissions,
+    updateRoleAndPermissions
 }

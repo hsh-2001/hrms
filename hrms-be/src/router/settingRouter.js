@@ -5,5 +5,7 @@ const settingRouter = Router();
 settingRouter.get("/company", settingController.getCompanySettings);
 settingRouter.get("/company/overview", settingController.getCompanyOverview);
 settingRouter.put("/company", settingController.updateCompanySetting);
+settingRouter.get("/company/roles-permissions", settingController.getCompanyRolesAndPermissions);
+settingRouter.put("/company/roles-permissions", settingController.updateRoleAndPermissions);
 
 export default settingRouter;

@@ -1,0 +1,45 @@
+-- WITH default_permissions (role_name, page, page_key, action) AS (
+--     VALUES
+--         ('Owner', 'dashboard', 'dashboard', 'view'),
+--         ('Owner', 'employees', 'employees', 'view'),
+--         ('Owner', 'attendance', 'attendance', 'view'),
+--         ('Owner', 'leave', 'leave', 'view'),
+--         ('Owner', 'departments', 'departments', 'view'),
+--         ('Owner', 'positions', 'positions', 'view'),
+--         ('Owner', 'settings', 'settings', 'view'),
+--         ('Owner', 'users', 'users', 'view'),
+--         ('Owner', 'reports', 'reports', 'view'),
+
+--         ('Company', 'dashboard', 'dashboard', 'view'),
+--         ('Company', 'employees', 'employees', 'view'),
+--         ('Company', 'attendance', 'attendance', 'view'),
+--         ('Company', 'leave', 'leave', 'view'),
+--         ('Company', 'departments', 'departments', 'view'),
+--         ('Company', 'positions', 'positions', 'view'),
+--         ('Company', 'settings', 'settings', 'view'),
+--         ('Company', 'users', 'users', 'view'),
+--         ('Company', 'reports', 'reports', 'view'),
+
+--         ('HR Manager', 'dashboard', 'dashboard', 'view'),
+--         ('HR Manager', 'employees', 'employees', 'view'),
+--         ('HR Manager', 'attendance', 'attendance', 'view'),
+--         ('HR Manager', 'leave', 'leave', 'view'),
+--         ('HR Manager', 'departments', 'departments', 'view'),
+--         ('HR Manager', 'positions', 'positions', 'view'),
+--         ('HR Manager', 'reports', 'reports', 'view'),
+
+--         ('Team Lead', 'dashboard', 'dashboard', 'view,write'),
+--         ('Team Lead', 'employees', 'employees', 'view'),
+--         ('Team Lead', 'attendance', 'attendance', 'view'),
+--         ('Team Lead', 'leave', 'leave', 'view'),
+
+--         ('Employee', 'dashboard', 'dashboard', 'view'),
+--         ('Employee', 'attendance', 'attendance', 'view'),
+--         ('Employee', 'leave', 'leave', 'view')
+-- )
+-- INSERT INTO permissions (role_id, page, page_key, action)
+-- SELECT r.id, dp.page, dp.page_key, dp.action
+-- FROM roles r
+-- JOIN default_permissions dp ON dp.role_name = r.name
+-- WHERE r.company_id = 0
+-- ON CONFLICT (role_id, page) DO UPDATE SET action = EXCLUDED.action;
