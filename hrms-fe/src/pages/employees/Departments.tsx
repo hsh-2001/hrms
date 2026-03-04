@@ -166,7 +166,7 @@ const CreateEditDepartmentModal = ({
           ))}
           <div className="flex justify-end gap-2">
             <InfoButton name="Cancel" onClick={onClose} />
-            <PrimaryButton name="Submit" type="submit" />
+            <PrimaryButton name={isEditMode ? "Update" : "Create"} type="submit" />
           </div>
         </form>
       </BaseDialog>

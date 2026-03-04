@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { type IUpdateCompanySetting, type IGetCompanySettingResponse, GetCompanyOverviewResponse } from "../types/settings";
 import settingApi from "../lib/settingApi";
+import type { IGetRolesAndPermissionsResponse, IUpdatePermissionRequest, IUpdatePermissionRRequestByRole } from "../types/permission";
 
 export default function useSettings() {
     const [companySetting, setCompanySetting] = useState<IGetCompanySettingResponse | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [companyOverview, setCompanyOverview] = useState<GetCompanyOverviewResponse>(new GetCompanyOverviewResponse(0, 0, 0));
+    const [rolesAndPermissions, setRolesAndPermissions] = useState<IGetRolesAndPermissionsResponse[]>([]);
+    const [activeRole, setActiveRole] = useState<number>(0);
+    const [permissionModel, setPermissionModel] = useState<IUpdatePermissionRequest[] | null>(null);
+    const [isUpdatingPermissions, setIsUpdatingPermissions] = useState(false);
     const [companySettingModel, setCompanySettingModel] = useState<IUpdateCompanySetting>({
         id: 0,
         currency_code: "",
@@ -107,6 +112,106 @@ export default function useSettings() {
         }
     }
 
+    const getRolesAndPermissions = useCallback(async () => {
+        try {
+            const response = await settingApi.getRolesAndPermissions();
+            if (response.isSuccess) {
+                setRolesAndPermissions(response.data);
+                setPermissionModel(response.data);
+                setActiveRole(response.data.length > 0 ? response.data[0].role_id : 0);
+            }
+        } catch (error) {
+            console.error("Error fetching roles and permissions:", error);
+        }
+    }, []);
+
+    const hasRoleChanges = (roleId: number): boolean => {
+        if (!permissionModel) return false;
+
+        const originalRole = rolesAndPermissions.find((role) => role.role_id === roleId);
+        const currentRole = permissionModel.find((role) => role.role_id === roleId);
+
+        if (!originalRole || !currentRole) return false;
+
+        const originalPermissionMap = new Map(
+            originalRole.permissions.map((permission) => [permission.page_key, Number(permission.action) || 0]),
+        );
+
+        return currentRole.permissions.some((permission) => {
+            const originalAction = originalPermissionMap.get(permission.page_key) ?? 0;
+            const currentAction = Number(permission.action) || 0;
+            return originalAction !== currentAction;
+        });
+    };
+
+    const getChangedPermissionPayload = (
+        originalData: IGetRolesAndPermissionsResponse[],
+        currentData: IUpdatePermissionRequest[],
+    ): IUpdatePermissionRequest[] => {
+        const originalRoleMap = new Map(
+            originalData.map((role) => [role.role_id, role]),
+        );
+
+        return currentData.reduce<IUpdatePermissionRequest[]>((acc, role) => {
+            const originalRole = originalRoleMap.get(role.role_id);
+
+            if (!originalRole) {
+                acc.push(role);
+                return acc;
+            }
+
+            const originalPermissionMap = new Map(
+                originalRole.permissions.map((permission) => [permission.page_key, Number(permission.action) || 0]),
+            );
+
+            const changedPermissions = role.permissions.filter((permission) => {
+                const originalAction = originalPermissionMap.get(permission.page_key) ?? 0;
+                const currentAction = Number(permission.action) || 0;
+                return originalAction !== currentAction;
+            });
+
+            if (changedPermissions.length > 0) {
+                acc.push({
+                    ...role,
+                    permissions: changedPermissions,
+                });
+            }
+
+            return acc;
+        }, []);
+    };
+
+    const handleUpdateRolePermissions = async (roleId?: number) => {
+        if (!permissionModel) return;
+        const changedPayload = getChangedPermissionPayload(rolesAndPermissions, permissionModel);
+        const targetPayload = typeof roleId === "number"
+            ? changedPayload.filter((role) => role.role_id === roleId)
+            : changedPayload;
+
+        if (targetPayload.length === 0) return;
+
+        setIsUpdatingPermissions(true);
+        try {
+            const finnalRequest: IUpdatePermissionRRequestByRole = {
+                role_id: targetPayload[0].role_id,
+                page_ids: targetPayload[0].permissions.map((permission) => Number(permission.page_id) || 0),
+                actions: targetPayload[0].permissions.map((permission) => Number(permission.action) || 0),
+            }
+            const response = await settingApi.updateRolesAndPermissions(finnalRequest);
+            if (response.isSuccess) {
+                await getRolesAndPermissions();
+            } else {
+                console.error(response.message || "Failed to update permissions");
+            }
+            return response;
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Error updating role permissions";
+            console.error("Error updating role permissions:", errorMessage);
+        } finally {
+            setIsUpdatingPermissions(false);
+        }
+    };
+
     return {
         companySettingModel,
         setCompanySettingModel,
@@ -120,5 +225,14 @@ export default function useSettings() {
         isEditMode,
         companyOverview,
         getCompanySettingOverview,
+        rolesAndPermissions,
+        getRolesAndPermissions,
+        activeRole,
+        setActiveRole,
+        permissionModel,
+        setPermissionModel,
+        handleUpdateRolePermissions,
+        isUpdatingPermissions,
+        hasRoleChanges,
     };
 }

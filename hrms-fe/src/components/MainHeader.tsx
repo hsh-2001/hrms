@@ -1,12 +1,13 @@
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router";
-import { logout, useAppDispatch } from "../store";
+import { logout, useAppDispatch, useAppSelector } from "../store";
 import useSidebar from "../hooks/useSidebar";
 import { Button, Dropdown } from "antd";
 
 export default function MainHeader() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
   const { selectedLang, handleChangeLanguage, languages } = useSidebar();
 
   const handleLogout = () => {
@@ -34,7 +35,7 @@ export default function MainHeader() {
           </Button>
         </Dropdown>
         <span className="text-sm text-green-500 bg-white px-2 py-1 rounded-md">
-          John Doe
+         <span> {user?.user?.username} ({user?.user?.role})</span>
         </span>
         <button
           onClick={handleLogout}

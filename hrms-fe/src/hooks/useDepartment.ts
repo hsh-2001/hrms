@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import departmentApi from "../lib/departmentApi";
 import type { ICreateDepartmentRequest, IGetDepartmentResponse } from "../types/department";
 
@@ -25,10 +25,15 @@ export default function useDepartment() {
     }
   };
 
+  const editDepartmentId = useRef(0);
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await departmentApi.createDepartment(formModel);
+      if (isEditMode) {
+        await departmentApi.updateDepartment(editDepartmentId.current, formModel);
+      } else {
+        await departmentApi.createDepartment(formModel);
+      }
       setIsModalOpen(false);
       getAllDepartments();
     } catch (error) {
@@ -40,6 +45,7 @@ export default function useDepartment() {
     setIsModalOpen(!isModalOpen);
     setIsEditMode(true);
     setFormModel(department);
+    editDepartmentId.current = department.id;
   };
 
   return {
