@@ -21,18 +21,20 @@ BEGIN
                 ORDER BY id
             )
             FROM (
-                SELECT pg.id, pg.name, pg.key, rp.action, pg.available
-                FROM pages pg
-                INNER JOIN role_permissions rp ON rp.page_id = pg.id
+                SELECT rp.page_id as id, pg.name, pg.key, rp.action, pg.available
+                FROM role_permissions rp
+                INNER JOIN pages pg ON rp.page_id = pg.id
                 WHERE rp.role_id = p_role_id AND rp.company_id = p_company_id
                 UNION ALL
-                SELECT pg.id, pg.name, pg.key, pg.action, pg.available
-                FROM pages pg
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM role_permissions rp
-                    WHERE rp.page_id = pg.id AND rp.role_id = p_role_id AND rp.company_id = p_company_id
+                SELECT rp2.page_id as id, pg.name, pg.key, rp2.action, pg.available
+                FROM role_permissions rp2
+                INNER JOIN pages pg ON rp2.page_id = pg.id
+                WHERE rp2.role_id = p_role_id AND rp2.company_id = 0 AND NOT EXISTS (
+                    SELECT 1 FROM role_permissions rp3
+                    WHERE rp3.page_id = pg.id AND rp3.role_id = p_role_id AND rp3.company_id = p_company_id
                 )
-            ) pg
+
+            ) rp
         ),
         '[]'::jsonb
     ) INTO permissions;
