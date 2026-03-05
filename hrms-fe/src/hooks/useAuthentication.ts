@@ -31,7 +31,6 @@ export default function useAuthentication() {
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            // dispatch(setLoading(true));
             const response = await login(loginModel);
             console.log("Login model:", response.data);
             if (response.isSuccess) {
@@ -41,7 +40,6 @@ export default function useAuthentication() {
                 }));
                 
                 const navigateTo = String(response.data.role).toLowerCase() === 'employee' ? "/attendance/clock-in-out" : from;
-                // Use window.location for full page reload to ensure loaders get fresh localStorage data
                 window.location.href = navigateTo;
             } else {
                 addNotification("Login failed");

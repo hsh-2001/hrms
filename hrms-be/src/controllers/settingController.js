@@ -52,10 +52,21 @@ const updateRoleAndPermissions = async (req, res) => {
     }
 }
 
+const updateUserRole = async (req, res) => {
+    try {
+        const result = await settingService.updateUserRole(req);
+        BaseResponse.success(res, result, 'User role updated successfully');
+    } catch (error) {
+        console.log("Error updating user role:", error);
+        BaseResponse.error(res, error.message, 500);
+    }
+}
+
 export default {
     getCompanySettings,
     updateCompanySetting,
     getCompanyOverview,
     getCompanyRolesAndPermissions,
-    updateRoleAndPermissions
+    updateRoleAndPermissions,
+    updateUserRole
 }

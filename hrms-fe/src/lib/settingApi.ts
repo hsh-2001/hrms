@@ -28,10 +28,16 @@ const updateRolesAndPermissions = async (data: IUpdatePermissionRRequestByRole):
     return getResponse(response.data);
 }
 
+const updateUserRole = async (user_id: number, role_id: number): Promise<BaseResponse> => {
+    const response = await api.put("/setting/company/user-role", { user_id, role_id });
+    return getResponse(response.data);
+}
+
 export default {
     getCompanySettings,
     updateCompanySettings,
     getCompanyOverview,
     updateRolesAndPermissions,
     getRolesAndPermissions,
+    updateUserRole,
 }

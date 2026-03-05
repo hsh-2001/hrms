@@ -28,10 +28,15 @@ const updateRoleAndPermissions = async (req) => {
     return await settingRepository.updateRoleAndPermissions(req);
 }
 
+const updateUserRole = async (req) => {
+    return await settingRepository.updateUserRole(req);
+}
+
 export default {
     getCompanySettings,
     updateCompanySetting,
     getCompanyOverview,
     getCompanyRolesAndPermissions,
     updateRoleAndPermissions,
+    updateUserRole
 }

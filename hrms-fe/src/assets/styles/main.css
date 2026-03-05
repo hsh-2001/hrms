@@ -7,7 +7,10 @@ html, body {
     margin: 0;
     box-sizing: border-box;
 }
-
+button {
+    cursor: pointer;
+    border: none;
+}
 .main-bg {
     /* background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20211031/pngtree-abstract-bg-image_914283.png'); */
     /* background-image: linear-gradient(rgb(232, 232, 232), rgb(243, 243, 243)); */

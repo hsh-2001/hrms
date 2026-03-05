@@ -14,12 +14,14 @@ import useDepartment from "../../hooks/useDepartment";
 import type { IGetDepartmentResponse } from "../../types/department";
 import usePosition from "../../hooks/usePosition";
 import type { IGetPositionsResponse } from "../../types/position";
+import usePermission from "../../hooks/usePermission";
 
 export default function Employees() {
   const {
     departments,
     getAllDepartments,
   } = useDepartment();
+  const { isCreateable } = usePermission("employees/employee-list");
   const {
     positions,
     getPositions,
@@ -52,10 +54,14 @@ export default function Employees() {
   return (
     <div className="w-full">
       <BaseHeader headerTitle="Employee List">
-        <PrimaryButton
-          name="Add Employee"
-          onClick={() => setIsDialogOpen(true)}
-        />
+        {
+          isCreateable ? (
+            <PrimaryButton
+              name="Add Employee"
+              onClick={() => setIsDialogOpen(true)}
+            />
+          ) : null
+        }
       </BaseHeader>
       <div className={`px-2 ${isMobile ? "overflow-x-auto max-w-screen px-2 h-" : ""}`}>
         <table> 

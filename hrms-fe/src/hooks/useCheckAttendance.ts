@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import attendanceApi from "../lib/attendanceApi";
-import { GetAttendanceResponse, type IAttendance, type ICreateAttendanceRequest } from "../types/attendance";
-import {  useAppSelector } from "../store";
+import {
+  GetAttendanceResponse,
+  type IAttendance,
+  type ICreateAttendanceRequest,
+} from "../types/attendance";
+import { useAppSelector } from "../store";
+import type { BaseResponse } from "../lib/baseReponse";
 
 export default function useCheckAttendance() {
   const user = useAppSelector((state) => state.user);
@@ -54,13 +59,13 @@ export default function useCheckAttendance() {
       check_in_time: attendance?.check_in_time ?? currentTime,
       check_out_time: !attendance?.check_in_time
         ? null
-        : attendance?.check_out_time ?? currentTime,
+        : (attendance?.check_out_time ?? currentTime),
       re_check_in_time: !attendance?.check_out_time
         ? null
-        : attendance?.re_check_in_time ?? currentTime,
+        : (attendance?.re_check_in_time ?? currentTime),
       re_check_out_time: !attendance?.re_check_in_time
         ? null
-        : attendance?.re_check_out_time ?? currentTime,
+        : (attendance?.re_check_out_time ?? currentTime),
       status: !attendance?.check_in_time
         ? "checked_in"
         : !attendance?.check_out_time
@@ -84,7 +89,8 @@ export default function useCheckAttendance() {
   const getAttendanceByEmployeeId = async () => {
     try {
       const employeeId = String(user.user?.employee_id || "");
-      const response = await attendanceApi.getTodayAttendanceByEmployeeId(employeeId);
+      const response =
+        await attendanceApi.getTodayAttendanceByEmployeeId(employeeId);
       if (response.isSuccess) {
         setAttendance(response.data);
       }
@@ -117,18 +123,29 @@ export default function useCheckAttendance() {
     return () => clearInterval(timer);
   }, []);
 
-  const [companyAttendanceReport, setCompanyAttendanceReport] = useState<GetAttendanceResponse[]>([]);
+  const [companyAttendanceReport, setCompanyAttendanceReport] = useState<
+    GetAttendanceResponse[]
+  >([]);
   const getAttendanceReportByCompanyId = async () => {
     try {
-       const response = await attendanceApi.getAttendanceReportByCompanyId();
+      let response: BaseResponse<GetAttendanceResponse[]>;
+      if (!user.user?.employee_id) {
+        response = await attendanceApi.getAttendanceReportByCompanyId();
+      } else {
+        response = await attendanceApi.getAttendanceByEmployeeId(
+          String(user.user?.employee_id),
+        );
+      }
       if (response.isSuccess) {
-        const data = response.data.map((item: IAttendance) => new GetAttendanceResponse(item));
+        const data = response.data.map(
+          (item: IAttendance) => new GetAttendanceResponse(item),
+        );
         setCompanyAttendanceReport(data);
       }
     } catch (error) {
       console.error("Error fetching attendance report:", error);
-    } 
-  }
+    }
+  };
 
   return {
     today,

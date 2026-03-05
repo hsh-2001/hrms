@@ -6,11 +6,11 @@ interface BaseHeaderProps {
 export default function BaseHeader({ headerTitle, children }: BaseHeaderProps) {
   return (
     <div className="w-full px-2">
-      <div className="w-full p-4 bg-black/5 border-t-2 border-green-500 rounded-md my-2 flex justify-between items-center">
-        <div className="px-4 py-2 bg-gray-50 rounded-sm">
-          <span className="text-gray-800 text-lg">{headerTitle}</span>
+      <div className="w-full rounded-sm px-2 py-4 mb-4 border mt-2 border-gray-200">
+        <div className="flex justify-between items-center">
+          <h1 className="text-xl font-semibold text-gray-600">{headerTitle}</h1>
+          <div className="flex items-center gap-3">{children}</div>
         </div>
-        <div>{children}</div>
       </div>
     </div>
   );

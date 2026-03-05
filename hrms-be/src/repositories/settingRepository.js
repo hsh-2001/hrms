@@ -41,9 +41,15 @@ const getCompanyRolesAndPermissions = async (company_id) => {
 const updateRoleAndPermissions = async (req) => {
     const { company_id } = req.user;
     const { role_id, page_ids, actions } = req.body;
-    console.log("Updating role permissions with data:", { company_id, role_id, page_ids, actions });
     const sql = "SELECT * FROM update_role_permissions($1::INTEGER, $2::INTEGER, $3::INTEGER[], $4::INTEGER[])";
     const result = await query(sql, [company_id, role_id, page_ids, actions]);
+    return result.rows[0];
+}
+
+const updateUserRole = async (req) => {
+    const { user_id, role_id } = req.body;
+    const sql = "UPDATE users SET role_id = $2 WHERE id = $1 RETURNING *";
+    const result = await query(sql, [user_id, role_id]);
     return result.rows[0];
 }
 
@@ -52,5 +58,6 @@ export default {
     updateCompanySetting,
     getCompanyOverview,
     getCompanyRolesAndPermissions,
-    updateRoleAndPermissions
+    updateRoleAndPermissions,
+    updateUserRole
 }
