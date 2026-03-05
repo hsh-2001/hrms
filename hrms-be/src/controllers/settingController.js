@@ -6,7 +6,6 @@ const getCompanySettings = async (req, res) => {
         const result = await settingService.getCompanySettings(req);
         BaseResponse.success(res, result, 'Company settings retrieved successfully');
     } catch (error) {
-        console.log("Error retrieving company settings:", error);
         BaseResponse.error(res, error.message, 500);
     }
 }
@@ -17,7 +16,6 @@ const updateCompanySetting = async (req, res) => {
         const result = await settingService.updateCompanySetting(req);
         BaseResponse.success(res, result, 'Company settings updated successfully');
     } catch (error) {
-        console.log("Error updating company settings:", error);
         BaseResponse.error(res, error.message, 500);
     }
 }
@@ -27,7 +25,6 @@ const getCompanyOverview = async (req, res) => {
         const result = await settingService.getCompanyOverview(req);
         BaseResponse.success(res, result, 'Company overview retrieved successfully');
     } catch (error) {
-        console.log("Error retrieving company overview:", error);
         BaseResponse.error(res, error.message, 500);
     }
 }
@@ -37,7 +34,6 @@ const getCompanyRolesAndPermissions = async (req, res) => {
         const result = await settingService.getCompanyRolesAndPermissions(req);
         BaseResponse.success(res, result, 'success');
     } catch (error) {
-        console.log("Error retrieving company roles and permissions:", error);
         BaseResponse.error(res, error.message, 500);
     }
 }
@@ -47,7 +43,6 @@ const updateRoleAndPermissions = async (req, res) => {
         const result = await settingService.updateRoleAndPermissions(req);
         BaseResponse.success(res, result, 'Role permissions updated successfully');
     } catch (error) {
-        console.log("Error updating role permissions:", error);
         BaseResponse.error(res, error.message, 500);
     }
 }
@@ -57,7 +52,6 @@ const updateUserRole = async (req, res) => {
         const result = await settingService.updateUserRole(req);
         BaseResponse.success(res, result, 'User role updated successfully');
     } catch (error) {
-        console.log("Error updating user role:", error);
         BaseResponse.error(res, error.message, 500);
     }
 }
