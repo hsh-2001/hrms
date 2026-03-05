@@ -200,6 +200,7 @@ export default function useSettings() {
             const response = await settingApi.updateRolesAndPermissions(finnalRequest);
             if (response.isSuccess) {
                 await getRolesAndPermissions();
+                setActiveRole(finnalRequest.role_id);
             } else {
                 console.error(response.message || "Failed to update permissions");
             }

@@ -17,7 +17,11 @@ const getCompanyOverview = async (req) => {
 
 const getCompanyRolesAndPermissions = async (req) => {
     const { company_id } = req.user;
-    return await settingRepository.getCompanyRolesAndPermissions(company_id);
+    const result = await settingRepository.getCompanyRolesAndPermissions(company_id);
+    if (company_id === 0) {
+        return result.filter(role => role.role_id === 2);
+    }
+    return result.filter(role => ![1, 2].includes(role.role_id));
 }
 
 const updateRoleAndPermissions = async (req) => {

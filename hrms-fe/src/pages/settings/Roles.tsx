@@ -92,7 +92,7 @@ const RolesPage = () => {
     <div className="w-full h-full flex flex-col">
       <BaseHeader headerTitle="Roles & Permissions" />
       <div className="flex flex-1 gap-4 p-4">
-        <div className="w-64 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+        <div className="w-64 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden max-h-[80vh]">
           <div className="bg-linear-to-r from-green-500 to-green-600 px-4 py-3">
             <h3 className="text-sm font-semibold text-white">Roles</h3>
           </div>
@@ -125,7 +125,7 @@ const RolesPage = () => {
           </div>
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 max-h-[80vh]">
           {(() => {
             const selectedRole = (permissionModel || rolesAndPermissions)?.find(
               (role) => role.role_id === activeRole,
@@ -160,9 +160,6 @@ const RolesPage = () => {
                           <h4 className="font-semibold text-gray-800">
                             {permission.page}
                           </h4>
-                          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                            {permission.page_key}
-                          </span>
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                           {Object.entries(EnumPermission).map(
@@ -214,7 +211,6 @@ const RolesPage = () => {
         </div>
       </div>
 
-      {/* Unsaved Changes Dialog */}
       <BaseDialog
         isOpen={showUnsavedDialog}
         onClose={handleCancelSwitch}

@@ -31,14 +31,18 @@ export default function useAuthentication() {
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            dispatch(setLoading(true));
+            // dispatch(setLoading(true));
             const response = await login(loginModel);
-            if (response) {
+            console.log("Login model:", response.data);
+            if (response.isSuccess) {
                 dispatch(setCredentials({
                     user: response.data,
                     token: response.data.token,
                 }));
-                navigate(from, { replace: true });
+                
+                const navigateTo = String(response.data.role).toLowerCase() === 'employee' ? "/attendance/clock-in-out" : from;
+                // Use window.location for full page reload to ensure loaders get fresh localStorage data
+                window.location.href = navigateTo;
             } else {
                 addNotification("Login failed");
             }
@@ -46,7 +50,7 @@ export default function useAuthentication() {
             addNotification("Login failed");
             console.error("Login failed", error);
         } finally {
-            dispatch(setLoading(false));
+            // dispatch(setLoading(false));
         }
     }
 

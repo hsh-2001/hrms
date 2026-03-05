@@ -19,6 +19,7 @@ export interface IUser {
     company_id: number;
     employee_id: string;
     company_name: string;
+    permissions: IPermission[];
 }
 
 export interface IAuthState {
@@ -26,4 +27,10 @@ export interface IAuthState {
     token: string | null;
     isAuthenticated: boolean;
     isLoading: boolean;
+}
+
+interface IPermission {
+    page: string;
+    action: number;
+    page_key: string;
 }
