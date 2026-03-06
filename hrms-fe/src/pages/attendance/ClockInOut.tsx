@@ -11,6 +11,7 @@ import useCheckAttendance from "../../hooks/useCheckAttendance";
 import { Tag } from "antd";
 import useDevice from "../../hooks/useDevice";
 import { useTranslation } from "react-i18next";
+import usePermission from "../../hooks/usePermission";
 
 export default function ClockInOut() {
   const {
@@ -20,6 +21,7 @@ export default function ClockInOut() {
     handleCheckAttendance,
     attendance,
   } = useCheckAttendance();
+  const { isCreateable } = usePermission("attendance/clock-in-out");
   const { isMobile } = useDevice();
   const { t } = useTranslation();
 
@@ -46,26 +48,30 @@ export default function ClockInOut() {
             </span>
           </div>
 
-          <button
-            onClick={handleCheckAttendance}
-            disabled={!!(attendance?.check_in_time && attendance?.check_out_time)}
-            className={`
-              w-70 py-3 rounded-full text-lg transition-colors my-4 cursor-pointer
-              ${!attendance?.check_in_time
-                ? "bg-green-500 text-white hover:bg-green-600"
-                : !attendance?.check_out_time
-                  ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-gray-400 text-white cursor-not-allowed"
-              }`}
-          >
-            <span className="text-lg">
-              {!attendance?.check_in_time
-                ? t("Check In")
-                : !attendance?.check_out_time
-                  ? t("Check Out")
-                  : t("Completed Mission")}
-            </span>
-          </button>
+          {isCreateable && (
+            <div className="flex justify-center mt-4">
+              <button
+                onClick={handleCheckAttendance}
+                disabled={!!(attendance?.check_in_time && attendance?.check_out_time)}
+                className={`
+                  w-70 py-3 rounded-full text-lg transition-colors my-4 cursor-pointer
+                  ${!attendance?.check_in_time
+                    ? "bg-green-500 text-white hover:bg-green-600"
+                    : !attendance?.check_out_time
+                      ? "bg-red-500 text-white hover:bg-red-600"
+                      : "bg-gray-400 text-white cursor-not-allowed"
+                  }`}
+              >
+                <span className="text-lg">
+                  {!attendance?.check_in_time
+                    ? t("Check In")
+                    : !attendance?.check_out_time
+                      ? t("Check Out")
+                      : t("Completed Mission")}
+                </span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
       </div>

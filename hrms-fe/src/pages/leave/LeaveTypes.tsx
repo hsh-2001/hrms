@@ -2,9 +2,11 @@ import { useEffect, useRef } from "react";
 import useLeave from "../../hooks/useLeave";
 import BaseHeader from "../../components/shares/BaseHeader";
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
+import usePermission from "../../hooks/usePermission";
 
 const LeaveTypesPage = () => {
   const { leaveTypes, getLeaveTypes } = useLeave();
+  const { isCreateable } = usePermission('leave/types');
 
   const isCalled = useRef(false);
   useEffect(() => {
@@ -17,7 +19,7 @@ const LeaveTypesPage = () => {
   return (
     <div className="w-full h-full flex flex-col">
       <BaseHeader headerTitle="Leave Types">
-        <PrimaryButton name="Add Leave Type" onClick={() => {}} />
+        {isCreateable && <PrimaryButton name="Add Leave Type" onClick={() => {}} />}
       </BaseHeader>
       <div className="flex-1 overflow-y-auto p-2 sm:p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">

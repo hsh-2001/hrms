@@ -70,7 +70,7 @@ const routes = createBrowserRouter([
       {
         path: "/leave",
         Component: lazy(() => import("../pages/leave/LeaveRequests.tsx")),
-        loader: createPermissionLoader("leave/leave-requests"),
+        loader: createPermissionLoader("leave/requests"),
       },
       {
         path: "/leave/types",

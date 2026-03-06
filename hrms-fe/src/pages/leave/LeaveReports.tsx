@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import Tag from "antd/es/tag";
 import { Button } from "antd";
 import type { IUpdateLeaveRequest } from "../../types/leave";
+import usePermission from "../../hooks/usePermission";
 
 const LeaveReportsPage = () => {
   const {
@@ -21,6 +22,8 @@ const LeaveReportsPage = () => {
     setUpdateModel,
     handleUpdateLeave,
   } = useLeave();
+
+  const { isEditable } = usePermission("leave/reports");
 
   useEffect(() => {
     getLeaveRequest();
@@ -41,7 +44,7 @@ const LeaveReportsPage = () => {
               <th>End Date</th>
               <th>Reason</th>
               <th>Status</th>
-              <th>Action</th>
+              {isEditable && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -66,46 +69,48 @@ const LeaveReportsPage = () => {
                     {request.status}
                   </Tag>
                 </td>
-                <td className="flex gap-2 items-center">
-                  {request.status.toLowerCase() === "pending" ? (
-                    <>
-                      <Button
-                        style={{ border: "1px solid red", color: "red" }}
-                        disabled={request.status.toLowerCase() !== "pending"}
-                        onClick={() => {
-                          setIsUpdateRequestVisible(true);
-                          setIsApprove(false);
-                          setUpdateModel({
-                            ...updateModel,
-                            id: request.id,
-                            status: "Rejected",
-                          });
-                        }}
-                      >
-                        {t("Reject")}
-                      </Button>
-                      <Button
-                        style={{ border: "1px solid green", color: "green" }}
-                        disabled={request.status.toLowerCase() !== "pending"}
-                        onClick={() => {
-                          setIsUpdateRequestVisible(true);
-                          setIsApprove(true);
-                          setUpdateModel({
-                            ...updateModel,
-                            id: request.id,
-                            status: "Approved",
-                          });
-                        }}
-                      >
-                        {t("Approve")}
-                      </Button>
-                    </>
-                  ) : (
-                    <span className="text-sm text-gray-500">
-                      {t("Action completed")}
-                    </span>
-                  )}
-                </td>
+                {isEditable && (
+                  <td className="flex gap-2 items-center">
+                    {request.status.toLowerCase() === "pending" ? (
+                      <>
+                        <Button
+                          style={{ border: "1px solid red", color: "red" }}
+                          disabled={request.status.toLowerCase() !== "pending"}
+                          onClick={() => {
+                            setIsUpdateRequestVisible(true);
+                            setIsApprove(false);
+                            setUpdateModel({
+                              ...updateModel,
+                              id: request.id,
+                              status: "Rejected",
+                            });
+                          }}
+                        >
+                          {t("Reject")}
+                        </Button>
+                        <Button
+                          style={{ border: "1px solid green", color: "green" }}
+                          disabled={request.status.toLowerCase() !== "pending"}
+                          onClick={() => {
+                            setIsUpdateRequestVisible(true);
+                            setIsApprove(true);
+                            setUpdateModel({
+                              ...updateModel,
+                              id: request.id,
+                              status: "Approved",
+                            });
+                          }}
+                        >
+                          {t("Approve")}
+                        </Button>
+                      </>
+                    ) : (
+                      <span className="text-sm text-gray-500">
+                        {t("Action completed")}
+                      </span>
+                    )}
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
