@@ -19,7 +19,17 @@ const getAllEmployees = async (req, res) => {
     }
 }
 
+const updateEmployee = async (req, res) => {
+    try {
+        const response = await employeeService.updateEmployee(req);
+        BaseResponse.success(res, response, 'Employee updated successfully');
+    } catch (error) {
+        BaseResponse.error(res, error.message, 500);
+    }
+}
+
 export default {
     createEmployee,
     getAllEmployees,
+    updateEmployee,
 }

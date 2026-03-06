@@ -9,15 +9,20 @@ import BaseDialog from "../../components/shares/BaseDialog";
 import MySelection from "../../components/shares/select/MySelection";
 import useSettings from "../../hooks/useSettings";
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
+import { useAppSelector } from "../../store";
 
 const UsersPage = () => {
-  const { users, fetchUsers,
+  const {
+    users,
+    fetchUsers,
     isEditRoleOpen,
     setIsEditRoleOpen,
     editRoleModel,
     setEditRoleModel,
     onUpdateUserRole,
    } = useUser();
+
+   const localUser = useAppSelector((state) => state.user);
 
    const {
     rolesAndPermissions,
@@ -74,7 +79,7 @@ const UsersPage = () => {
                   <td>
                     <button onClick={() => {
                       setEditRoleModel({ user_id: user.id, role_id: user.role_id ?? 0 });
-                      setIsEditRoleOpen(true);
+                      setIsEditRoleOpen(() => user.id === localUser.user?.id ? false : true);
                     }}>
                       <Tag color={colorsMap[user.role]}>{user.role}</Tag>
                     </button>

@@ -8,5 +8,6 @@ settingRouter.put("/company", settingController.updateCompanySetting);
 settingRouter.get("/company/roles-permissions", settingController.getCompanyRolesAndPermissions);
 settingRouter.put("/company/roles-permissions", settingController.updateRoleAndPermissions);
 settingRouter.put("/company/user-role", settingController.updateUserRole);
+settingRouter.post("/company/role", settingController.createNewRole);
 
 export default settingRouter;

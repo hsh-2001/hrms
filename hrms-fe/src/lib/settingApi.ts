@@ -1,4 +1,4 @@
-import type { IGetRolesAndPermissionsResponse, IUpdatePermissionRRequestByRole } from "../types/permission";
+import type { ICreateRoleRequest, IGetRolesAndPermissionsResponse, IUpdatePermissionRRequestByRole } from "../types/permission";
 import type { GetCompanyOverviewResponse, IGetCompanySettingResponse, IUpdateCompanySetting } from "../types/settings";
 import api from "./api";
 import { BaseResponse, getResponse } from "./baseReponse";
@@ -33,6 +33,11 @@ const updateUserRole = async (user_id: number, role_id: number): Promise<BaseRes
     return getResponse(response.data);
 }
 
+const createRole = async (request: ICreateRoleRequest): Promise<BaseResponse> => {
+    const response = await api.post("/setting/company/role", request);
+    return getResponse(response.data);
+}
+
 export default {
     getCompanySettings,
     updateCompanySettings,
@@ -40,4 +45,5 @@ export default {
     updateRolesAndPermissions,
     getRolesAndPermissions,
     updateUserRole,
+    createRole,
 }

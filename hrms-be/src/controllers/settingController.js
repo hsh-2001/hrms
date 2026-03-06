@@ -56,11 +56,21 @@ const updateUserRole = async (req, res) => {
     }
 }
 
+const createNewRole = async (req, res) => {
+    try {
+        const result = await settingService.createNewRole(req);
+        BaseResponse.success(res, result, 'New role created successfully');
+    } catch (error) {
+        BaseResponse.error(res, error.message, 500);
+    }
+}
+
 export default {
     getCompanySettings,
     updateCompanySetting,
     getCompanyOverview,
     getCompanyRolesAndPermissions,
     updateRoleAndPermissions,
-    updateUserRole
+    updateUserRole,
+    createNewRole
 }

@@ -17,7 +17,15 @@ const getAllEmployees = async (req) => {
     const result = await query('SELECT * FROM get_employees_details($1, $2, $3)', [company_id, limit, offset]);
     return result.rows;
 }
+
+const updateEmployee = async (req) => {
+    const { id, first_name, last_name, email, phone, position, department, date_of_joining } = req.body;
+    const sql = `SELECT * FROM update_employee($1, $2, $3, $4, $5, $6, $7, $8)`;
+    const result = await query(sql, [id, first_name, last_name, email, phone, date_of_joining, position, department]);
+    return result.rows[0];
+}
 export default {
     createEmployee,
     getAllEmployees,
+    updateEmployee,
 }

@@ -9,7 +9,7 @@ VALUES
     (3, 'Employee List', 'employees/employee-list', 0, 15),
     (4, 'Departments', 'employees/departments', 0, 15),
     (5, 'Positions', 'employees/positions', 0, 15),
-    (6, 'Clock In/Out', 'attendance/clock-in-out', 0, 1),
+    (6, 'Clock In/Out', 'attendance/clock-in-out', 0, 7),
     (7, 'Attendance Reports', 'attendance/reports', 0, 1),
     (8, 'Leave Requests', 'leave/requests', 0, 0),
     (9, 'Leave Types', 'leave/types', 0, 15),
@@ -23,7 +23,7 @@ VALUES
     (17, 'General Settings', 'settings/general', 0, 15),
     (18, 'Users', 'settings/users', 0, 15),
     (19, 'Roles & Permissions', 'settings/roles', 0, 15),
-    (20, 'Company Profile', 'settings/company', 0, 15)
+    (20, 'Company Profile', 'settings/profile', 0, 7)
 )
 
 INSERT INTO pages (id, name, key, action, available)

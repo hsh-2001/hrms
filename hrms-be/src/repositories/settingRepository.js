@@ -53,11 +53,20 @@ const updateUserRole = async (req) => {
     return result.rows[0];
 }
 
+const createNewRole = async (req) => {
+    const { company_id } = req.user;
+    const { role_id, name, description } = req.body;
+    const sql = "SELECT * FROM upsert_role($1, $2, $3, $4)";
+    const result = await query(sql, [company_id, role_id, name, description]);
+    return result.rows[0];
+}
+
 export default {
     getCompanySettings,
     updateCompanySetting,
     getCompanyOverview,
     getCompanyRolesAndPermissions,
     updateRoleAndPermissions,
-    updateUserRole
+    updateUserRole,
+    createNewRole
 }

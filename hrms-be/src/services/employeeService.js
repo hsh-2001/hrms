@@ -10,7 +10,7 @@ const createEmployee = async (req) => {
             email: employee.email,
             phone: employee.phone,
             password: employee.password,
-            role: 'employee',
+            role_id: 3, // Default role for employee
             company_id
         });
         employee.user_id = user.id;
@@ -26,7 +26,12 @@ const getAllEmployees = async (req) => {
     return await employeeRepository.getAllEmployees(req);
 }
 
+const updateEmployee = async (req) => {
+    return await employeeRepository.updateEmployee(req);
+}
+
 export default {
     createEmployee,
     getAllEmployees,
+    updateEmployee,
 }

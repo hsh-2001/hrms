@@ -6,7 +6,7 @@ const register = async (user) => {
     if (!username || !email || !password) {
         throw new Error('Username, email, and password are required');
     }
-    const result = await pool.query('INSERT INTO users (username, email, password_hash, phone, company_id, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, phone, company_id, role]);
+    const result = await pool.query('INSERT INTO users (username, email, password_hash, phone, company_id, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, phone, company_id, role]);
     return result.rows[0];
 }
 

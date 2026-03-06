@@ -166,7 +166,7 @@ const useSidebar = () => {
         {
           title: "Company Profile",
           path: "/settings/company",
-          page_key: "settings/company",
+          page_key: "settings/profile",
         },
       ],
     },

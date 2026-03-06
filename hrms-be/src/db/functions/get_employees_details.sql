@@ -51,6 +51,7 @@ BEGIN
     FROM employees e
     LEFT JOIN users u ON e.user_id = u.id
     WHERE e.company_id = p_company_id
+    ORDER BY e.date_of_joining DESC
     LIMIT p_limit OFFSET p_offset;
 END;
 $$; 

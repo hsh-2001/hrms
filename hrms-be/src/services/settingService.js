@@ -32,11 +32,16 @@ const updateUserRole = async (req) => {
     return await settingRepository.updateUserRole(req);
 }
 
+const createNewRole = async (req) => {
+    return await settingRepository.createNewRole(req);
+}
+
 export default {
     getCompanySettings,
     updateCompanySetting,
     getCompanyOverview,
     getCompanyRolesAndPermissions,
     updateRoleAndPermissions,
-    updateUserRole
+    updateUserRole,
+    createNewRole
 }

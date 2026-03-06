@@ -4,6 +4,7 @@ CREATE OR REPLACE FUNCTION get_company_role_permission(p_company_id INT)
 RETURNS TABLE (
     role_id INT,
     role_name VARCHAR,
+    is_default BOOLEAN,
     permissions JSONB
 )
 LANGUAGE sql
@@ -11,6 +12,7 @@ AS $$
 SELECT
     r.id AS role_id,
     r.name AS role_name,
+    r.is_default,
     COALESCE(perms.permissions, '[]'::jsonb) AS permissions
 FROM roles r
 LEFT JOIN LATERAL (

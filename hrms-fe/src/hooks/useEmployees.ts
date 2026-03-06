@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GetEmployeesResponse, type ICreateEmployee } from "../types/employees";
 import companyApi from "../lib/companyApi";
 
@@ -7,6 +7,7 @@ export default function useEmployees() {
   const [employees, setEmployees] = useState<GetEmployeesResponse[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [isEdit, setIsEdit] = useState(false);
 
   const [createModel, setCreateModel] = useState<ICreateEmployee>({
     username: "",
@@ -18,7 +19,6 @@ export default function useEmployees() {
     position: "",
     department: "",
     date_of_joining: "",
-    status: "active",
   });
 
   const getEmployees = async (page = 1, limit = 10) => {
@@ -39,23 +39,36 @@ export default function useEmployees() {
     getEmployees(page, limit);
   };
 
+  const editEmployeeId = useRef<string | null>(null);
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await companyApi.createEmployee(createModel);
+      const response = isEdit && editEmployeeId.current ? await companyApi.editEmployee({ ...createModel, id: editEmployeeId.current }) : await companyApi.createEmployee(createModel);
       if (response.isSuccess) {
         await getEmployees(currentPage);
         setIsDialogOpen(false);
       }
     } catch (error) {
-      console.error("Failed to create employee:", error);
+      console.error("Failed to create or edit employee:", error);
     }
   };
 
-  const onEditEmployee = (id: number) => {
+  const onEditEmployee = (id: string) => {
     const emp = employees.find((emp) => emp.id === id);
+    editEmployeeId.current = id;
     if (emp) {
-      setCreateModel({ ...emp, password: "", phone: "" });
+      setCreateModel({
+        username: emp.username,
+        password: "",
+        phone: emp.phone,
+        first_name: emp.first_name,
+        last_name: emp.last_name,
+        email: emp.email,
+        position: emp.position,
+        department: emp.department,
+        date_of_joining: emp.date_of_joining.split('T')[0],
+      });
+      setIsEdit(true);
       setIsDialogOpen(true);
     }
   }
@@ -74,5 +87,7 @@ export default function useEmployees() {
     setCurrentPage,
     setTotalPages,
     onPageChange,
+    isEdit,
+    setIsEdit,
   };
 }

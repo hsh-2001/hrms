@@ -34,6 +34,7 @@ BEGIN
     JOIN companies c ON u.company_id = c.id
     LEFT JOIN roles r ON u.role_id = r.id
     WHERE u.company_id = p_company_id
-      AND u.deleted_at IS NULL;
+      AND u.deleted_at IS NULL
+    ORDER BY u.role_id ASC, u.created_at ASC;
 END;
 $$ LANGUAGE plpgsql;

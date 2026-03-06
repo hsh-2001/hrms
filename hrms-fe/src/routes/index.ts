@@ -126,7 +126,7 @@ const routes = createBrowserRouter([
       {
         path: "/settings/company",
         Component: lazy(() => import("../pages/settings/CompanyProfile.tsx")),
-        loader: createPermissionLoader("settings/company-profile"),
+        loader: createPermissionLoader("settings/profile"),
       },
       {
         path: "/menu",

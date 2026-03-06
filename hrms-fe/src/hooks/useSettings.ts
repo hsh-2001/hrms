@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { type IUpdateCompanySetting, type IGetCompanySettingResponse, GetCompanyOverviewResponse } from "../types/settings";
 import settingApi from "../lib/settingApi";
-import type { IGetRolesAndPermissionsResponse, IUpdatePermissionRequest, IUpdatePermissionRRequestByRole } from "../types/permission";
+import type { ICreateRoleRequest, IGetRolesAndPermissionsResponse, IUpdatePermissionRequest, IUpdatePermissionRRequestByRole } from "../types/permission";
 
 export default function useSettings() {
     const [companySetting, setCompanySetting] = useState<IGetCompanySettingResponse | null>(null);
@@ -12,6 +12,12 @@ export default function useSettings() {
     const [activeRole, setActiveRole] = useState<number>(0);
     const [permissionModel, setPermissionModel] = useState<IUpdatePermissionRequest[] | null>(null);
     const [isUpdatingPermissions, setIsUpdatingPermissions] = useState(false);
+    const [roleModel, setRoleModel] = useState<ICreateRoleRequest>({
+        role_id: undefined,
+        name: "",
+        description: "",
+    });
+    const [isCreateRoleVisible, setIsCreateRoleVisible] = useState(false);
     const [companySettingModel, setCompanySettingModel] = useState<IUpdateCompanySetting>({
         id: 0,
         currency_code: "",
@@ -213,6 +219,27 @@ export default function useSettings() {
         }
     };
 
+    const onCreateRole = async () => {
+        try {
+            const response = await settingApi.createRole(roleModel);
+            if (response.isSuccess) {
+                await getRolesAndPermissions();
+                setIsCreateRoleVisible(false);
+            }
+        }catch (error) {
+            console.error("Error creating role:", error);
+        }
+    };
+
+    const onCickEdit = (role: IGetRolesAndPermissionsResponse) => {
+        setIsCreateRoleVisible(true);
+        setRoleModel({
+            role_id: role.role_id,
+            name: role.role_name,
+            description: role.description || "",
+        });
+    }
+
     return {
         companySettingModel,
         setCompanySettingModel,
@@ -235,5 +262,11 @@ export default function useSettings() {
         handleUpdateRolePermissions,
         isUpdatingPermissions,
         hasRoleChanges,
+        roleModel,
+        setRoleModel,
+        isCreateRoleVisible,
+        setIsCreateRoleVisible,
+        onCreateRole,
+        onCickEdit,
     };
 }
