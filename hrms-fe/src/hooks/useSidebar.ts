@@ -154,7 +154,7 @@ const useSidebar = () => {
           page_key: "settings/general",
         },
         {
-          title: "Users",
+          title: "User Details",
           path: "/settings/users",
           page_key: "settings/users",
         },
