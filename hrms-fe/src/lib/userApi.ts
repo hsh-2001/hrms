@@ -13,7 +13,7 @@ export const register = async (user: IRegisterRequest): Promise<BaseResponse> =>
     return getResponse(response.data);
 }
 
-export const getAllUsers = async (): Promise<BaseResponse<ICompanyUser[]>> => {
-    const response = await api.get(`/user/company-users`);
+export const getAllUsers = async (param: { page: number; limit: number }): Promise<BaseResponse<ICompanyUser[]>> => {
+    const response = await api.get(`/user/company-users`, { params: param });
     return getResponse(response.data);
 }

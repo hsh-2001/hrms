@@ -108,9 +108,8 @@ export default function Employees() {
       </div>
       <div className="flex justify-end mt-2">
         <Pagination
-          totalItems={totalPages}
-          itemsPerPage={1}
-          currentPage={currentPage}
+          total_page={totalPages}
+          page={currentPage}
           onPageChange={onPageChange}
         />
       </div>

@@ -31,8 +31,8 @@ const getAllUsers = async () => {
     return await userRepository.getAllUsers();
 }
 
-const getUserByCompanyId = async (companyId) => {
-    return await userRepository.getUserByCompanyId(companyId);
+const getUserByCompanyId = async (req) => {
+    return await userRepository.getUserByCompanyId(req);
 }
 
 export default {

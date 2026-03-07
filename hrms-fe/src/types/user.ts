@@ -9,7 +9,11 @@ export interface IBaseUser {
 }
 
 export interface ICompanyUser extends IBaseUser {
+    is_active: boolean;
     role: string;
     company_id: number;
     company_name: string;
+    total_page: number;
+    page: number;
+    limit: number;
 }

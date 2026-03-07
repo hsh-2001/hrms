@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getAllUsers } from "../lib/userApi";
 import type { ICompanyUser } from "../types/user";
 import settingApi from "../lib/settingApi";
+import type { IPagination } from "../types/base";
 
 export default function useUser() {
     const [users, setUsers] = useState<ICompanyUser[]>([]);
@@ -11,8 +12,8 @@ export default function useUser() {
       role_id: 0,
     });
 
-    const fetchUsers = async () => {
-        const data = await getAllUsers();
+    const fetchUsers = async (param?: IPagination ) => {
+        const data = await getAllUsers(param || { page: 1, limit: 10 });
         setUsers(data.data);
     };
 
@@ -26,6 +27,10 @@ export default function useUser() {
      }
     }
 
+    const onChangePage = (page: number) => {
+        fetchUsers({ page, limit: 10 });
+    }
+
     return {
         users,
         fetchUsers,
@@ -34,5 +39,6 @@ export default function useUser() {
         editRoleModel,
         setEditRoleModel,
         onUpdateUserRole,
+        onChangePage,
     };
 }

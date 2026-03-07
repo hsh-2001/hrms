@@ -21,8 +21,11 @@ const getAllUsers = async () => {
     return result.rows;
 }
 
-const getUserByCompanyId = async (companyId) => {
-    const result = await pool.query('SELECT * FROM get_user_by_company_id($1)', [companyId]);
+const getUserByCompanyId = async (req) => {
+    const { company_id } = req.user;
+    const { page = 1, limit = 10 } = req.query;
+    const offset = (page - 1) * limit;
+    const result = await pool.query('SELECT * FROM get_user_by_company_id($1, $2, $3)', [company_id, limit, offset]);
     return result.rows;
 }
 

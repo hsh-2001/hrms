@@ -81,7 +81,7 @@ const RolesPage = () => {
     isChecked: boolean,
   ) => {
     if (!permissionModel) return;
-    
+
     const updatedPermissions = permissionModel.map((role) => {
       if (role.role_id === activeRole) {
         const updatedRolePermissions = role.permissions.map((permission) => {
@@ -98,22 +98,25 @@ const RolesPage = () => {
       }
       return role;
     });
-    
+
     setPermissionModel(updatedPermissions);
   };
 
   return (
     <div className="w-full h-full flex flex-col">
-      <CreateRoleDialog 
+      <CreateRoleDialog
         onSubmit={onCreateRole}
         isOpen={isCreateRoleVisible}
-        onClose={() => { setIsCreateRoleVisible(false); setRoleModel({ role_id: undefined, name: "", description: "" }) }}
+        onClose={() => {
+          setIsCreateRoleVisible(false);
+          setRoleModel({ role_id: undefined, name: "", description: "" });
+        }}
         model={roleModel}
         setModel={setRoleModel}
         isEdit={!!roleModel.role_id}
       />
       <BaseHeader headerTitle="Roles & Permissions" />
-      
+
       {/* Mobile Toggle Button */}
       {isMobile && (
         <div className="p-2 sm:p-4 pb-0">
@@ -136,23 +139,30 @@ const RolesPage = () => {
       )}
 
       <div className="flex flex-col lg:flex-row flex-1 gap-4 p-2 sm:p-4 min-h-0 overflow-hidden">
-        {/* Roles Panel - Slide from left on mobile */}
-        <div className={`
-          ${isMobile ? 'fixed top-0 bottom-20 left-0 z-50 w-72 rounded-r-lg shadow-lg' : 'relative z-auto w-64 rounded-lg shadow-sm'}
+        <div
+          className={`
+          ${isMobile ? "fixed top-0 bottom-20 left-0 z-50 w-72 rounded-r-lg shadow-lg" : "relative z-auto w-64 rounded-lg shadow-sm"}
           bg-white border border-gray-200
           transform transition-transform duration-300 ease-in-out
-          ${isMobile ? (isRolesPanelOpen ? 'translate-x-0' : '-translate-x-full') : 'translate-x-0'}
+          ${isMobile ? (isRolesPanelOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"}
           overflow-hidden
-        `}>
+        `}
+        >
           <div className="flex justify-between items-center bg-linear-to-r from-green-500 to-green-600 px-4 py-3">
             <h3 className="text-sm font-semibold text-white">Roles</h3>
             <div className="flex items-center gap-2">
               <button onClick={() => setIsCreateRoleVisible(true)}>
-                <Plus size={16} className="text-green-50 hover:text-green-100 transition-colors" />
+                <Plus
+                  size={16}
+                  className="text-green-50 hover:text-green-100 transition-colors"
+                />
               </button>
               {isMobile && (
                 <button onClick={() => setIsRolesPanelOpen(false)}>
-                  <X size={16} className="text-green-50 hover:text-green-100 transition-colors" />
+                  <X
+                    size={16}
+                    className="text-green-50 hover:text-green-100 transition-colors"
+                  />
                 </button>
               )}
             </div>
@@ -176,22 +186,26 @@ const RolesPage = () => {
                     setIsRolesPanelOpen(false);
                   }}
                 >
-                  <span className={`text-sm font-medium ${
-                    role.role_id === activeRole 
-                      ? "text-green-700" 
-                      : "text-gray-700"
-                  }`}>
+                  <span
+                    className={`text-sm font-medium ${
+                      role.role_id === activeRole
+                        ? "text-green-700"
+                        : "text-gray-700"
+                    }`}
+                  >
                     {role.role_name}
                   </span>
-                  {
-                    role.is_default ? 
-                     <Tag className="ml-2 text-xs">Default</Tag>
-                    : (
-                      <button onClick={() => {onCickEdit(role)}}>
-                        <Edit size={14} className="text-gray-400 ml-2" />
-                      </button>
-                    )
-                  }
+                  {role.is_default ? (
+                    <Tag className="ml-2 text-xs">Default</Tag>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        onCickEdit(role);
+                      }}
+                    >
+                      <Edit size={14} className="text-gray-400 ml-2" />
+                    </button>
+                  )}
                 </div>
               ))
             )}
@@ -238,8 +252,11 @@ const RolesPage = () => {
                           {Object.entries(EnumPermission).map(
                             ([key, value]) => {
                               if (typeof value === "number") {
-                                const hasPermission = ((Number(permission.action) || 0) & value) !== 0;
-                                const available = (permission.available & value) !== 0;
+                                const hasPermission =
+                                  ((Number(permission.action) || 0) & value) !==
+                                  0;
+                                const available =
+                                  (permission.available & value) !== 0;
                                 return (
                                   <label
                                     key={key}
@@ -259,7 +276,9 @@ const RolesPage = () => {
                                       }}
                                       checked={!!hasPermission}
                                     />
-                                    <span className={`text-sm transition-colors ${!available ? "text-gray-400": "text-gray-700 group-hover:text-green-600"}`}>
+                                    <span
+                                      className={`text-sm transition-colors ${!available ? "text-gray-400" : "text-gray-700 group-hover:text-green-600"}`}
+                                    >
                                       {key}
                                     </span>
                                   </label>
@@ -278,7 +297,9 @@ const RolesPage = () => {
               <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-full flex items-center justify-center">
                 <div className="text-center">
                   <div className="mb-3 text-4xl">👆</div>
-                  <p className="text-gray-500 font-medium">Select a role to manage permissions</p>
+                  <p className="text-gray-500 font-medium">
+                    Select a role to manage permissions
+                  </p>
                 </div>
               </div>
             );
@@ -294,23 +315,18 @@ const RolesPage = () => {
       >
         <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
           <p className="text-gray-700 text-center text-sm sm:text-base">
-            You have unsaved changes for the current role. What would you like to do?
+            You have unsaved changes for the current role. What would you like
+            to do?
           </p>
           <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
-            <DangerButton
-              name="Discard"
-              onClick={handleDiscardChanges}
-            />
+            <DangerButton name="Discard" onClick={handleDiscardChanges} />
             <button
               className="px-4 py-2 bg-gray-200 text-gray-700 rounded-[20px] text-sm hover:bg-gray-300"
               onClick={handleCancelSwitch}
             >
               Cancel
             </button>
-            <PrimaryButton
-              name="Save & Switch"
-              onClick={handleSaveAndSwitch}
-            />
+            <PrimaryButton name="Save & Switch" onClick={handleSaveAndSwitch} />
           </div>
         </div>
       </BaseDialog>
@@ -319,7 +335,6 @@ const RolesPage = () => {
 };
 
 export default RolesPage;
-
 
 interface CreateRoleProps {
   isOpen: boolean;
@@ -330,7 +345,14 @@ interface CreateRoleProps {
   isEdit?: boolean;
 }
 
-const CreateRoleDialog = ({ isOpen, onClose, model, setModel, onSubmit , isEdit }: CreateRoleProps) => {
+const CreateRoleDialog = ({
+  isOpen,
+  onClose,
+  model,
+  setModel,
+  onSubmit,
+  isEdit,
+}: CreateRoleProps) => {
   if (!isOpen) return null;
 
   return (
@@ -345,26 +367,30 @@ const CreateRoleDialog = ({ isOpen, onClose, model, setModel, onSubmit , isEdit 
           <MyInput
             id="name"
             value={model.name}
-            onChange={(e) => setModel(prev => ({ ...prev, name: e.target.value }))}
+            onChange={(e) =>
+              setModel((prev) => ({ ...prev, name: e.target.value }))
+            }
             label="Role Name"
           />
           <MyInput
             id="description"
             value={model.description}
-            onChange={(e) => setModel(prev => ({ ...prev, description: e.target.value }))}
+            onChange={(e) =>
+              setModel((prev) => ({ ...prev, description: e.target.value }))
+            }
             label="Role Description"
           />
           <div className="flex justify-end">
             <PrimaryButton
               name={isEdit ? "Save Changes" : "Create Role"}
               type="submit"
-              onClick={() => {onSubmit()}}
+              onClick={() => {
+                onSubmit();
+              }}
             />
           </div>
         </form>
       </div>
     </BaseDialog>
-    );
-}
-
-
+  );
+};

@@ -30,7 +30,7 @@ const getAllUsers = async (req, res) => {
 
 const getUserByCompanyId = async (req, res) => {
     try {
-        const result = await userService.getUserByCompanyId(req.user.company_id);
+        const result = await userService.getUserByCompanyId(req);
         BaseResponse.success(res, result, 'Users retrieved successfully');
     } catch (error) {
         BaseResponse.error(res, error.message, 500);

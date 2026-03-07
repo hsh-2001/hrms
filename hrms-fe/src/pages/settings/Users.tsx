@@ -4,12 +4,13 @@ import BaseHeader from "../../components/shares/BaseHeader";
 import useDevice from "../../hooks/useDevice";
 import { Tag } from "antd";
 import dateTimeFormat from "../../lib/dateTimeFormat";
-// import { Edit } from "lucide-react";
 import BaseDialog from "../../components/shares/BaseDialog";
 import MySelection from "../../components/shares/select/MySelection";
 import useSettings from "../../hooks/useSettings";
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
 import { useAppSelector } from "../../store";
+import { Edit } from "lucide-react";
+import Pagination from "../../components/Pagination";
 
 const UsersPage = () => {
   const {
@@ -20,6 +21,7 @@ const UsersPage = () => {
     editRoleModel,
     setEditRoleModel,
     onUpdateUserRole,
+    onChangePage,
    } = useUser();
 
    const localUser = useAppSelector((state) => state.user);
@@ -65,6 +67,7 @@ const UsersPage = () => {
               <th>Email</th>
               <th>Phone</th>
               <th>Role</th>
+              <th>Status</th>
               <th align="right">Created At</th>
               <th align="right">Action</th>
             </tr>
@@ -84,15 +87,28 @@ const UsersPage = () => {
                       <Tag color={colorsMap[user.role]}>{user.role}</Tag>
                     </button>
                   </td>
+                  <td>
+                    <Tag color={user.is_active ? "green" : "red"}>{user.is_active ? "Active" : "Inactive"}</Tag>
+                  </td>
                   <td align="right">
                     {dateTimeFormat.dateTimeFormat(user.created_at)}
                   </td>
                   <td>
+                    <button>
+                      <Edit size={16} className="text-gray-500"/>
+                    </button>
                   </td>
                 </tr>
               ))}
           </tbody>
         </table>
+        <div className="flex justify-end">
+          <Pagination
+            total_page={users[0]?.total_page}
+            page={users[0]?.page}
+            onPageChange={onChangePage}
+          />
+        </div>
       </div>
       <EditUserRole
         isOpen={isEditRoleOpen}
