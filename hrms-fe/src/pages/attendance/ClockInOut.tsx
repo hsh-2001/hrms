@@ -12,6 +12,9 @@ import { Tag } from "antd";
 import useDevice from "../../hooks/useDevice";
 import { useTranslation } from "react-i18next";
 import usePermission from "../../hooks/usePermission";
+import BaseDialog from "../../components/shares/BaseDialog";
+import type { ICreateAttendanceRequest } from "../../types/attendance";
+import MyInput from "../../components/shares/input/MyInput";
 
 export default function ClockInOut() {
   const {
@@ -20,6 +23,10 @@ export default function ClockInOut() {
     currentSeconds,
     handleCheckAttendance,
     attendance,
+    isReCheckVisible,
+    setIsReCheckVisible,
+    checkModel,
+    setCheckModel,
   } = useCheckAttendance();
   const { isCreateable } = usePermission("attendance/clock-in-out");
   const { isMobile } = useDevice();
@@ -49,28 +56,50 @@ export default function ClockInOut() {
           </div>
 
           {isCreateable && (
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={handleCheckAttendance}
-                disabled={!!(attendance?.check_in_time && attendance?.check_out_time)}
-                className={`
-                  w-70 py-3 rounded-full text-lg transition-colors my-4 cursor-pointer
-                  ${!attendance?.check_in_time
-                    ? "bg-green-500 text-white hover:bg-green-600"
-                    : !attendance?.check_out_time
-                      ? "bg-red-500 text-white hover:bg-red-600"
-                      : "bg-gray-400 text-white cursor-not-allowed"
-                  }`}
-              >
-                <span className="text-lg">
-                  {!attendance?.check_in_time
-                    ? t("Check In")
-                    : !attendance?.check_out_time
-                      ? t("Check Out")
-                      : t("Completed Mission")}
-                </span>
-              </button>
-            </div>
+            <>
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={handleCheckAttendance}
+                  disabled={!!(attendance?.check_in_time && attendance?.check_out_time)}
+                  className={`
+                    w-70 py-3 rounded-full text-lg transition-colors my-4 cursor-pointer
+                    ${!attendance?.check_in_time
+                      ? "bg-green-500 text-white hover:bg-green-600"
+                      : !attendance?.check_out_time
+                        ? "bg-red-500 text-white hover:bg-red-600"
+                        : "bg-gray-400 text-white cursor-not-allowed"
+                    }`}
+                >
+                  <span className="text-lg">
+                    {!attendance?.check_in_time
+                      ? t("Check In")
+                      : !attendance?.check_out_time
+                        ? t("Check Out")
+                        : t("Completed Mission")}
+                  </span>
+                </button>
+              </div>
+              <div className="flex gap-2">
+                  <span className="text-sm text-gray-500">{t('Are you missing a check-in or check-out?')}</span>
+                  <button className="text-blue-500 underline" onClick={() => setIsReCheckVisible(true)}>{t('Re-check')}</button>
+                  <BaseDialog
+                    title={t('Re-check Attendance')}
+                    isCentered
+                    isOpen={isReCheckVisible}
+                    onClose={() => setIsReCheckVisible(false)}
+                  >
+                    <ReClockInOut
+                      model={checkModel}
+                      setModel={setCheckModel}
+                      isMobile
+                      onReCheck={(e) => {
+                        e.preventDefault();
+                        handleCheckAttendance();
+                      }}
+                    />
+                  </BaseDialog>
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -137,6 +166,60 @@ export default function ClockInOut() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+interface ReClockInOutProps {
+  onReCheck: (e: React.FormEvent<HTMLFormElement>) => void;
+  model: ICreateAttendanceRequest;
+  setModel: React.Dispatch<React.SetStateAction<ICreateAttendanceRequest>>;
+  isMobile: boolean;
+}
+
+function ReClockInOut({ onReCheck, model, setModel, isMobile }: ReClockInOutProps) {
+  const { t } = useTranslation();
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <p className="text-sm text-gray-500">{t('Are you missing a check-in or check-out?')}</p>
+      <form onSubmit={onReCheck} className={`grid gap-2 ${isMobile ? "w-87.5" : "w-100"}`}>
+        <MyInput
+          label={t('Attendance Date')}
+          type="date"
+          id="attendance_date"
+          required
+          value={model.attendance_date}
+          onChange={(e) => setModel((prev) => ({ ...prev, attendance_date: e.target.value }))}
+        />
+        <MyInput
+          label={t('Re-check-in Time')}
+          type="time"
+          id="re_check_in_time"
+          value={model.re_check_in_time || ""}
+          onChange={(e) => setModel((prev) => ({ ...prev, re_check_in_time: e.target.value }))}
+        />
+        <MyInput
+          label={t('Re-check-out Time')}
+          type="time"
+          id="re_check_out_time"
+          value={model.re_check_out_time || ""}
+          onChange={(e) => setModel((prev) => ({ ...prev, re_check_out_time: e.target.value }))}
+        />
+        {/* <MyInput
+          label={t('Reason')}
+          type="text"
+          id="reason"
+          required
+          value={model.reason}
+          onChange={(e) => setModel((prev) => ({ ...prev, reason: e.target.value }))}
+        /> */}
+        <button
+          type="submit"
+          className="w-full py-2 mt-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          {t('Submit Re-check')}
+        </button>
+      </form>
     </div>
   );
 }

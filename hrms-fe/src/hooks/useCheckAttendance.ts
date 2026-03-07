@@ -10,6 +10,7 @@ import type { BaseResponse } from "../lib/baseReponse";
 
 export default function useCheckAttendance() {
   const user = useAppSelector((state) => state.user);
+  const [isReCheckVisible, setIsReCheckVisible] = useState(false);
 
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -48,36 +49,28 @@ export default function useCheckAttendance() {
     status: "checked_in",
   });
 
-  const handleCheckAttendance = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.preventDefault();
-
-    const updatedModel = {
-      ...checkModel,
-      employee_id: String(user.user?.id || "1"),
-      check_in_time: attendance?.check_in_time ?? currentTime,
-      check_out_time: !attendance?.check_in_time
-        ? null
-        : (attendance?.check_out_time ?? currentTime),
-      re_check_in_time: !attendance?.check_out_time
-        ? null
-        : (attendance?.re_check_in_time ?? currentTime),
-      re_check_out_time: !attendance?.re_check_in_time
-        ? null
-        : (attendance?.re_check_out_time ?? currentTime),
-      status: !attendance?.check_in_time
-        ? "checked_in"
-        : !attendance?.check_out_time
-          ? "checked_out"
-          : !attendance?.re_check_in_time
-            ? "re_checked_in"
-            : "re_checked_out",
+  const handleCheckAttendance = async () => {
+    const employeeid = String(user.user?.employee_id || "");
+    const checkRequest: ICreateAttendanceRequest = {
+      employee_id: employeeid,
+      check_in_time: attendance?.status !== 'checked_in' ? currentTime : null,
+      check_out_time: attendance?.status === 'checked_in' ? currentTime : null,
+      re_check_in_time: null,
+      re_check_out_time: null,
+      attendance_date: checkModel.attendance_date,
+      status: attendance?.status === 'checked_in' ? 'checked_out' : 'checked_in',
     };
-    setCheckModel(updatedModel);
-
+    const reCheckRequest: ICreateAttendanceRequest = {
+      employee_id: employeeid,
+      check_in_time: null,
+      check_out_time: null,
+      re_check_in_time: checkModel.re_check_in_time,
+      re_check_out_time: checkModel.re_check_out_time,
+      attendance_date: checkModel.attendance_date,
+      status: checkModel.re_check_in_time ? 're_checked_in' : 're_checked_out',
+    };
     try {
-      const response = await attendanceApi.checkAttendance(updatedModel);
+      const response = await attendanceApi.checkAttendance(isReCheckVisible ? reCheckRequest : checkRequest);
       if (response.isSuccess) {
         getAttendanceByEmployeeId();
       }
@@ -156,5 +149,12 @@ export default function useCheckAttendance() {
     attendance,
     getAttendanceReportByCompanyId,
     companyAttendanceReport,
+    isReCheckVisible,
+    setIsReCheckVisible,
+    checkModel,
+    setCheckModel,
+    // reClockModel,
+    // setReClockModel,
+    // handleReclockInOut,
   };
 }

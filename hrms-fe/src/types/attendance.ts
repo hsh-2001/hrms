@@ -41,3 +41,10 @@ export class GetAttendanceResponse implements IAttendance {
         return dateTimeFormat.dateFormat(this.attendance_date) || "N/A";
     }
 }
+
+export interface IReClockInOutRequest {
+    attendance_date: string;
+    re_check_in_time: string | null;
+    re_check_out_time: string | null;
+    reason: string;
+}

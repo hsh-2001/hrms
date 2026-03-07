@@ -7,6 +7,7 @@ const generateToken = async (user) => {
         e: user.email,
         p: user.phone,
         cd: user.company_id,
+        eid: user.employee_id ?? null,
     };
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 }
@@ -23,6 +24,7 @@ const verifyToken = async (token) => {
 const generateRefreshToken = async (user) => {
     const payload = {
         id: user.id,
+        eid: user.employee_id ?? null,
         un: user.username,
         e: user.email,
         p: user.phone,

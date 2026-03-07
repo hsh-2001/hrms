@@ -84,7 +84,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "/payroll",
-        Component: lazy(() => import("../pages/payroll/PayrollList.tsx")),
+        Component: lazy(() => import("../pages/payroll/PayrollList.tsx")),  
       },
       {
         path: "/payroll/salary-structure",

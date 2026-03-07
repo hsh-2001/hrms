@@ -19,11 +19,11 @@ const login = async (res, user) => {
         throw new Error('Invalid password');
     }
 
-    const token = await tokenHelper.generateToken({...existingUser});
-    const refreshToken = await tokenHelper.generateRefreshToken({...existingUser});
+    const userDetail = await userRepository.getUserDetail(existingUser.id);
+    const token = await tokenHelper.generateToken({...existingUser, employee_id: userDetail.employee_id});
+    const refreshToken = await tokenHelper.generateRefreshToken({...existingUser, employee_id: userDetail.employee_id});
     cookieHelper.setCookie(res, 'token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
     cookieHelper.setCookie(res, 'rt', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
-    const userDetail = await userRepository.getUserDetail(existingUser.id);
     return { ...userDetail, token };
 }
 
