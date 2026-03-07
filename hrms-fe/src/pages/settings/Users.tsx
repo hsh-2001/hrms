@@ -22,6 +22,8 @@ import {
 import Pagination from "../../components/Pagination";
 import type { ICompanyUser } from "../../types/user";
 import RightPopup from "../../components/shares/RightPopup";
+import SortableHeader from "../../components/shares/ShortHeader";
+import usePermission from "../../hooks/usePermission";
 
 const UsersPage = () => {
   const {
@@ -33,9 +35,15 @@ const UsersPage = () => {
     setEditRoleModel,
     onUpdateUserRole,
     onChangePage,
+    onChangeSort,
   } = useUser();
+  const {
+    isEditable,
+  } = usePermission("settings/user-list");
 
   const [selectedUser, setSelectedUser] = useState<ICompanyUser | null>(null);
+  const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
+  const [activeSortKey, setActiveSortKey] = useState<string>("created_at");
 
   const localUser = useAppSelector((state) => state.user);
 
@@ -57,7 +65,7 @@ const UsersPage = () => {
       isCalled.current = true;
     };
     fetchData();
-  }, []);
+  }, [fetchUsers, getRolesAndPermissions]);
 
   const colorsMap: Record<string, string> = {
     Company: "blue",
@@ -73,11 +81,48 @@ const UsersPage = () => {
         <table>
           <thead>
             <tr>
-              <th>Name</th>
+              <th>
+                <SortableHeader
+                  label="Username"
+                  sortKey="username"
+                  currentSort={sortOrder}
+                  activedSortKey={activeSortKey}
+                  onSort={(key, order) => {
+                    setActiveSortKey(key);
+                    onChangeSort(key, order);
+                  }}
+                  setSortOrder={setSortOrder}
+                />
+              </th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Role</th>
+              <th>
+                <SortableHeader
+                  label="Role"
+                  sortKey="role_name"
+                  currentSort={sortOrder}
+                  activedSortKey={activeSortKey}
+                  onSort={(key, order) => {
+                    setActiveSortKey(key);
+                    onChangeSort(key, order);
+                  }}
+                  setSortOrder={setSortOrder}
+                />
+              </th>
               <th>Status</th>
+              <th>
+                <SortableHeader
+                  label="Created At"
+                  sortKey="created_at"
+                  currentSort={sortOrder}
+                  activedSortKey={activeSortKey}
+                  onSort={(key, order) => {
+                    setActiveSortKey(key);
+                    onChangeSort(key, order);
+                  }}
+                  setSortOrder={setSortOrder}
+                />
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -111,14 +156,7 @@ const UsersPage = () => {
                       {user.is_active ? "Active" : "Inactive"}
                     </Tag>
                   </td>
-                  {/* <td>
-                    {dateTimeFormat.dateTimeFormat(user.created_at)}
-                  </td>
-                  <td>
-                    <button>
-                      <Edit size={16} className="text-gray-500"/>
-                    </button>
-                  </td> */}
+                  <td>{dateTimeFormat.dateTimeFormat(user.created_at)}</td>
                 </tr>
               ))}
           </tbody>
@@ -268,12 +306,13 @@ const UsersPage = () => {
             </div>
 
             <div className="p-4 border-t">
-              <button
-                className="w-full py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
-                onClick={() => {
-                  setEditRoleModel({
-                    user_id: selectedUser.id,
-                    role_id: selectedUser.role_id ?? 0,
+              {isEditable && (
+                <button
+                  className="w-full py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
+                  onClick={() => {
+                    setEditRoleModel({
+                      user_id: selectedUser.id,
+                      role_id: selectedUser.role_id ?? 0,
                   });
                   if (selectedUser.id !== localUser.user?.id) {
                     setIsEditRoleOpen(true);
@@ -283,6 +322,7 @@ const UsersPage = () => {
                 <Edit size={16} />
                 Edit User Role
               </button>
+              )}
             </div>
           </div>
         </RightPopup>

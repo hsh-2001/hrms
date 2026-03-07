@@ -130,7 +130,6 @@ const RolesPage = () => {
         </div>
       )}
 
-      {/* Mobile Overlay */}
       {isMobile && isRolesPanelOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40"
@@ -186,26 +185,33 @@ const RolesPage = () => {
                     setIsRolesPanelOpen(false);
                   }}
                 >
-                  <span
-                    className={`text-sm font-medium ${
-                      role.role_id === activeRole
-                        ? "text-green-700"
-                        : "text-gray-700"
-                    }`}
-                  >
-                    {role.role_name}
-                  </span>
-                  {role.is_default ? (
-                    <Tag className="ml-2 text-xs">Default</Tag>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        onCickEdit(role);
-                      }}
+                  <div className="grid">
+                    <span
+                      className={`text-sm font-medium ${
+                        role.role_id === activeRole
+                          ? "text-green-700"
+                          : "text-gray-700"
+                      }`}
                     >
-                      <Edit size={14} className="text-gray-400 ml-2" />
-                    </button>
-                  )}
+                      {role.role_name}
+                    </span>
+                    <span className="text-[10px] text-gray-500">
+                      {role.description}
+                    </span>
+                  </div>
+                  <div>
+                    {role.is_default ? (
+                      <Tag className="ml-2 text-xs">Default</Tag>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          onCickEdit(role);
+                        }}
+                      >
+                        <Edit size={14} className="text-gray-400 ml-2" />
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))
             )}

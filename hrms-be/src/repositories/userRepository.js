@@ -2,11 +2,11 @@ import pool from "../db/config.js";
 import query from "../helpers/query.js";
 
 const register = async (user) => {
-    const { username, email, password, phone, company_id, role } = user;
+    const { username, email, password, phone, company_id, role_id } = user;
     if (!username || !email || !password) {
         throw new Error('Username, email, and password are required');
     }
-    const result = await pool.query('INSERT INTO users (username, email, password_hash, phone, company_id, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, phone, company_id, role]);
+    const result = await pool.query('INSERT INTO users (username, email, password_hash, phone, company_id, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, phone, company_id, role_id]);
     return result.rows[0];
 }
 
@@ -23,9 +23,9 @@ const getAllUsers = async () => {
 
 const getUserByCompanyId = async (req) => {
     const { company_id } = req.user;
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, order_by = 'created_at', order_direction = 'ASC' } = req.query;
     const offset = (page - 1) * limit;
-    const result = await pool.query('SELECT * FROM get_user_by_company_id($1, $2, $3)', [company_id, limit, offset]);
+    const result = await pool.query('SELECT * FROM get_user_by_company_id($1, $2, $3, $4, $5)', [company_id, limit, offset, order_by, order_direction]);
     return result.rows;
 }
 

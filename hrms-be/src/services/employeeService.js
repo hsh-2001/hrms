@@ -10,7 +10,7 @@ const createEmployee = async (req) => {
             email: employee.email,
             phone: employee.phone,
             password: employee.password,
-            role_id: 3, // Default role for employee
+            role_id: 5, // Default role for employee
             company_id
         });
         employee.user_id = user.id;

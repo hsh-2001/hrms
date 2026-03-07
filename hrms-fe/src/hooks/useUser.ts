@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getAllUsers } from "../lib/userApi";
 import type { ICompanyUser } from "../types/user";
 import settingApi from "../lib/settingApi";
-import type { IPagination } from "../types/base";
+import type { IOrderBy, IPagination } from "../types/base";
 
 export default function useUser() {
     const [users, setUsers] = useState<ICompanyUser[]>([]);
@@ -12,8 +12,8 @@ export default function useUser() {
       role_id: 0,
     });
 
-    const fetchUsers = async (param?: IPagination ) => {
-        const data = await getAllUsers(param || { page: 1, limit: 10 });
+    const fetchUsers = async (param?: IPagination & IOrderBy ) => {
+        const data = await getAllUsers(param || { page: 1, limit: 10, order_by: "created_at", order_direction: "DESC" });
         setUsers(data.data);
     };
 
@@ -28,7 +28,11 @@ export default function useUser() {
     }
 
     const onChangePage = (page: number) => {
-        fetchUsers({ page, limit: 10 });
+        fetchUsers({ page, limit: 10, order_by: "created_at", order_direction: "DESC" });
+    }
+
+    const onChangeSort = (order_by: string, order_direction: "ASC" | "DESC") => {
+        fetchUsers({ page: 1, limit: 10, order_by, order_direction });
     }
 
     return {
@@ -40,5 +44,6 @@ export default function useUser() {
         setEditRoleModel,
         onUpdateUserRole,
         onChangePage,
+        onChangeSort,
     };
 }

@@ -3,3 +3,8 @@ export interface IPagination {
     limit: number;
     page: number;
 }
+
+export interface IOrderBy {
+    order_by: string;
+    order_direction: "ASC" | "DESC";
+}

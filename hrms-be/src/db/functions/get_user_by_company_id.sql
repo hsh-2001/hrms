@@ -1,13 +1,17 @@
 DROP FUNCTION IF EXISTS get_user_by_company_id(
     INTEGER,
     INTEGER,
-    INTEGER
+    INTEGER,
+    VARCHAR,
+    VARCHAR
 );
 
 CREATE FUNCTION get_user_by_company_id(
     p_company_id INTEGER,
     p_limit INTEGER DEFAULT 10,
-    p_offset INTEGER DEFAULT 0
+    p_offset INTEGER DEFAULT 0,
+    p_order_by VARCHAR DEFAULT 'created_at',
+    p_order_direction VARCHAR DEFAULT 'ASC'
 )
 RETURNS TABLE (
     id UUID,
@@ -49,7 +53,18 @@ BEGIN
     LEFT JOIN roles r ON u.role_id = r.id
     WHERE u.company_id = p_company_id
       AND u.deleted_at IS NULL
-    ORDER BY u.role_id ASC, u.created_at ASC
+   ORDER BY
+    CASE WHEN p_order_by = 'username' AND p_order_direction = 'ASC' THEN u.username END ASC,
+    CASE WHEN p_order_by = 'username' AND p_order_direction = 'DESC' THEN u.username END DESC,
+
+    CASE WHEN p_order_by = 'email' AND p_order_direction = 'ASC' THEN u.email END ASC,
+    CASE WHEN p_order_by = 'email' AND p_order_direction = 'DESC' THEN u.email END DESC,
+
+    CASE WHEN p_order_by = 'created_at' AND p_order_direction = 'ASC' THEN u.created_at END ASC,
+    CASE WHEN p_order_by = 'created_at' AND p_order_direction = 'DESC' THEN u.created_at END DESC,
+
+    CASE WHEN p_order_by = 'role_name' AND p_order_direction = 'ASC' THEN r.name END ASC,
+    CASE WHEN p_order_by = 'role_name' AND p_order_direction = 'DESC' THEN r.name END DESC
     LIMIT p_limit OFFSET p_offset;
 END;
 $$ LANGUAGE plpgsql;
