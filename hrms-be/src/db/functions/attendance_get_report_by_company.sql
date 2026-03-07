@@ -5,10 +5,13 @@ RETURNS TABLE (
     employee_id UUID,
     check_in_time TIME,
     check_out_time TIME,
+    re_check_in_time TIME,
+    re_check_out_time TIME,
     first_name VARCHAR,
     last_name VARCHAR,
     attendance_date DATE,
-    status VARCHAR
+    status VARCHAR,
+    reason TEXT
 )
 LANGUAGE plpgsql
 AS $$
@@ -18,14 +21,17 @@ BEGIN
         e.id,
         a.check_in_time,
         a.check_out_time,
+        a.re_check_in_time,
+        a.re_check_out_time,
         e.first_name,
         e.last_name,
         a.attendance_date,
-        a.status
+        a.status,
+        a.reason
     FROM
         attendances a
     JOIN
-        employees e ON a.employee_id = e.user_id
+        employees e ON a.employee_id = e.id
     WHERE
         a.company_id = p_company_id
     ORDER BY

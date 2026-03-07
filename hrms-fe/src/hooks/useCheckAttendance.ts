@@ -81,6 +81,7 @@ export default function useCheckAttendance() {
   };
 
   const getAttendanceByEmployeeId = async () => {
+    if (!user.user?.employee_id) return;
     try {
       const employeeId = String(user.user?.employee_id || "");
       const response =
