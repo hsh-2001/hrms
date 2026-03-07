@@ -68,6 +68,7 @@ export default function useCheckAttendance() {
       re_check_out_time: checkModel.re_check_out_time,
       attendance_date: checkModel.attendance_date,
       status: checkModel.re_check_in_time ? 're_checked_in' : 're_checked_out',
+      reason: checkModel.reason || "",
     };
     try {
       const response = await attendanceApi.checkAttendance(isReCheckVisible ? reCheckRequest : checkRequest);

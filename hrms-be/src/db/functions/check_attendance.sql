@@ -17,7 +17,8 @@ CREATE OR REPLACE FUNCTION check_attendance(
     p_check_out_time TIME,
     p_re_check_in_time TIME,
     p_re_check_out_time TIME,
-    p_status VARCHAR(20)
+    p_status VARCHAR(20),
+    p_reason TEXT
 )
 RETURNS TABLE (
     message TEXT,
@@ -34,7 +35,8 @@ BEGIN
         check_out_time,
         re_check_in_time,
         re_check_out_time,
-        status
+        status,
+        reason
     )
     VALUES (
         p_employee_id,
@@ -44,7 +46,8 @@ BEGIN
         p_check_out_time,
         p_re_check_in_time,
         p_re_check_out_time,
-        p_status
+        p_status,
+        p_reason
     )
     ON CONFLICT (employee_id, attendance_date)
     DO UPDATE
@@ -54,7 +57,10 @@ BEGIN
         re_check_in_time  = COALESCE(EXCLUDED.re_check_in_time, attendances.re_check_in_time),
         re_check_out_time = COALESCE(EXCLUDED.re_check_out_time, attendances.re_check_out_time),
         status            = COALESCE(EXCLUDED.status, attendances.status),
-        updated_at        = NOW();
+        reason            = COALESCE(EXCLUDED.reason, attendances.reason),
+        updated_at        = NOW()
+    WHERE attendances.employee_id = p_employee_id
+      AND attendances.attendance_date = p_attendance_date;
 
     RETURN QUERY
     SELECT 'success', 200;

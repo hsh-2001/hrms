@@ -205,14 +205,14 @@ function ReClockInOut({ onReCheck, model, setModel, isMobile }: ReClockInOutProp
           value={model.re_check_out_time || ""}
           onChange={(e) => setModel((prev) => ({ ...prev, re_check_out_time: e.target.value }))}
         />
-        {/* <MyInput
+        <MyInput
           label={t('Reason')}
           type="text"
           id="reason"
           required
-          value={model.reason}
+          value={model.reason || ""}
           onChange={(e) => setModel((prev) => ({ ...prev, reason: e.target.value }))}
-        /> */}
+        />
         <button
           type="submit"
           className="w-full py-2 mt-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"

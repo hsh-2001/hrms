@@ -10,6 +10,7 @@ export interface IAttendance {
     attendance_date: string;
     total_work_hours?: number;
     status: "present" | "checked_in" | "checked_out" | "on_leave" | string;
+    reason?: string
 }
 
 export type ICreateAttendanceRequest = Omit<IAttendance, "id">;
@@ -24,6 +25,7 @@ export class GetAttendanceResponse implements IAttendance {
     attendance_date: string;
     total_work_hours?: number;
     status: "present" | "checked_in" | "checked_out" | "on_leave" | string;
+    reason: string;
 
     constructor(init: IAttendance) {
         this.id = init.id;
@@ -35,6 +37,7 @@ export class GetAttendanceResponse implements IAttendance {
         this.attendance_date = init.attendance_date;
         this.total_work_hours = init.total_work_hours;
         this.status = init.status;
+        this.reason = init.reason || "";
     }
 
     get attendanceDateForDisplay(): string {

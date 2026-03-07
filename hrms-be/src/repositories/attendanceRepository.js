@@ -1,9 +1,9 @@
 import query from "../helpers/query.js";
 
 const checkAttendance = async (req) => {
-    const { employee_id, company_id, attendance_date, check_in_time, check_out_time, re_check_in_time, re_check_out_time, status } = req.body;
-    const sql = "SELECT * FROM check_attendance($1, $2, $3, $4, $5, $6, $7, $8)";
-    const values = [employee_id, company_id, attendance_date, check_in_time, check_out_time, re_check_in_time, re_check_out_time, status];
+    const { employee_id, company_id, attendance_date, check_in_time, check_out_time, re_check_in_time, re_check_out_time, status, reason } = req.body;
+    const sql = "SELECT * FROM check_attendance($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+    const values = [employee_id, company_id, attendance_date, check_in_time, check_out_time, re_check_in_time, re_check_out_time, status, reason];
     const result = await query(sql, values);
     return result.rows;
 };

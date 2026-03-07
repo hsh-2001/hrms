@@ -8,6 +8,7 @@ CREATE TABLE attendances (
     re_check_in_time TIME,
     re_check_out_time TIME,
     status VARCHAR(20) NOT NULL,
+    reason TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
 

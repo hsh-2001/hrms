@@ -9,7 +9,8 @@ RETURNS TABLE (
     check_out_time TIME,
     re_check_in_time TIME,
     re_check_out_time TIME,
-    status VARCHAR
+    status VARCHAR,
+    reason TEXT
 )
 LANGUAGE sql
 AS $$
@@ -21,7 +22,8 @@ AS $$
         check_out_time,
         re_check_in_time,
         re_check_out_time,
-        status
+        status,
+        reason
     FROM attendances
     WHERE employee_id = p_employee_id;
 $$;
