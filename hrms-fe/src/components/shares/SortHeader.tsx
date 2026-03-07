@@ -39,7 +39,7 @@ const SortableHeader = ({
   return (
     <button
       onClick={handleSort}
-      className="flex items-center gap-2 hover:text-green-600 transition-colors"
+      className={`flex items-center gap-2 hover:text-green-600 transition-colors ${isActive ? "text-green-600" : "text-gray-800"}`}
     >
       {label}
       {renderIcon()}

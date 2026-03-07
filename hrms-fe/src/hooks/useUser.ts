@@ -7,13 +7,15 @@ import type { IOrderBy, IPagination } from "../types/base";
 export default function useUser() {
     const [users, setUsers] = useState<ICompanyUser[]>([]);
     const [isEditRoleOpen, setIsEditRoleOpen] = useState(false);
+    const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
+    const [activeSortKey, setActiveSortKey] = useState<string>("created_at");
     const [editRoleModel, setEditRoleModel] = useState({
       user_id: 0,
       role_id: 0,
     });
 
     const fetchUsers = async (param?: IPagination & IOrderBy ) => {
-        const data = await getAllUsers(param || { page: 1, limit: 10, order_by: "created_at", order_direction: "DESC" });
+        const data = await getAllUsers(param || { page: 1, limit: 10, order_by: activeSortKey, order_direction: sortOrder });
         setUsers(data.data);
     };
 
@@ -28,7 +30,7 @@ export default function useUser() {
     }
 
     const onChangePage = (page: number) => {
-        fetchUsers({ page, limit: 10, order_by: "created_at", order_direction: "DESC" });
+        fetchUsers({ page, limit: 10, order_by: activeSortKey, order_direction: sortOrder });
     }
 
     const onChangeSort = (order_by: string, order_direction: "ASC" | "DESC") => {
@@ -45,5 +47,9 @@ export default function useUser() {
         onUpdateUserRole,
         onChangePage,
         onChangeSort,
+        sortOrder,
+        setSortOrder,
+        activeSortKey,
+        setActiveSortKey,
     };
 }

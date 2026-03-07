@@ -117,7 +117,6 @@ const RolesPage = () => {
       />
       <BaseHeader headerTitle="Roles & Permissions" />
 
-      {/* Mobile Toggle Button */}
       {isMobile && (
         <div className="p-2 sm:p-4 pb-0">
           <button
@@ -150,7 +149,11 @@ const RolesPage = () => {
           <div className="flex justify-between items-center bg-linear-to-r from-green-500 to-green-600 px-4 py-3">
             <h3 className="text-sm font-semibold text-white">Roles</h3>
             <div className="flex items-center gap-2">
-              <button onClick={() => setIsCreateRoleVisible(true)}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsCreateRoleVisible(true);
+                }}>
                 <Plus
                   size={16}
                   className="text-green-50 hover:text-green-100 transition-colors"

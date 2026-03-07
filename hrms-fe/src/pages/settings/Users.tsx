@@ -22,7 +22,7 @@ import {
 import Pagination from "../../components/Pagination";
 import type { ICompanyUser } from "../../types/user";
 import RightPopup from "../../components/shares/RightPopup";
-import SortableHeader from "../../components/shares/ShortHeader";
+import SortableHeader from "../../components/shares/SortHeader";
 import usePermission from "../../hooks/usePermission";
 
 const UsersPage = () => {
@@ -36,14 +36,16 @@ const UsersPage = () => {
     onUpdateUserRole,
     onChangePage,
     onChangeSort,
+    sortOrder,
+    setSortOrder,
+    activeSortKey,
+    setActiveSortKey,
   } = useUser();
   const {
     isEditable,
-  } = usePermission("settings/user-list");
+  } = usePermission("settings/users");
 
   const [selectedUser, setSelectedUser] = useState<ICompanyUser | null>(null);
-  const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
-  const [activeSortKey, setActiveSortKey] = useState<string>("created_at");
 
   const localUser = useAppSelector((state) => state.user);
 
@@ -138,7 +140,9 @@ const UsersPage = () => {
                   <td>{user.phone}</td>
                   <td>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        if(!isEditable) return;
+                        e.stopPropagation();
                         setEditRoleModel({
                           user_id: user.id,
                           role_id: user.role_id ?? 0,
