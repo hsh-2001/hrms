@@ -1,4 +1,3 @@
--- DROP TABLE IF EXISTS pages;
 CREATE TABLE pages (
     id INTEGER PRIMARY KEY,
     name VARCHAR(255) NOT NULL,

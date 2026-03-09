@@ -1,4 +1,3 @@
--- DROP TABLE IF EXISTS role_permissions;
 CREATE TABLE role_permissions (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     company_id INTEGER NOT NULL,

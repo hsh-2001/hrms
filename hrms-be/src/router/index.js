@@ -12,6 +12,7 @@ import commonRouter from "./commonRouter.js";
 import settingRouter from "./settingRouter.js";
 import webSocketRouter from "./webSocketRouter.js";
 import leaveRouter from "./leaveRouter.js";
+import payrollRouter from "./payrollRouter.js";
 const router = Router();
 
 
@@ -23,6 +24,7 @@ router.use("/department", authMiddleware, departmentRouter);
 router.use("/position", authMiddleware, positionRouter);
 router.use("/attendance", authMiddleware, attendanceRouter);
 router.use("/leave", authMiddleware, leaveRouter);
+router.use("/payroll", authMiddleware, payrollRouter);
 router.use("/setting", authMiddleware, settingRouter);
 router.use("/transaction", webSocketRouter);
 

@@ -4,7 +4,7 @@ import { Eye, EyeClosed } from "lucide-react";
 
 interface MyInputProps {
   id: string;
-  value: string;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
