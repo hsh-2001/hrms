@@ -2,6 +2,7 @@ import { Router } from "express";
 import userRouter from "./userRouter.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import rootMiddleware from "../middlewares/rootMiddleware.js";
+import rateLimitMiddleware from "../middlewares/rateLimitMiddleware.js";
 import employeeRouter from "./employeeRouter.js";
 import rootRouter from "./rootRouter.js";
 import departmentRouter from "./departmentRouter.js";
@@ -12,6 +13,8 @@ import settingRouter from "./settingRouter.js";
 import webSocketRouter from "./webSocketRouter.js";
 import leaveRouter from "./leaveRouter.js";
 const router = Router();
+
+router.use(rateLimitMiddleware); // Apply rate limiting to all routes
 
 router.use("/user", userRouter);
 router.use("/common", commonRouter);

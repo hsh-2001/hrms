@@ -64,7 +64,7 @@ const iconMap: Record<string, LucideIcon> = {
   // Settings
   Settings: Settings,
   "General Settings": Sliders,
-  Users: UserCog,
+  "User Details": UserCog,
   "Roles & Permissions": Shield,
   "Company Profile": Building,
 };
