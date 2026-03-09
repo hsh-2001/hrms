@@ -65,7 +65,7 @@ const UsersPage = () => {
       isCalled.current = true;
     };
     fetchData();
-  }, [fetchUsers, getRolesAndPermissions]);
+  }, []);
 
   const colorsMap: Record<string, string> = {
     Company: "blue",
@@ -185,7 +185,7 @@ const UsersPage = () => {
           onClose={() => setSelectedUser(null)}
         >
           <div
-            className={`bg-white shadow-xl rounded-l-2xl overflow-hidden ${isMobile ? "w-[80dvw]" : "w-full md:w-1/2 lg:w-1/3 h-full"}`}
+            className={`bg-white shadow-xl overflow-hidden ${isMobile ? "w-[80dvw] rounded-l-2xl" : "w-full md:w-1/2 lg:w-1/3 h-full"}`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="h-full w-full overflow-auto">

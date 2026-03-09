@@ -14,9 +14,8 @@ import webSocketRouter from "./webSocketRouter.js";
 import leaveRouter from "./leaveRouter.js";
 const router = Router();
 
-router.use(rateLimitMiddleware); // Apply rate limiting to all routes
 
-router.use("/user", userRouter);
+router.use("/user", rateLimitMiddleware, userRouter);
 router.use("/common", commonRouter);
 router.use("/root", rootMiddleware , rootRouter);
 router.use("/employee", authMiddleware , employeeRouter);

@@ -14,7 +14,7 @@ export default function BaseDialog({ isOpen, onClose, children, closeOnOverlayCl
 
   return (
     <div 
-      className={`fixed inset-0 base-dialog flex justify-center z-50 ${isCentered ? "items-center" : ""}`} 
+      className={`fixed inset-0 base-dialog flex justify-center z-100 ${isCentered ? "items-center" : ""}`} 
       onClick={closeOnOverlayClick ? onClose : undefined}
     >
       <div className={`bg-white rounded-[20px] space-y-2 p-4 base-dialog-body overflow-hidden ${isCentered ? "" : "mt-4 m-auto"}`} onClick={(e) => e.stopPropagation()}>

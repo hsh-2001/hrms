@@ -9,6 +9,7 @@ RETURNS TABLE (
     code VARCHAR(50),
     description TEXT,
     is_active BOOLEAN,
+    is_default BOOLEAN,
     created_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ
 )
@@ -22,6 +23,7 @@ AS $$
         code,
         description,
         is_active,
+        CASE WHEN company_id = 0 THEN TRUE ELSE FALSE END AS is_default,
         created_at,
         updated_at
     FROM positions
@@ -36,6 +38,7 @@ AS $$
         code,
         description,
         is_active,
+        CASE WHEN company_id = 0 THEN TRUE ELSE FALSE END AS is_default,
         created_at,
         updated_at
     FROM positions p

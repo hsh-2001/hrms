@@ -6,6 +6,7 @@ export interface IPosition {
     is_active: boolean;
     company_id: number;
     department_id: number;
+    is_default?: boolean;
 }
 
 export type ICreatePositionRequest = Omit<IPosition, "id">;

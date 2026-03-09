@@ -3,7 +3,7 @@ import api from "./api";
 import { BaseResponse, getResponse } from "./baseReponse";
 
 const createPosition = async (request: ICreatePositionRequest): Promise<BaseResponse<IGetPositionsResponse>> => {
-    const response = await api.post("/positions", request);
+    const response = await api.post("/position", request);
     return getResponse(response.data);
 }
 

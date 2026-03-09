@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import router from './src/router/index.js';
 import cors from 'cors';
 import { setupWebSocket } from './src/services/webSocketService.js';
+import { setupLogger } from './src/helpers/loggerHelper.js';
 
 
 dotenv.config();
@@ -15,6 +16,9 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+setupLogger(app);
+
 app.use(cookieParser());
 app.use(cors({
     // origin: [
