@@ -9,7 +9,7 @@ const checkAttendance = async (req) => {
 };
 
 const getAllAttendance = async (company_id) => {
-    const sql = "SELECT * FROM attendance WHERE company_id = $1";
+    const sql = "SELECT * FROM get_all_attendance($1)";
     const values = [company_id];
     const result = await query(sql, values);
     return result.rows;
@@ -30,7 +30,7 @@ const getTodayEmployeeAttendance = async (employee_id) => {
 }
 
 const getAttendanceByCompanyId = async (company_id) => {
-    const sql = "SELECT * FROM attendance_get_report_by_company($1)";
+    const sql = "SELECT * FROM get_company_attendances_report($1)";
     const values = [company_id];
     const result = await query(sql, values);
     return result.rows;

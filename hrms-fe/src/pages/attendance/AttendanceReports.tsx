@@ -17,6 +17,7 @@ const AttendanceReportsPage = () => {
           <table>
             <thead>
               <tr>
+                <th>Full Name</th>
                 <th>Check-in Time</th>
                 <th>Check-out Time</th>
                 <th>Re-check-in Time</th>
@@ -29,10 +30,11 @@ const AttendanceReportsPage = () => {
             <tbody>
               {companyAttendanceReport.map((attendance, index) => (
                 <tr key={index}>
-                  <td>{attendance.check_in_time}</td>
-                  <td>{attendance.check_out_time}</td>
-                  <td>{attendance.re_check_in_time}</td>
-                  <td>{attendance.re_check_out_time}</td>
+                  <td>{attendance.full_name}</td>
+                  <td>{attendance.check_in_time || "--"}</td>
+                  <td>{attendance.check_out_time || "--"}</td>
+                  <td>{attendance.re_check_in_time || "--"}</td>
+                  <td>{attendance.re_check_out_time || "--"}</td>
                   <td>{attendance.reason || "N/A"}</td>
                   <td>{attendance.attendanceDateForDisplay}</td>
                   <td>

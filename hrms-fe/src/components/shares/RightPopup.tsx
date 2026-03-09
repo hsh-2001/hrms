@@ -9,13 +9,15 @@ export default function RightPopup({ isOpen, onClose, children }: IPopupProps) {
 
   return (
     <div
-      className="fixed z-50 flex justify-end right-0 top-0 h-screen w-full bg-black/20 overflow-hidden"
+      className="fixed z-50 right-0 top-0 h-screen w-full bg-black/20 overflow-hidden"
       onClick={(e) => {
         onClose();
         e.stopPropagation();
       }}
     >
-      {children}
+      <main className="w-full h-full flex justify-end right-popup">
+        {children}
+      </main>
     </div>
   );
 }

@@ -15,7 +15,7 @@ import leaveRouter from "./leaveRouter.js";
 const router = Router();
 
 
-router.use("/user", rateLimitMiddleware, userRouter);
+router.use("/user", userRouter);
 router.use("/common", commonRouter);
 router.use("/root", rootMiddleware , rootRouter);
 router.use("/employee", authMiddleware , employeeRouter);
