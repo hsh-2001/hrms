@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useEmployees from "../../hooks/useEmployees";
 import BaseHeader from "../../components/shares/BaseHeader";
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
 import BaseDialog from "../../components/shares/BaseDialog";
 import MyInput from "../../components/shares/input/MyInput";
+import FuzzySearchInput from "../../components/shares/input/FuzzySearchInput";
 import usePayrollStructure from "../../hooks/payroll/usePayrollStructure";
 import { Edit } from "lucide-react";
 import type {
@@ -14,7 +15,8 @@ import MySelection from "../../components/shares/select/MySelection";
 import type { GetEmployeesResponse } from "../../types/employees";
 
 const SalaryStructurePage = () => {
-  const { employee, getEmployees } = useEmployees();
+  const { getEmployees, employeeFuzzySearch, getEmployeeFuzzySearch } =
+    useEmployees();
   const {
     componentModel,
     setComponentModel,
@@ -34,6 +36,19 @@ const SalaryStructurePage = () => {
     getEmployeePayrollComponents,
     employeePayrollComponents,
   } = usePayrollStructure();
+  const [employeeSearchText, setEmployeeSearchText] = useState("");
+
+  const handleEmployeeSearch = (value: string) => {
+    setEmployeeSearchText(value);
+    setAssignModel({ ...assignModel, employee_id: "" });
+    getEmployeeFuzzySearch(value);
+  };
+
+  const handleEmployeeSelect = (employee: GetEmployeesResponse) => {
+    setEmployeeSearchText(`${employee.first_name} ${employee.last_name}`);
+    setAssignModel({ ...assignModel, employee_id: employee.id });
+    getEmployeeFuzzySearch("");
+  };
 
   useEffect(() => {
     getEmployees();
@@ -80,7 +95,7 @@ const SalaryStructurePage = () => {
               <span>Employees and Salary component</span>
             </div>
             <PrimaryButton
-              name="Assign Employee's Salary Component"
+              name="Assign"
               onClick={() => setAssignFormVisible(true)}
             />
           </div>
@@ -89,23 +104,17 @@ const SalaryStructurePage = () => {
               <table>
                 <thead>
                   <tr>
-                    <th className="border border-gray-300 p-2">
-                      Employee Name
-                    </th>
-                    <th className="border border-gray-300 p-2">
-                      Component Name
-                    </th>
+                    <th>Employee Name</th>
+                    <th>Component Name</th>
+                    <th>Value</th>
                   </tr>
                 </thead>
                 <tbody>
                   {employeePayrollComponents.map((item) => (
                     <tr key={item.employee_id + "-" + item.component_id}>
-                      <td className="border border-gray-300 p-2">
-                        {item.employee_id}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {item.component_id}
-                      </td>
+                      <td>{item.employee_name}</td>
+                      <td>{item.component_name}</td>
+                      <td>{item.value}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -166,8 +175,11 @@ const SalaryStructurePage = () => {
         model={assignModel}
         setModel={setAssignModel}
         components={payrollComponents}
-        employees={employee}
         onSubmit={onAssignComponentToEmployee}
+        employeeFuzzySearch={employeeFuzzySearch}
+        employeeSearchText={employeeSearchText}
+        onEmployeeSearch={handleEmployeeSearch}
+        onEmployeeSelect={handleEmployeeSelect}
       />
     </div>
   );
@@ -179,10 +191,15 @@ interface IAssignComponentToEmployeeDialog {
   isOpen: boolean;
   onClose: () => void;
   model: IAssignPayrollComponentToEmployeeRequest;
-  setModel: React.Dispatch<React.SetStateAction<IAssignPayrollComponentToEmployeeRequest>>;
+  setModel: React.Dispatch<
+    React.SetStateAction<IAssignPayrollComponentToEmployeeRequest>
+  >;
   components: IGetPayrollComponentResponse[];
-  employees: GetEmployeesResponse[];
   onSubmit: () => void;
+  employeeFuzzySearch: GetEmployeesResponse[];
+  employeeSearchText: string;
+  onEmployeeSearch: (value: string) => void;
+  onEmployeeSelect: (employee: GetEmployeesResponse) => void;
 }
 
 const AssignComponentToEmployeeDialog = ({
@@ -191,16 +208,14 @@ const AssignComponentToEmployeeDialog = ({
   model,
   setModel,
   components,
-  employees,
   onSubmit,
+  employeeFuzzySearch,
+  employeeSearchText,
+  onEmployeeSearch,
+  onEmployeeSelect,
 }: IAssignComponentToEmployeeDialog) => {
   return (
-    <BaseDialog
-      title="Assign Component to Employee"
-      isOpen={isOpen}
-      onClose={onClose}
-      isCentered
-    >
+    <BaseDialog title="Assign" isOpen={isOpen} onClose={onClose} isCentered>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -208,15 +223,25 @@ const AssignComponentToEmployeeDialog = ({
         }}
         className="grid gap-2 min-w-125"
       >
-        <MySelection
+        <FuzzySearchInput<GetEmployeesResponse>
           id="employee_id"
-          value={model.employee_id}
-          onChange={(e) => setModel({ ...model, employee_id: e.target.value })}
-          options={employees.map((employee) => ({
-            label: employee.first_name + " " + employee.last_name,
-            value: employee.id,
-          }))}
-          label="Select Employee"
+          label="Employee Name"
+          placeholder="Search first name or last name"
+          value={employeeSearchText}
+          searchResults={employeeFuzzySearch}
+          onInputChange={onEmployeeSearch}
+          onSelect={onEmployeeSelect}
+          getItemKey={(employee) => employee.id}
+          renderItem={(employee) => (
+            <div className="flex items-center justify-between gap-2 w-full">
+              <span className="font-medium truncate flex-1">
+                {employee.first_name} {employee.last_name}
+              </span>
+              <span className="text-xs text-gray-400 shrink-0">
+                {employee.position}
+              </span>
+            </div>
+          )}
         />
         <MySelection
           id="component_id"

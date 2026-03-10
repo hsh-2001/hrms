@@ -29,7 +29,7 @@ const upsertEmployeePayrollComponent = async (req) => {
 
 const getAllEmployeePayrollComponents = async (req) => {
     const { company_id } = req.user;
-    const sql = "SELECT * FROM employee_payroll_components WHERE company_id = $1";
+    const sql = "SELECT * FROM get_all_employees_payroll_components($1)";
     const params = [company_id];
     const result = await query(sql, params);
     return result.rows;

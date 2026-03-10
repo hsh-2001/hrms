@@ -8,6 +8,7 @@ export default function useEmployees() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isEdit, setIsEdit] = useState(false);
+  const [employeeFuzzySearch, setEmployeeFuzzySearch] = useState<GetEmployeesResponse[]>([]);
 
   const [createModel, setCreateModel] = useState<ICreateEmployee>({
     username: "",
@@ -73,12 +74,30 @@ export default function useEmployees() {
     }
   }
 
+  const getEmployeeFuzzySearch = async (search: string) => {
+    if (!search.trim()) {
+      setEmployeeFuzzySearch([]);
+      return;
+    }
+
+    try {
+      const response = await companyApi.getEmployeeFuzzySearch(search);
+      if (response.isSuccess) {
+        setEmployeeFuzzySearch(response.data.map((emp) => new GetEmployeesResponse(emp)));
+      }
+    } catch (error) {
+      console.error("Failed to fetch employees:", error);
+    }
+  };
+
   return {
     employee: employees,
     getEmployees,
     createModel,
     setCreateModel,
     handleSubmit,
+    getEmployeeFuzzySearch,
+    employeeFuzzySearch,
     isDialogOpen,
     setIsDialogOpen,
     onEditEmployee,

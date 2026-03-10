@@ -28,8 +28,18 @@ const updateEmployee = async (req, res) => {
     }
 }
 
+const getEmployeeByFuzzySearch = async (req, res) => {
+    try {
+        const response = await employeeService.getEmployeeByFuzzySearch(req);
+        BaseResponse.success(res, response, 'Employees retrieved successfully');
+    } catch (error) {
+        BaseResponse.error(res, error.message, 500);
+    }
+}
+
 export default {
     createEmployee,
     getAllEmployees,
     updateEmployee,
+    getEmployeeByFuzzySearch,
 }

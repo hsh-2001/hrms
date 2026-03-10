@@ -30,8 +30,13 @@ const updateEmployee = async (req) => {
     return await employeeRepository.updateEmployee(req);
 }
 
+const getEmployeeByFuzzySearch = async (req) => {
+    return await employeeRepository.getEmployeeByFuzzySearch(req);
+}
+
 export default {
     createEmployee,
     getAllEmployees,
     updateEmployee,
+    getEmployeeByFuzzySearch,
 }

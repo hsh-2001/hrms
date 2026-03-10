@@ -24,8 +24,17 @@ const updateEmployee = async (req) => {
     const result = await query(sql, [id, first_name, last_name, email, phone, date_of_joining, position, department]);
     return result.rows[0];
 }
+
+const getEmployeeByFuzzySearch = async (req) => {
+    const { company_id } = req.user;
+    const { search } = req.query;
+    const sql = `SELECT * FROM get_employee_by_fuzzy_search($1, $2)`;
+    const result = await query(sql, [company_id, search]);
+    return result.rows;
+}
 export default {
     createEmployee,
     getAllEmployees,
     updateEmployee,
+    getEmployeeByFuzzySearch,
 }

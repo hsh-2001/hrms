@@ -17,13 +17,13 @@ export default function BaseDialog({ isOpen, onClose, children, closeOnOverlayCl
       className={`fixed inset-0 base-dialog flex justify-center z-100 ${isCentered ? "items-center" : ""}`} 
       onClick={closeOnOverlayClick ? onClose : undefined}
     >
-      <div className={`bg-white rounded-[20px] space-y-2 p-4 base-dialog-body overflow-hidden ${isCentered ? "" : "mt-4 m-auto"}`} onClick={(e) => e.stopPropagation()}>
+      <div className={`bg-white rounded-[20px] space-y-2 p-4 base-dialog-body overflow-visible ${isCentered ? "" : "mt-4 m-auto"}`} onClick={(e) => e.stopPropagation()}>
         <div className='w-full bg-linear-to-br from-green-300/50 to-green-500/10 rounded-[20px]'>
           <div className='p-2 text-center'>
             <h2 className="text-md font-medium text-green-800">{title}</h2>
           </div>
         </div>
-        <div>
+        <div className="overflow-visible">
           {children}
         </div>
       </div>

@@ -18,9 +18,15 @@ const getAllEmployees = async (query?: { page?: number; limit?: number }): Promi
     return getResponse(result.data);
 }
 
+const getEmployeeFuzzySearch = async (search: string): Promise<BaseResponse<GetEmployeesResponse[]>> => {
+    const result = await api.get("/employee/fuzzy-search", { params: {  search } });
+    return getResponse(result.data);
+}
+
 
 export default {
     createEmployee,
     getAllEmployees,
     editEmployee,
+    getEmployeeFuzzySearch,
 }
