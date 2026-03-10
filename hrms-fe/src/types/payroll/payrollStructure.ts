@@ -25,6 +25,7 @@ export interface IGetEmployeePayrollComponentResponse {
     id: number;
     employee_id: string;
     employee_name: string;
+    employee_email: string;
     component_id: number;
     component_name: string;
     value: number | string;

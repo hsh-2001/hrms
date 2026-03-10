@@ -15,7 +15,7 @@ import MySelection from "../../components/shares/select/MySelection";
 import type { GetEmployeesResponse } from "../../types/employees";
 
 const SalaryStructurePage = () => {
-  const { getEmployees, employeeFuzzySearch, getEmployeeFuzzySearch } =
+  const { employeeFuzzySearch, getEmployeeFuzzySearch } =
     useEmployees();
   const {
     componentModel,
@@ -50,8 +50,16 @@ const SalaryStructurePage = () => {
     getEmployeeFuzzySearch("");
   };
 
+  const clearAssignForm = () => {
+    setEmployeeSearchText("");
+    setAssignModel({
+      employee_id: "",
+      component_id: 0,
+      value: "",
+    });
+  };
+
   useEffect(() => {
-    getEmployees();
     getPayrollComponents();
     getEmployeePayrollComponents();
   }, []);
@@ -171,7 +179,7 @@ const SalaryStructurePage = () => {
 
       <AssignComponentToEmployeeDialog
         isOpen={assignFormVisible}
-        onClose={() => setAssignFormVisible(false)}
+        onClose={() => {setAssignFormVisible(false); clearAssignForm();}}
         model={assignModel}
         setModel={setAssignModel}
         components={payrollComponents}
@@ -234,9 +242,12 @@ const AssignComponentToEmployeeDialog = ({
           getItemKey={(employee) => employee.id}
           renderItem={(employee) => (
             <div className="flex items-center justify-between gap-2 w-full">
-              <span className="font-medium truncate flex-1">
-                {employee.first_name} {employee.last_name}
-              </span>
+              <div className="grid">
+                <span className="font-medium truncate flex-1">
+                  {employee.first_name} {employee.last_name}
+                </span>
+                <span className="text-[10px] text-gray-500">{ employee.email }</span>
+              </div>
               <span className="text-xs text-gray-400 shrink-0">
                 {employee.position}
               </span>

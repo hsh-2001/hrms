@@ -10,6 +10,7 @@ CREATE FUNCTION get_employee_by_fuzzy_search(
 RETURNS TABLE (
     id UUID,
     user_id UUID,
+    email VARCHAR,
     first_name VARCHAR,
     last_name VARCHAR,
     "position" VARCHAR,
@@ -23,6 +24,7 @@ BEGIN
     SELECT
         e.id AS id,
         e.user_id,
+        u.email AS email,
         e.first_name AS first_name,
         e.last_name AS last_name,
         e.position AS "position",
@@ -30,6 +32,7 @@ BEGIN
         e.date_of_joining AS date_of_joining
     FROM
         employees e
+    JOIN users u ON e.user_id = u.id
     WHERE   e.company_id = p_company_id
         AND (e.first_name ILIKE '%' || search || '%' OR e.last_name ILIKE '%' || search || '%')
     ORDER BY
