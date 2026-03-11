@@ -3,7 +3,7 @@ INSERT INTO users (
     email,
     phone,
     password_hash,
-    role,
+    role_id,
     is_active,
     email_verified,
     company_id
@@ -12,7 +12,7 @@ INSERT INTO users (
     'root@gmail.com',
     '101111111',
     '$2b$10$hapn0I4LYRAnPC8h3wfq/.H2vtmwtkipV2Rlrhvo8yd8M67nzGKR2',
-    'owner',
+    1,
     TRUE,
     FALSE,
     0
