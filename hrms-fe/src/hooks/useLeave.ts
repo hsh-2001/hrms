@@ -96,5 +96,6 @@ export default function useLeave() {
     handleUpdateLeave,
     getLeaveRemaining,
     leaveRemaining,
+    user,
   };
 }

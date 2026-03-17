@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-    --bg-test-500: black;
+    --text-sm: 12px;
+    --text-md: 14px;
+    --text-lg: 16px;
+    --text-xl: 18px;
+    --color-primary: #00F000;
+    --color-secondary: #006CF5;
+    bg-primary: var(--color-primary);
+    text-primary: var(--color-primary);
 }

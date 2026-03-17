@@ -16,6 +16,7 @@ export interface ILeaveType {
     id: string;
     name: string;
     description: string;
+    total_per_year?: number;
     created_at: string;
     updated_at: string;
 }
@@ -44,8 +45,9 @@ export class GetLeaveRequestResponse implements ILeave {
     end_date: string;
     reason: string;
     status: string;
+    created_at: string;
 
-    constructor(init: ILeave) {
+    constructor(init: ILeave & { created_at: string }) {
         this.id = init.id;
         this.employee_id = init.employee_id;
         this.start_date = init.start_date;
@@ -55,6 +57,7 @@ export class GetLeaveRequestResponse implements ILeave {
         this.reason = init.reason;
         this.status = init.status;
         this.employee_name = init.employee_name;
+        this.created_at = init.created_at;
     }
 
     get startDateForDisplay(): string {
@@ -63,6 +66,10 @@ export class GetLeaveRequestResponse implements ILeave {
 
     get endDateForDisplay(): string {
         return dateTimeFormat.dateFormat(this.end_date) || "N/A";
+    }
+
+    get requestDateForDisplay(): string {
+        return dateTimeFormat.dateTimeFormat(this.created_at) || "N/A";
     }
 }
 

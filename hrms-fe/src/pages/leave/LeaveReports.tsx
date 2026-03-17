@@ -34,12 +34,25 @@ const LeaveReportsPage = () => {
   const getLeavTypeColor = (leaveType: string) => {
     switch (leaveType.toLowerCase()) {
       case "unpaid leave":
-        return "red";
+        return "bg-red-500/20 text-red-500";
       case "annual leave":
-        return "green";
+        return "bg-green-500/20 text-green-500";
       case "sick leave":
-        return "pink";
+        return "bg-pink-500/20 text-pink-500";
       case "paternity leave":
+        return "bg-blue-500/20 text-blue-500";
+      default:
+        return "bg-gray-500/20 text-gray-500";
+    }
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "approved":
+        return "green";
+      case "rejected":
+        return "red";
+      case "pending":
         return "blue";
       default:
         return "gray";
@@ -54,6 +67,7 @@ const LeaveReportsPage = () => {
           <thead>
             <tr>
               <th>Leave Type</th>
+              <th>Request Date</th>
               <th>Employee Name</th>
               <th>Start Date</th>
               <th>End Date</th>
@@ -66,21 +80,16 @@ const LeaveReportsPage = () => {
             {leaveRequests.map((request) => (
               <tr key={request.id}>
                 <td>
-                  <span className="text-gray-50  p-2 rounded-md" style={{ backgroundColor: getLeavTypeColor(request.leave_type_name) }}>{request.leave_type_name}</span>
+                  <span className={`text-gray-50 text-sm px-2 p-1 rounded-md ${getLeavTypeColor(request.leave_type_name)}`}>{request.leave_type_name}</span>
                 </td>
+                <td>{request.requestDateForDisplay}</td>
                 <td>{request.employee_name}</td>
                 <td>{request.startDateForDisplay}</td>
                 <td>{request.endDateForDisplay}</td>
                 <td>{request.reason}</td>
                 <td>
                   <Tag
-                    color={
-                      request.status === "Approved"
-                        ? "green"
-                        : request.status === "Rejected"
-                          ? "red"
-                          : "blue"
-                    }
+                    color={getStatusColor(request.status)}
                     style={{ cursor: "pointer" }}
                   >
                     {request.status}
