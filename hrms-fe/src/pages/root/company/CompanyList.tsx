@@ -39,7 +39,7 @@ export default function CompanyList() {
           onClick={() => setIsFormVisible(!isFormVisible)}
         />
       </BaseHeader>
-      <div className="max-w-screen px-2 overflow-x-auto">
+      <div className="table-scroll px-2">
         <table className="w-full min-w-250">
           <thead>
             <tr>

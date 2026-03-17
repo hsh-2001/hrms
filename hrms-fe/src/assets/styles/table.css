@@ -5,6 +5,21 @@ table {
   font-size: 14px;
 }
 
+.table-scroll {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+
+.table-scroll > table {
+  width: max-content;
+  min-width: 100%;
+}
+
 thead {
   background-color: #f5f7fa;
 }
@@ -15,12 +30,14 @@ th {
   font-weight: 600;
   border-bottom: 2px solid #e5e7eb;
   color: #686868;
+  white-space: nowrap;
 }
 
 td {
   padding: 12px 14px;
   border-bottom: 1px solid #e5e7eb;
   color: #4b5563;
+  white-space: nowrap;
 }
 
 tbody tr:hover {

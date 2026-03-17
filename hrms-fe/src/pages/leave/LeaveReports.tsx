@@ -34,7 +34,7 @@ const LeaveReportsPage = () => {
   return (
     <div className="w-full">
       <BaseHeader headerTitle={t ? t("Leave Reports") : "Leave Reports"} />
-      <div className="px-2 max-w-screen overflow-x-auto">
+      <div className="table-scroll px-2">
         <table className="min-w-200">
           <thead>
             <tr>

@@ -12,7 +12,7 @@ const createNewCompany = async (req, res) => {
                 password,
                 email,
                 phone,
-                role: 'company',
+                role_id: 2,
                 company_id: result.company_id,
             });
         }

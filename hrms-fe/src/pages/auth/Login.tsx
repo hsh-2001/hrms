@@ -4,11 +4,13 @@ import useAuthentication from "../../hooks/useAuthentication";
 import useDevice from "../../hooks/useDevice";
 
 export default function Login() {
-  const { loginModel, setLoginModel, handleSubmit, isLogin, setIsLogin,
-    registerModel, setRegisterModel
-   } = useAuthentication();
+  const { loginModel, setLoginModel,
+    handleSubmit, isLogin, setIsLogin,
+    registerModel, setRegisterModel,
+    message,
+  } = useAuthentication();
 
-   const { isMobile } = useDevice();
+  const { isMobile } = useDevice();
 
   const onToggle = () => {
     setIsLogin(!isLogin);
@@ -19,6 +21,9 @@ export default function Login() {
         onSubmit={(e) => handleSubmit(e)}
         className={`grid gap-2 w-100 bg-gray-50 p-4 rounded-md ${isMobile ? "w-[90%] mx-4" : "w-100"}`}
       >
+        {message && <div className="p-2 rounded-md w-full bg-red-500/10">
+          <div className="text-red-500 text-sm mb-2">{message}</div>
+        </div>}
         <div className="text-center">
           <span className="text-2xl">{isLogin ? "Login" : "Register"}</span>
         </div>
@@ -65,7 +70,7 @@ export default function Login() {
                 setRegisterModel({ ...registerModel, password: e.target.value })
               }
             />
-              <MyInput
+            <MyInput
               id="confirmPassword"
               labelWidth="min-w-24"
               type="password"

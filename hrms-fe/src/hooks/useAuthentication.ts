@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import type { ILoginRequest, IRegisterRequest } from "../types/auth";
 import { login, register } from "../lib/userApi";
 import { useAppDispatch } from "../store/hooks";
-import { setCredentials, setLoading } from "../store/slices/userSlice";
-import useNotification from "./useNotification";
+import { setCredentials } from "../store/slices/userSlice";
+// import useNotification from "./useNotification";
+import useMessage from "./useMessage";
 
 export default function useAuthentication() {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
     const location = useLocation();
-    const { addNotification } = useNotification();
+    const {
+        message,
+        addOneMessage,
+    } = useMessage();
     const from = location.state?.from?.pathname || "/";
 
     const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -32,7 +35,6 @@ export default function useAuthentication() {
         e.preventDefault();
         try {
             const response = await login(loginModel);
-            console.log("Login model:", response.data);
             if (response.isSuccess) {
                 dispatch(setCredentials({
                     user: response.data,
@@ -42,13 +44,11 @@ export default function useAuthentication() {
                 const navigateTo = String(response.data.role).toLowerCase() === 'employee' ? "/attendance/clock-in-out" : from;
                 window.location.href = navigateTo;
             } else {
-                addNotification("Login failed");
+                addOneMessage(response.message || "Login failed");
             }
         } catch (error) {
-            addNotification("Login failed");
+            addOneMessage("Invalid username or password");            
             console.error("Login failed", error);
-        } finally {
-            // dispatch(setLoading(false));
         }
     }
 
@@ -58,8 +58,10 @@ export default function useAuthentication() {
             const response = await register(registerModel);
             if (response) {
                 setIsLogin(true);
+                addOneMessage("Registration successful");
             }
         } catch (error) {
+            addOneMessage("Registration failed");
             console.error("Registration failed", error);
         }
     }
@@ -83,5 +85,6 @@ export default function useAuthentication() {
         setIsLogin,
         registerModel,
         setRegisterModel,
+        message,
     }
 };

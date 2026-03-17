@@ -8,7 +8,6 @@ import type { ICreateEmployee } from "../../types/employees";
 import { Edit } from "lucide-react";
 import BaseHeader from "../../components/shares/BaseHeader";
 import { useEffect, useRef } from "react";
-import useDevice from "../../hooks/useDevice";
 import Pagination from "../../components/Pagination";
 import useDepartment from "../../hooks/useDepartment";
 import type { IGetDepartmentResponse } from "../../types/department";
@@ -38,7 +37,6 @@ export default function Employees() {
     isEdit,
     setIsEdit,
   } = useEmployees();
-  const { isMobile } = useDevice();
 
   const isCalled = useRef(false);
   useEffect(() => {
@@ -60,9 +58,7 @@ export default function Employees() {
           />
         ) : null}
       </BaseHeader>
-      <div
-        className={`px-2 ${isMobile ? "overflow-x-auto max-w-screen px-2 h-" : ""}`}
-      >
+      <div className="table-scroll px-2">
         <table>
           <thead>
             <tr>

@@ -109,24 +109,26 @@ const SalaryStructurePage = () => {
           </div>
           <div>
             {employeePayrollComponents.length > 0 && (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Employee Name</th>
-                    <th>Component Name</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {employeePayrollComponents.map((item) => (
-                    <tr key={item.employee_id + "-" + item.component_id}>
-                      <td>{item.employee_name}</td>
-                      <td>{item.component_name}</td>
-                      <td>{item.value}</td>
+              <div className="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Employee Name</th>
+                      <th>Component Name</th>
+                      <th>Value</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {employeePayrollComponents.map((item) => (
+                      <tr key={item.employee_id + "-" + item.component_id}>
+                        <td>{item.employee_name}</td>
+                        <td>{item.component_name}</td>
+                        <td>{item.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         </div>

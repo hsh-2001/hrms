@@ -75,9 +75,7 @@ const UsersPage = () => {
   return (
     <div className="w-full">
       <BaseHeader headerTitle="Users" />
-      <div
-        className={`px-2 ${isMobile ? "overflow-x-auto px-2 max-w-screen" : ""}`}
-      >
+      <div className="table-scroll px-2">
         <table>
           <thead>
             <tr>
