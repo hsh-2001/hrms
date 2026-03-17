@@ -31,6 +31,21 @@ const LeaveReportsPage = () => {
 
   const { t } = useTranslation();
 
+  const getLeavTypeColor = (leaveType: string) => {
+    switch (leaveType.toLowerCase()) {
+      case "unpaid leave":
+        return "red";
+      case "annual leave":
+        return "green";
+      case "sick leave":
+        return "pink";
+      case "paternity leave":
+        return "blue";
+      default:
+        return "gray";
+    }
+  }
+
   return (
     <div className="w-full">
       <BaseHeader headerTitle={t ? t("Leave Reports") : "Leave Reports"} />
@@ -50,7 +65,9 @@ const LeaveReportsPage = () => {
           <tbody>
             {leaveRequests.map((request) => (
               <tr key={request.id}>
-                <td>{request.leave_type_name}</td>
+                <td>
+                  <span className="text-gray-50  p-2 rounded-md" style={{ backgroundColor: getLeavTypeColor(request.leave_type_name) }}>{request.leave_type_name}</span>
+                </td>
                 <td>{request.employee_name}</td>
                 <td>{request.startDateForDisplay}</td>
                 <td>{request.endDateForDisplay}</td>

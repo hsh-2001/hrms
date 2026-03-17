@@ -100,6 +100,15 @@ const getLeaveBalance = async (req, res) => {
     }
 };
 
+const getLeaveRemainingByEmployeeId = async (req, res) => {
+    try {
+        const result = await leaveService.getLeaveRemainingByEmployeeId(req);
+        BaseResponse.success(res, result);
+    } catch (error) {
+        BaseResponse.error(res, error.message, error.code);
+    }
+};
+
 export default {
     getLeaveTypeByCompanyId,
     getAllLeaveRequestsByCompanyId,
@@ -111,5 +120,6 @@ export default {
     createLeaveType,
     updateLeaveType,
     deleteLeaveType,
-    getLeaveBalance
+    getLeaveBalance,
+    getLeaveRemainingByEmployeeId
 };

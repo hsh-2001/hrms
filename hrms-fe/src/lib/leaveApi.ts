@@ -1,4 +1,4 @@
-import type { GetLeaveRequestResponse, ICreateLeaveRequest, ILeaveType, IUpdateLeaveRequest } from "../types/leave";
+import type { GetLeaveRequestResponse, ICreateLeaveRequest, ILeaveRemaining, ILeaveType, IUpdateLeaveRequest } from "../types/leave";
 import api from "./api";
 import { getResponse, type BaseResponse } from "./baseReponse";
 
@@ -22,9 +22,15 @@ const updateLeaveRequest = async (request: IUpdateLeaveRequest): Promise<BaseRes
     return getResponse(result.data);
 }
 
+const getLeaveRemainingByEmployeeId = async (employeeId: string): Promise<BaseResponse<ILeaveRemaining[]>> => {
+    const result = await api.get(`/leave/employee/${employeeId}/leave-remaining`);
+    return getResponse(result.data);
+}
+
 export default {
     getAllLeaveTypes,
     AddLeaveRequest,
     getAllLeaveRequests,
     updateLeaveRequest,
+    getLeaveRemainingByEmployeeId,
 }

@@ -65,3 +65,10 @@ export class GetLeaveRequestResponse implements ILeave {
         return dateTimeFormat.dateFormat(this.end_date) || "N/A";
     }
 }
+
+export interface ILeaveRemaining {
+    id: string;
+    name: string;
+    description: string;
+    used_days: number;
+}

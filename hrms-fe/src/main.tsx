@@ -5,6 +5,7 @@ import { store } from './store/app'
 import App from './App.tsx'
 import "./assets/styles/main.css"
 import "./assets/styles/table.css"
+import "./assets/styles/ant-customize.css"
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

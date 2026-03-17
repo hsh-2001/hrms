@@ -1,6 +1,6 @@
 import { useState } from "react";
 import leaveApi from "../lib/leaveApi";
-import { GetLeaveRequestResponse, type ICreateLeaveRequest, type ILeaveType, type IUpdateLeaveRequest } from "../types/leave";
+import { GetLeaveRequestResponse, type ICreateLeaveRequest, type ILeaveRemaining, type ILeaveType, type IUpdateLeaveRequest } from "../types/leave";
 import { useAppSelector } from "../store";
 
 export default function useLeave() {
@@ -9,6 +9,7 @@ export default function useLeave() {
   const [leaveRequests, setLeaveRequests] = useState<GetLeaveRequestResponse[]>([]);
   const [isUpdateRequestVisible, setIsUpdateRequestVisible] = useState(false);
   const [isApprove, setIsApprove] = useState(false);
+  const [leaveRemaining, setLeaveRemaining] = useState<ILeaveRemaining[]>([]);
   const [updateModel, setUpdateModel] = useState<IUpdateLeaveRequest>({
     id: 0,
     status: "",
@@ -67,6 +68,17 @@ export default function useLeave() {
     }
   }
 
+  const getLeaveRemaining = async () => {
+    try {
+      const response = await leaveApi.getLeaveRemainingByEmployeeId(user.user?.employee_id || "");
+      if (response.isSuccess) {
+        setLeaveRemaining(response.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch leave remaining:", error);
+    }
+  }
+
   return {
     leaveTypes,
     getLeaveTypes,
@@ -82,5 +94,7 @@ export default function useLeave() {
     updateModel,
     setUpdateModel,
     handleUpdateLeave,
+    getLeaveRemaining,
+    leaveRemaining,
   };
 }

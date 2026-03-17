@@ -44,6 +44,10 @@ const getLeaveBalance = async (req) => {
     return await leaveRepository.getLeaveBalance(req);
 };
 
+const getLeaveRemainingByEmployeeId = async (req) => {
+    return await leaveRepository.getLeaveRemainingByEmployeeId(req);
+};
+
 export default {
     getLeaveTypeByCompanyId,
     getAllLeaveRequestsByCompanyId,
@@ -55,5 +59,6 @@ export default {
     createLeaveType,
     updateLeaveType,
     deleteLeaveType,
-    getLeaveBalance
+    getLeaveBalance,
+    getLeaveRemainingByEmployeeId
 };

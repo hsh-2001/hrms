@@ -5,13 +5,14 @@ import PrimaryButton from "../../components/shares/button/PrimaryButton";
 import usePermission from "../../hooks/usePermission";
 
 const LeaveTypesPage = () => {
-  const { leaveTypes, getLeaveTypes } = useLeave();
+  const { leaveTypes, getLeaveTypes, getLeaveRemaining , leaveRemaining } = useLeave();
   const { isCreateable } = usePermission('leave/types');
 
   const isCalled = useRef(false);
   useEffect(() => {
     if (!isCalled.current) {
       getLeaveTypes();
+      getLeaveRemaining();
       isCalled.current = true;
     }
   }, []);
@@ -26,12 +27,14 @@ const LeaveTypesPage = () => {
           {leaveTypes.map((type) => (
             <div 
               key={type.id} 
-              className="p-4 sm:p-5 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-green-300 transition-all duration-200"
+              className="p-4 sm:p-5 bg-gray-50 rounded-md hover:shadow-md hover:border-green-300 transition-all duration-200"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                 <h2 className="text-base sm:text-lg text-gray-800 font-semibold">{type.name}</h2>
                 <div className="bg-green-50 px-3 py-1.5 text-green-600 flex items-center justify-center rounded-full w-fit">
-                  <span className="text-xs sm:text-sm font-medium">Remaining: 10</span>
+                  <span className="text-xs sm:text-sm font-medium"> 
+                    Total Used: {leaveRemaining.find((leave) => leave.id === type.id)?.used_days || 0}
+                  </span>
                 </div>
               </div>
               <p className="text-gray-500 text-sm leading-relaxed">{type.description}</p>

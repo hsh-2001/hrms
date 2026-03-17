@@ -34,7 +34,7 @@ export default function MySelection({
           value={value}
           onChange={onChange}
           disabled={disabled}
-          className={`outline-none border border-gray-300 rounded-[20px] w-full p-2 ${isPlaceholderSelected ? "text-gray-400" : "text-gray-900"} ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
+          className={`outline-none border border-gray-300 rounded-md w-full p-2 py-1 ${isPlaceholderSelected ? "text-gray-400" : "text-gray-900"} ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
         >
           <option disabled value={0} hidden>
             {t("Select option")}

@@ -88,6 +88,14 @@ const getLeaveBalance = async (req) => {
     return result;
 }
 
+const getLeaveRemainingByEmployeeId = async (req) => {
+    const { company_id } = req.user;
+    const { employee_id } = req.params;
+    const sql = "SELECT * FROM get_leave_remaining_by_employee_id($1, $2)";
+    const result = await query(sql, [company_id, employee_id]);
+    return result.rows;
+}
+
 export default {
     getLeaveTypeByCompanyId,
     getAllLeaveRequestsByCompanyId,
@@ -99,5 +107,6 @@ export default {
     createLeaveType,
     updateLeaveType,
     deleteLeaveType,
-    getLeaveBalance
+    getLeaveBalance,
+    getLeaveRemainingByEmployeeId
 }

@@ -1,16 +1,19 @@
 import React from "react";
 import useDevice from "../../../hooks/useDevice";
 import { Eye, EyeClosed } from "lucide-react";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 interface MyInputProps {
   id: string;
-  value: string | number;
+  value: string | number | null | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
   disabled?: boolean;
   label?: string;
   labelWidth?: string;
+  disabledDate?: (current: dayjs.Dayjs) => boolean;
 }
 
 export default function MyInput({
@@ -22,6 +25,7 @@ export default function MyInput({
   label,
   labelWidth = "min-w-32",
   disabled = false,
+  disabledDate,
 }: MyInputProps) {
   const { isMobile } = useDevice();
   const isPasswordType = type === "password";
@@ -47,6 +51,11 @@ export default function MyInput({
     }
   };
 
+  const dateValue =
+    type === "date" && value
+      ? dayjs(String(value), "YYYY-MM-DD")
+      : null;
+
   return (
     <div className="relative">
       <label
@@ -59,16 +68,36 @@ export default function MyInput({
           {label || id}
         </span>
         <div className="relative w-full">
-          <input
-            type={inputType}
-            id={id}
-            value={value}
-            onChange={handleInputChange}
-            onInvalid={() => setShowRequiredMessage(true)}
-            required={required}
-            disabled={disabled}
-            className={`outline-none border border-gray-300 rounded-[20px] w-full p-2 ${isPasswordType ? "pr-10" : ""} ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
-          />
+          {
+            type === "date" ? (
+              <DatePicker
+                type="datetime"
+                onChange={(_, dateString) => {
+                  onChange({
+                    target: {
+                      value: dateString,
+                    },
+                  } as React.ChangeEvent<HTMLInputElement>);
+                }}
+                value={dateValue?.isValid() ? dateValue : null}
+                format="YYYY-MM-DD"
+                className={`w-full ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
+                disabled={disabled}
+                disabledDate={disabledDate}
+              />
+            ) : ( 
+              <input
+                type={inputType}
+                id={id}
+                value={value ?? ""}
+                onChange={handleInputChange}
+                onInvalid={() => setShowRequiredMessage(true)}
+                required={required}
+                disabled={disabled}
+                className={`outline-none border border-gray-300 rounded-md w-full p-2 py-1 ${isPasswordType ? "pr-10" : ""} ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
+              />
+            )
+          }
           {required && showRequiredMessage ? (
             <span className="text-red-300 text-[12px]">Required</span>
           ) : null}

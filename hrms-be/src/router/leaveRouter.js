@@ -16,5 +16,6 @@ leaveRouter.delete("/requests/:id", leaveController.deleteLeaveRequest);
 
 leaveRouter.get("/employee/:employee_id/requests", leaveController.getLeaveRequestsByEmployeeId);
 leaveRouter.get("/employee/:employee_id/balance", leaveController.getLeaveBalance);
+leaveRouter.get("/employee/:employee_id/leave-remaining", leaveController.getLeaveRemainingByEmployeeId);
 
 export default leaveRouter;

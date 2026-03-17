@@ -20,6 +20,7 @@
     "antd": "^6.3.0",
     "axios": "^1.13.5",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.20",
     "i18next": "^25.8.13",
     "isomorphic-ws": "^5.0.0",
     "lucide-react": "^0.575.0",

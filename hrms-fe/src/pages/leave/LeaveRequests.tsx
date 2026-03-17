@@ -4,6 +4,8 @@ import MySelection from "../../components/shares/select/MySelection";
 import useLeave from "../../hooks/useLeave";
 import BaseHeader from "../../components/shares/BaseHeader";
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
+import { useNavigate } from "react-router";
+import dayjs from "dayjs";
 
 const LeaveRequestsPage = () => {
   const {
@@ -13,6 +15,8 @@ const LeaveRequestsPage = () => {
     leaveTypes,
     submitLeaveRequest,
   } = useLeave();
+
+  const navigator = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,27 +31,50 @@ const LeaveRequestsPage = () => {
 
   return (
     <div>
-      <BaseHeader headerTitle="Leave Requests" />
+      <BaseHeader headerTitle="Leave Requests">
+        <div>
+          <PrimaryButton
+            name="My Requests"
+            onClick={() => {
+              navigator("/leave/reports");
+            }}
+          />
+        </div>
+      </BaseHeader>
       <div className="px-2">
-        <form className="space-y-4 max-w-2xl mx-auto bg-black/5 p-4 rounded-2xl">
+        <form className="space-y-4 max-w-2xl mx-auto bg-gray-50 p-4 rounded-md shadow">
           <div className="grid gap-2">
             <MyInput
               label="Start Date"
               type="date"
               id="start_date"
               onChange={(e) =>
-                setRequestModel({ ...requestModel, start_date: e.target.value })
+                setRequestModel({ ...requestModel, start_date: e.target.value, end_date: "" })
               }
               value={requestModel.start_date}
+              disabledDate={(current) => {
+                if (!current) return false;
+                const today = dayjs();
+                return current.isBefore(today, "day") && current.isSame(today, "month");
+              }}
             />
             <MyInput
               label="End Date"
               id="end_date"
               type="date"
+              disabled={!requestModel.start_date}
               onChange={(e) =>
                 setRequestModel({ ...requestModel, end_date: e.target.value })
               }
               value={requestModel.end_date}
+              disabledDate={(current) => {
+                if (!current) return false;
+                const today = dayjs();
+                const startDate = requestModel.start_date ? dayjs(requestModel.start_date) : null;
+                const isPastToday = current.isBefore(today, "day") && current.isSame(today, "month");
+                const isBeforeStart = startDate ? current.isBefore(startDate, "day") : false;
+                return isPastToday || isBeforeStart;
+              }}
             />
             <MySelection
               label="Leave Type"
@@ -72,6 +99,19 @@ const LeaveRequestsPage = () => {
               }
               value={requestModel.reason}
             />
+          </div>
+          <div>
+            <span className="text-red-400">
+              You will be taking leave for{" "}
+              {requestModel.start_date && requestModel.end_date
+                ? Math.ceil(
+                    (new Date(requestModel.end_date).getTime() -
+                      new Date(requestModel.start_date).getTime()) /
+                      (1000 * 3600 * 24)
+                  ) + 1
+                : 0} day(s)
+            </span>
+
           </div>
           <div className="flex justify-end">
             <PrimaryButton
