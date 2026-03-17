@@ -6,7 +6,7 @@ import BaseDialog from "../../../components/shares/BaseDialog";
 import MyInput from "../../../components/shares/input/MyInput";
 import InfoButton from "../../../components/shares/button/InfoButton";
 import { Edit } from "lucide-react";
-import useDevice from "../../../hooks/useDevice";
+import useCommon from "../../../hooks/useCommon";
 
 export default function CompanyList() {
   const {
@@ -21,7 +21,7 @@ export default function CompanyList() {
     onClickEdit,
     handleEditCompanyAccount,
   } = useCompanyAccountList();
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
 
   const isCalled = useRef(false);
   useEffect(() => {

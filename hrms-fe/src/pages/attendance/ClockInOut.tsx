@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import useCheckAttendance from "../../hooks/useCheckAttendance";
 import { Tag } from "antd";
-import useDevice from "../../hooks/useDevice";
+import useCommon from "../../hooks/useCommon";
 import { useTranslation } from "react-i18next";
 import usePermission from "../../hooks/usePermission";
 import BaseDialog from "../../components/shares/BaseDialog";
@@ -29,7 +29,7 @@ export default function ClockInOut() {
     setCheckModel,
   } = useCheckAttendance();
   const { isCreateable } = usePermission("attendance/clock-in-out");
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
   const { t } = useTranslation();
 
   return (

@@ -2,11 +2,11 @@ import { Outlet } from "react-router";
 import MainSidebar from "../components/MainSidebar";
 import MainHeader from "../components/MainHeader";
 import AuthGuard from "../components/guards/AuthGuard";
-import useDevice from "../hooks/useDevice";
+import useCommon from "../hooks/useCommon";
 import MainBottomNavbar from "../components/MainBottomNavbar";
 
 const MainLayout = () => {
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
 
   return (
     <AuthGuard>

@@ -1,4 +1,4 @@
-import useDevice from "../../../hooks/useDevice";
+import useCommon from "../../../hooks/useCommon";
 
 export default function MyCheckBox({ checked, onChange, label, disabled }: {
   checked: boolean;
@@ -6,7 +6,7 @@ export default function MyCheckBox({ checked, onChange, label, disabled }: {
   label: string;
   disabled?: boolean;
 }) {
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
   return (
     <div className={`flex gap-2 ${isMobile ? "flex-col" : "flex-row items-center"}`}>
       <span className="min-w-32">{label}</span>

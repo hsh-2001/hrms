@@ -5,11 +5,11 @@ import { useEffect } from "react";
 import type { IRoute } from "../types/route";
 import { useAppSelector } from "../store";
 import { useTranslation } from "react-i18next";
-import useDevice from "../hooks/useDevice";
+import useCommon from "../hooks/useCommon";
 
 export default function MainSidebar() {
   const { routes, setRoutes } = useSidebar();
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
   const navigater = useLocation();
   const { t } = useTranslation();
   const user = useAppSelector((state) => state.user);

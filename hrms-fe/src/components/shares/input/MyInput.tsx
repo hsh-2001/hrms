@@ -1,5 +1,5 @@
 import React from "react";
-import useDevice from "../../../hooks/useDevice";
+import useCommon from "../../../hooks/useCommon";
 import { Eye, EyeClosed } from "lucide-react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -27,7 +27,7 @@ export default function MyInput({
   disabled = false,
   disabledDate,
 }: MyInputProps) {
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
   const isPasswordType = type === "password";
   const [showPassword, setShowPassword] = React.useState(false);
   const [showRequiredMessage, setShowRequiredMessage] = React.useState(false);

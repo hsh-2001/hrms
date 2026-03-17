@@ -3,7 +3,6 @@ import { useState } from "react";
 import type { IRoute } from "../types/route";
 import { useAppSelector } from "../store";
 import i18n from "../locale/i18n";
-import type { MenuProps } from "antd";
 
 const useSidebar = () => {
   const location = useLocation();
@@ -149,7 +148,7 @@ const useSidebar = () => {
       path: "/settings",
       children: [
         {
-          title: "General Settings",
+          title: "Company Settings",
           path: "/settings",
           page_key: "settings/general",
         },
@@ -176,10 +175,10 @@ const useSidebar = () => {
     return location.pathname === path;
   };
 
-  const handleChangeLanguage: MenuProps["onClick"] = (value) => {
-    setSelectedLang(value.key);
-    i18n.changeLanguage(value.key);
-    localStorage.setItem("locale", value.key);
+  const handleChangeLanguage: (value: string) => void = (value) => {
+    setSelectedLang(value);
+    i18n.changeLanguage(value);
+    localStorage.setItem("locale", value);
   };
 
   const pageAuthorization = routes

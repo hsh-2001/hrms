@@ -1,5 +1,5 @@
 import React from "react";
-import useDevice from "../../../hooks/useDevice";
+import useCommon from "../../../hooks/useCommon";
 import { useTranslation } from "react-i18next";
 
 interface MySelectionProps {
@@ -18,7 +18,7 @@ export default function MySelection({
   label,
   disabled = false,
 }: MySelectionProps) {
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
   const { t } = useTranslation();
   const isPlaceholderSelected = value === 0 || value === "0" || value === "";
 

@@ -1,7 +1,7 @@
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
 import MyInput from "../../components/shares/input/MyInput";
 import useAuthentication from "../../hooks/useAuthentication";
-import useDevice from "../../hooks/useDevice";
+import useCommon from "../../hooks/useCommon";
 
 export default function Login() {
   const { loginModel, setLoginModel,
@@ -10,7 +10,7 @@ export default function Login() {
     message,
   } = useAuthentication();
 
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
 
   const onToggle = () => {
     setIsLogin(!isLogin);

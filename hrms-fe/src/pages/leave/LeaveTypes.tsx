@@ -47,10 +47,13 @@ const LeaveTypesPage = () => {
                 }
               </div>
               <p className="text-gray-500 text-sm leading-relaxed">{type.description}</p>
-              <LeaveRemaingProgress
-                usedDays={leaveRemaining.find((leave) => leave.id === type.id)?.used_days || 0}
-                totalDays={type.total_per_year || 0}
-              />
+              {
+                user.user?.employee_id &&
+                <LeaveRemaingProgress
+                  usedDays={leaveRemaining.find((leave) => leave.id === type.id)?.used_days || 0}
+                  totalDays={type.total_per_year || 0}
+                />
+              }
             </div>
 
           ))}

@@ -9,10 +9,10 @@ import type { ICreateDepartmentRequest } from "../../types/department";
 import MyInput from "../../components/shares/input/MyInput";
 import type { IInputField } from "../../types/form";
 import InfoButton from "../../components/shares/button/InfoButton";
-import useDevice from "../../hooks/useDevice";
+import useCommon from "../../hooks/useCommon";
 
 const DepartmentsPage = () => {
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
   const {
     departments,
     getAllDepartments,

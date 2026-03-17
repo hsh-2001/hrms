@@ -55,7 +55,7 @@ export class GetEmployeesResponse implements IGetEmployeesResponse {
         this.is_active = init.is_active || false;
         this.created_at = init.created_at;
         this.updated_at = init.updated_at; 
-        this.total_pages = init.total_pages;
+        this.total_pages = init.total_pages ;
         this.limit = init.limit;
         this.page = init.page;
         this.row_number = init.row_number;

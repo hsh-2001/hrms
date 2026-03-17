@@ -1,5 +1,5 @@
 import { AlarmClock, House, Menu } from "lucide-react";
-import useDevice from "../hooks/useDevice";
+import useCommon from "../hooks/useCommon";
 import { useLocation } from "react-router";
 import { useState } from "react";
 import NavItem from "./shares/navbar/NavItem";
@@ -12,7 +12,7 @@ const bottomMenus = [
 ];
 
 export default function MainBottomNavbar() {
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(false);
 

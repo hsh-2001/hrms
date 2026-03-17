@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useSettings from "../../hooks/useSettings";
-import useDevice from "../../hooks/useDevice";
+import useCommon from "../../hooks/useCommon";
 import MyInput from "../../components/shares/input/MyInput";
 import MySelection from "../../components/shares/select/MySelection";
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
@@ -74,7 +74,7 @@ export default function Settings() {
     isEditMode,
     setIsEditMode,
   } = useSettings();
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
 
   useEffect(() => {
     getCompanySettings();

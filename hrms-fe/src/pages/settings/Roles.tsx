@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useSettings from "../../hooks/useSettings";
-import useDevice from "../../hooks/useDevice";
+import useCommon from "../../hooks/useCommon";
 import BaseHeader from "../../components/shares/BaseHeader";
 import EnumPermission from "../../types/enums/enumPermission";
 import PrimaryButton from "../../components/shares/button/PrimaryButton";
@@ -30,7 +30,7 @@ const RolesPage = () => {
     onCickEdit,
   } = useSettings();
 
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
 
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
   const [pendingRoleId, setPendingRoleId] = useState<number | null>(null);

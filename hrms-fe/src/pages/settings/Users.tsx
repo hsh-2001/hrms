@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import useUser from "../../hooks/useUser";
 import BaseHeader from "../../components/shares/BaseHeader";
-import useDevice from "../../hooks/useDevice";
+import useCommon from "../../hooks/useCommon";
 import { Tag } from "antd";
 import dateTimeFormat from "../../lib/dateTimeFormat";
 import BaseDialog from "../../components/shares/BaseDialog";
@@ -49,7 +49,7 @@ const UsersPage = () => {
 
   const { rolesAndPermissions, getRolesAndPermissions } = useSettings();
 
-  const { isMobile } = useDevice();
+  const { isMobile } = useCommon();
 
   const isCalled = useRef(false);
 
@@ -176,6 +176,7 @@ const UsersPage = () => {
         setModel={setEditRoleModel}
         roleOptions={roleOptions}
         onUpdate={onUpdateUserRole}
+        isMobile={isMobile}
       />
       {selectedUser && (
         <RightPopup
@@ -186,7 +187,7 @@ const UsersPage = () => {
             className={`bg-white shadow-xl overflow-hidden ${isMobile ? "w-[80dvw] rounded-l-2xl" : "w-full md:w-1/2 lg:w-1/3 h-full"}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="h-full w-full overflow-auto">
+            <div className={`h-full w-full overflow-auto ${isMobile ? 'pb-25': 'pb-0'}`}>
               <div className="flex items-center justify-between p-4 border-b bg-gray-50">
                 <h2 className="text-lg font-semibold text-gray-800">
                   User Details
@@ -307,7 +308,7 @@ const UsersPage = () => {
               </div>
 
               <div className="p-4 border-t">
-                {isEditable && (
+                {isEditable && selectedUser.role !== "Company" && (
                   <button
                     className="w-full py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
                     onClick={() => {
@@ -344,6 +345,7 @@ interface IEditUserRoleProps {
   >;
   roleOptions: { label: string; value: number }[];
   onUpdate: () => void;
+  isMobile: boolean;
 }
 const EditUserRole = ({
   isOpen,
@@ -352,6 +354,7 @@ const EditUserRole = ({
   setModel,
   roleOptions,
   onUpdate,
+  isMobile,
 }: IEditUserRoleProps) => {
   return (
     <BaseDialog
@@ -360,7 +363,7 @@ const EditUserRole = ({
       onClose={onClose}
       isCentered
     >
-      <div className="w-100 space-y-4">
+      <div className={`space-y-4 ${isMobile ? "w-[300px]" : "w-100"}`}>
         <form action="#">
           <MySelection
             id="role_id"
