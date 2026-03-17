@@ -77,24 +77,26 @@ const SalaryStructurePage = () => {
               onClick={() => setIsDialogVisible(true)}
             />
           </div>
-          {payrollComponents.length > 0 && (
-            <div className="grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2">
-              {payrollComponents.map((component) => (
-                <div
-                  key={component.name}
-                  className="p-2 flex justify-between items-start rounded-md border border-green-500 mb-2"
-                >
-                  <div>
-                    <h3 className="text-md font-medium">{component.name}</h3>
-                    <p>{component.description}</p>
+          <div className="bg-gray-100 p-2 w-full rounded-md">
+            {payrollComponents.length > 0 && (
+              <div className="grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2">
+                {payrollComponents.map((component) => (
+                  <div
+                    key={component.name}
+                    className="p-2 flex justify-between items-start rounded-md bg-gray-50 mb-2"
+                  >
+                    <div>
+                      <h3 className="text-md font-medium text-secondary">{component.name}</h3>
+                      <p className="text-sm text-gray-500">{component.description}</p>
+                    </div>
+                    <button onClick={() => onClickEditComponent(component)}>
+                      <Edit className="text-gray-500" size={16} />
+                    </button>
                   </div>
-                  <button onClick={() => onClickEditComponent(component)}>
-                    <Edit className="text-gray-500" size={16} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="w-full p-2 rounded-md border border-gray-300 space-y-2">
@@ -181,7 +183,7 @@ const SalaryStructurePage = () => {
 
       <AssignComponentToEmployeeDialog
         isOpen={assignFormVisible}
-        onClose={() => {setAssignFormVisible(false); clearAssignForm();}}
+        onClose={() => { setAssignFormVisible(false); clearAssignForm(); }}
         model={assignModel}
         setModel={setAssignModel}
         components={payrollComponents}
@@ -248,7 +250,7 @@ const AssignComponentToEmployeeDialog = ({
                 <span className="font-medium truncate flex-1">
                   {employee.first_name} {employee.last_name}
                 </span>
-                <span className="text-[10px] text-gray-500">{ employee.email }</span>
+                <span className="text-[10px] text-gray-500">{employee.email}</span>
               </div>
               <span className="text-xs text-gray-400 shrink-0">
                 {employee.position}
