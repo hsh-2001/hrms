@@ -1,12 +1,14 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import useCompanyAccountList from "../../../hooks/useCompayAccountList";
 import BaseHeader from "../../../components/shares/BaseHeader";
 import PrimaryButton from "../../../components/shares/button/PrimaryButton";
 import BaseDialog from "../../../components/shares/BaseDialog";
 import MyInput from "../../../components/shares/input/MyInput";
 import InfoButton from "../../../components/shares/button/InfoButton";
-import { Edit } from "lucide-react";
+import { Edit, ListRestart } from "lucide-react";
 import useCommon from "../../../hooks/useCommon";
+import useUser from "../../../hooks/useUser";
+import ResetPasswordDialog from "../../../components/ResetPasswordDialog";
 
 export default function CompanyList() {
   const {
@@ -21,6 +23,15 @@ export default function CompanyList() {
     onClickEdit,
     handleEditCompanyAccount,
   } = useCompanyAccountList();
+
+  const {
+    resetPasswordModel,
+    setResetPasswordModel,
+    handleResetPassword,
+    resetPaswordVisible,
+    setResetPasswordVisible,
+  } = useUser();
+
   const { isMobile } = useCommon();
 
   const isCalled = useRef(false);
@@ -65,11 +76,21 @@ export default function CompanyList() {
                   <td>{company.total_users}</td>
                   <td>{company.total_employees}</td>
                   <td align="center">
-                    <Edit
-                      size={14}
-                      className="text-gray-500 cursor-pointer"
-                      onClick={() => onClickEdit(company)}
-                    />
+                    <div className="flex gap-2">
+                      <Edit
+                        size={14}
+                        className="text-gray-500 cursor-pointer"
+                        onClick={() => onClickEdit(company)}
+                      />
+                      <ListRestart
+                        size={14}
+                        className="text-gray-500 cursor-pointer ml-2"
+                        onClick={() => {
+                          setResetPasswordModel({ ...resetPasswordModel, user_id: company.user_id });
+                          setResetPasswordVisible(true);
+                        }}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))
@@ -143,6 +164,18 @@ export default function CompanyList() {
           </div>
         </form>
       </BaseDialog>
+
+      <ResetPasswordDialog
+        isOpen={resetPaswordVisible}
+        onClose={() => setResetPasswordVisible(false)}
+        model={resetPasswordModel}
+        updateModel={setResetPasswordModel}
+        onClick={(e) => {
+          e.preventDefault();
+          handleResetPassword(resetPasswordModel.user_id, resetPasswordModel.password);
+          setResetPasswordVisible(false);
+        }}
+      />
     </div>
   );
 }

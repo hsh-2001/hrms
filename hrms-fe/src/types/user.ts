@@ -1,5 +1,5 @@
 export interface IBaseUser {
-    id: number;
+    id: string | number;
     role_id?: number;
     username: string;
     email: string;

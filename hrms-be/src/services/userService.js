@@ -35,9 +35,15 @@ const getUserByCompanyId = async (req) => {
     return await userRepository.getUserByCompanyId(req);
 }
 
+const resetPassword = async (userId, newPassword) => {
+    const password = await encryptionHelper.passwordHash(newPassword);
+    return await userRepository.resetPassword(userId, password);
+}
+
 export default {
     register,
     login,
     getAllUsers,
     getUserByCompanyId,
+    resetPassword,
 }

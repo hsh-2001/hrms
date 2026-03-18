@@ -24,6 +24,7 @@ import type { ICompanyUser } from "../../types/user";
 import RightPopup from "../../components/shares/RightPopup";
 import SortableHeader from "../../components/shares/SortHeader";
 import usePermission from "../../hooks/usePermission";
+import ResetPasswordDialog from "../../components/ResetPasswordDialog";
 
 const UsersPage = () => {
   const {
@@ -40,6 +41,11 @@ const UsersPage = () => {
     setSortOrder,
     activeSortKey,
     setActiveSortKey,
+    resetPasswordModel,
+    setResetPasswordModel,
+    handleResetPassword,
+    resetPaswordVisible,
+    setResetPasswordVisible,
   } = useUser();
   const { isEditable } = usePermission("settings/users");
 
@@ -187,7 +193,7 @@ const UsersPage = () => {
             className={`bg-white shadow-xl overflow-hidden ${isMobile ? "w-[80dvw] rounded-l-2xl" : "w-full md:w-1/2 lg:w-1/3 h-full"}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={`h-full w-full overflow-auto ${isMobile ? 'pb-25': 'pb-0'}`}>
+            <div className={`h-full w-full overflow-auto ${isMobile ? 'pb-25' : 'pb-0'}`}>
               <div className="flex items-center justify-between p-4 border-b bg-gray-50">
                 <h2 className="text-lg font-semibold text-gray-800">
                   User Details
@@ -307,29 +313,57 @@ const UsersPage = () => {
                 </div>
               </div>
 
-              <div className="p-4 border-t">
+              <div className="p-4 grid gap-2 border-t">
                 {isEditable && selectedUser.role !== "Company" && (
-                  <button
-                    className="w-full py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
-                    onClick={() => {
-                      setEditRoleModel({
-                        user_id: selectedUser.id,
-                        role_id: selectedUser.role_id ?? 0,
-                      });
-                      if (selectedUser.id !== localUser.user?.id) {
-                        setIsEditRoleOpen(true);
-                      }
-                    }}
-                  >
-                    <Edit size={16} />
-                    Edit User Role
-                  </button>
+                  <>
+                    <button
+                      className="w-full py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
+                      onClick={() => {
+                        setEditRoleModel({
+                          user_id: selectedUser.id,
+                          role_id: selectedUser.role_id ?? 0,
+                        });
+                        if (selectedUser.id !== localUser.user?.id) {
+                          setIsEditRoleOpen(true);
+                        }
+                      }}
+                    >
+                      <Edit size={16} />
+                      Edit User Role
+                    </button>
+                    <button
+                      className="w-full py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
+                      onClick={() => {
+                        setResetPasswordModel({
+                          user_id: String(selectedUser.id),
+                          password: "",
+                        });
+                        setResetPasswordVisible(true);
+                      }}
+                    >
+                      <Edit size={16} />
+                      Reset Password
+                    </button>
+                  </>
+
                 )}
               </div>
             </div>
           </div>
         </RightPopup>
       )}
+
+      <ResetPasswordDialog
+        isOpen={resetPaswordVisible}
+        onClose={() => setResetPasswordVisible(false)}
+        model={resetPasswordModel}
+        updateModel={setResetPasswordModel}
+        onClick={(e) => {
+          e.preventDefault();
+          handleResetPassword(resetPasswordModel.user_id, resetPasswordModel.password);
+          setResetPasswordVisible(false);
+        }}
+      />
     </div>
   );
 };

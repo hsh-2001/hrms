@@ -33,10 +33,18 @@ const getUserDetail = async (userId) => {
     const user = await query("SELECT * FROM get_user_detail($1)", [userId]);
     return user.rows[0];
 }
+
+const resetPassword = async (userId, newPassword) => {
+    const result = await pool.query('UPDATE users SET password_hash = $1 WHERE id = $2 RETURNING username, email, phone', [newPassword, userId]);
+    return result.rows[0];
+}
+
 export default {
     register,
     login,
     getAllUsers,
     getUserByCompanyId,
     getUserDetail,
+    resetPassword,
+
 }

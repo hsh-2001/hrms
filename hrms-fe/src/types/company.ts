@@ -1,6 +1,7 @@
 export interface ICompanyAccount {
     id?: number;
     name: string;
+    user_id?: string;
     address: string;
     phone: string;
     email: string;
@@ -9,6 +10,7 @@ export interface ICompanyAccount {
 export interface IGetCompanyAccountResponse  extends ICompanyAccount {
     id: number;
     login_name: string;
+    user_id: string;
     total_users: number;
     total_employees: number;
     created_at: string;

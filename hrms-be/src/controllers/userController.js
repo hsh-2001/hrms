@@ -37,9 +37,20 @@ const getUserByCompanyId = async (req, res) => {
     }
 };
 
+const resetPassword = async (req, res) => {
+    try {
+        const { user_id, password } = req.body;
+        const result = await userService.resetPassword(user_id, password);
+        BaseResponse.success(res, result, 'Password reset successfully');
+    } catch (error) {
+        BaseResponse.error(res, error.message, 500);
+    }
+};
+
 export default {
     register,
     login,
     getAllUsers,
     getUserByCompanyId,
+    resetPassword,
 }

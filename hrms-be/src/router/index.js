@@ -2,7 +2,6 @@ import { Router } from "express";
 import userRouter from "./userRouter.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import rootMiddleware from "../middlewares/rootMiddleware.js";
-import rateLimitMiddleware from "../middlewares/rateLimitMiddleware.js";
 import employeeRouter from "./employeeRouter.js";
 import rootRouter from "./rootRouter.js";
 import departmentRouter from "./departmentRouter.js";

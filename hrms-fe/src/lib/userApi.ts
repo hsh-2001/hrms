@@ -19,3 +19,8 @@ export const getAllUsers = async (param: { page: number; limit: number } & IOrde
     const response = await api.get(`/user/company-users`, { params: param });
     return getResponse(response.data);
 }
+
+export const resetPassword = async (user_id: string, password: string): Promise<BaseResponse> => {
+    const response = await api.post(`/user/reset-password`, { user_id, password });
+    return getResponse(response.data);
+}
